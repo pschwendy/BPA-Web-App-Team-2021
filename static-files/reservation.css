@@ -1,0 +1,24 @@
+.head-hero{
+    position: relative;
+}
+
+.res-hero{
+    object-fit: cover;
+}
+
+.right{
+    float: right;
+}
+
+#res-header{
+    vertical-align: top;
+}
+
+.title{
+    color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 48px;
+}

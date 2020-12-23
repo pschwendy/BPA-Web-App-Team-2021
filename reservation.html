@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<head>
+    <script src="https://code.jquery.com/jquery-git.js"></script>
+    <meta charset="utf-8" />
+    <title>Dogs to Go</title>
+    <link rel="stylesheet" type="text/css" media="screen" href="reservation.css"/>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Dropdown
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#">Disabled</a>
+            </li>
+          </ul>
+          <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          </form>
+        </div>
+    </nav>
+    <div class="head-hero">
+        <img src="dogs-to-go.jpg" class="res-hero" alt="Hero" width="100%" height="400px">
+        <div class="title">Dogs to Go</div>
+    </div>
+    <div class="container">
+        <hr>
+        <div class="row">
+            <div class="col m-2">
+                <h5 id="res-header">Dogs to Go</h5>
+                <p>Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!</p>
+                <p style="font-weight: bold;">Average Wait Time: 4 minutes</p>
+            </div>
+            <div class ="col">
+                <!-- Button trigger modal -->
+                <form>
+                    <button type="button" class="btn btn-primary right" data-toggle="modal" data-target="#exampleModalCenter">
+                        Make a Reservation Now!
+                    </button>
+                    <select name="rate">
+                        <option value="rate">Give a Rating</option>
+                        <option value="five-stars">5 - Amazing</option>
+                        <option value="four-stars">4 - Good</option>
+                        <option value="three-stars">3 - Okay</option>
+                        <option value="two-stars">2 - Bad</option>
+                        <option value="one-stars">1 - Abhorrent</option>
+                    </select>
+                </form>
+                
+  
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Reserve</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                        <div class="modal-body">
+                        ...
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> 
+    <script>
+        $('#myModal').on('shown.bs.modal', function () {
+            $('#myInput').trigger('focus')
+        });
+    </script>
+</body>
