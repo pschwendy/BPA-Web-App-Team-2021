@@ -29,7 +29,7 @@
     display: grid;
     align-items: center;
     font-size: 1.2rem;
-    border-bottom: 1px solid goldenrod;
+    /*border-bottom: 1px solid goldenrod;*/
 }
 .group-reserve{
     background-color: gold;

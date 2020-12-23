@@ -45,10 +45,81 @@
         </div>
     </nav>
     <div class="head-hero">
-        <img src="dogs-to-go.jpg" class="res-hero" alt="Hero" width="100%" height="400px">
+        <img src="dogs-to-go.jpg" class="res-hero" alt="Hero" width="100%" height="300px">
         <div class="title">Dogs to Go</div>
     </div>
-    <div class="container">
+    <div class="container px-4">
+        <div class="card mt-3 right" style="width: 18rem;">
+            <div class="card-body">
+              <h5 class="card-title">Make a Reservation</h5>
+              <hr>
+              <form>
+                <label for="quantity">Attending:</label>
+                <select name="quantity">
+                    <option value="one">1</option>
+                    <option value="two">2</option>
+                    <option value="three">3</option>
+                    <option value="four">4</option>
+                    <option value="five">5</option>
+                    <option value="six">6</option>
+                    <option value="seven">7</option>
+                    <option value="eight">8</option>
+                    <option value="nine">9</option>
+                    <option value="ten">10</option>
+                </select>
+                <div>
+                    <label for="date">Date:</label>
+                    <input id="date" name="date" type="date" >
+                </div>
+                <div>
+                    <label for="quantity">Time:</label>
+                    <select name="time">
+                        <option value="eight-am">8:00 A.M.</option>
+                        <option value="eight-thirty-am">8:30 A.M.</option>
+                        <option value="nine-am">9:00 A.M.</option>
+                        <option value="nine-thirty-am">9:30 A.M.</option>
+                        <option value="ten-am">10:00 A.M.</option>
+                        <option value="ten-thirty-am">10:30 A.M.</option>
+                        <option value="eleven-am">11:00 A.M.</option>
+                        <option value="eleven-thirty-am">11:30 A.M.</option>
+                        <option value="twelve-pm">12:00 P.M.</option>
+                        <option value="twelve-thirty-pm">12:30 P.M.</option>
+                        <option value="twelve-pm">1:00 P.M.</option>
+                        <option value="twelve-pm">1:30 P.M.</option>
+                        <option value="twelve-pm">2:00 P.M.</option>
+                        <option value="twelve-pm">2:30 P.M.</option>
+                        <option value="twelve-pm">3:00 P.M.</option>
+                        <option value="twelve-pm">3:30 P.M.</option>
+                        <option value="twelve-pm">12:00 P.M.</option>
+                    </select>
+                </div>
+                </form>
+                <script>
+                    var today = new Date();
+                    var minDate = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+                    document.getElementById('date').min = minDate;
+                    var maxMonth = today.getMonth()+2;
+                    var maxYear;
+                    if(maxMonth > 12) {
+                        maxMonth= "01";
+                        maxYear = today.getFullYear()+1;
+                    }
+                    var maxDate = maxYear +'-'+maxMonth+'-'+today.getDate();
+                    document.getElementById('date').max = "2021-01-23";
+                </script>
+                <div class="row">
+                    <div class="col reserve">
+                        <button type="button" class="btn btn-primary right res-button" data-toggle="modal" data-target="#exampleModalCenter">
+                            Reserve
+                        </button>
+                    </div>
+                </div>
+                
+            </div>
+          </div>
+        <!--
+            
+        -->
         <hr>
         <div class="row">
             <div class="col m-2">
@@ -67,18 +138,18 @@
                         </select>
                     </div>
                 </div>
-                <!--<hr>-->
                 <p>Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!</p>
                 <p style="font-weight: bold;">Average Wait Time: 4 minutes</p>
             </div>
+            <!--
+
+            
             <div class ="col m-2">
-                <!-- Button trigger modal -->
                 <div class ="row">
                     <div class ="col">
                         <h5 class="res-header">Make a Reservation</h5>
                     </div>
                 </div>
-                <!--<hr>-->
                 <form>
                     <div id="reservations">
                         <div class="row ml-1 mr-1 group-reserve">
@@ -122,15 +193,15 @@
                             </div>
                         </div>
                     </div>
-                    
+                    -->
                     <!--<button type="button" class="btn btn-primary right" data-toggle="modal" data-target="#exampleModalCenter">
                         Make a Reservation Now!
                     </button>-->
-                    
-                </form>
+                <!-- 
+                </form>-->
                 
   
-                <!-- Modal -->
+                <!-- Modal 
                 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
@@ -150,7 +221,7 @@
                     </div>
                     </div>
                 </div>
-            </div>
+            </div>-->
         </div>
     </div> 
 </body>
