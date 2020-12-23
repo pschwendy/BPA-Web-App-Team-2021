@@ -56,13 +56,13 @@ io.on("connection", function(socket){
 });
 
 
-app.use(express.static("static"));
+app.use(express.static("static-files"));
 
 
 app.get("/", function(req, res){
 
   //replace directory with actual value of client file
-  res.sendFile(__dirname + "/static/test.html");
+  res.sendFile(__dirname + "/reservation.html");
 
 });
 
@@ -75,7 +75,7 @@ app.get("/d/socket.io", function(req, res){
 app.get("/:place", function(req, res){
 
   //replace directory with actual value of client file
-  res.sendFile(__dirname + "/static/" + req.param.place);
+  res.sendFile(__dirname + "/static-files/" + req.param.place);
 
 });
 
@@ -90,5 +90,5 @@ app.post("/something", function(req, res){
 
 
 server.listen(5432, function(){
-  console.log("listening on port 5430");
+  console.log("listening on port 5432");
 })

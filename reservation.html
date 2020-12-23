@@ -9,21 +9,20 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Navbar</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <nav class="navbar navbar-expand navbar-light bg-light">
+        <!--<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
-        </button>
-      
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        </button>-->
+        <a class="navbar-brand" href="#">High Thrills Entertainment</a>
+        <div class="mx-auto" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto" style="text-align: center;">
+            <li class="nav-item active pr-5">
+              <a class="nav-link" href="#"> Restaurants <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Link</a>
+            <li class="nav-item active pl-5">
+              <a class="nav-link" href="#">Rides</a>
             </li>
-            <li class="nav-item dropdown">
+            <!--<li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Dropdown
               </a>
@@ -36,16 +35,20 @@
             </li>
             <li class="nav-item">
               <a class="nav-link disabled" href="#">Disabled</a>
-            </li>
+            </li>-->
+
           </ul>
-          <form class="form-inline my-2 my-lg-0">
+          <!--<form class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-          </form>
+          </form>-->
         </div>
+        <div>
+          <button class="nav-item btn btn-outline-success my-2 my-sm-0">Log In</button>
+        <div>
     </nav>
     <div class="head-hero">
-        <img id="adBanner" src="dogs-to-go.jpg" class="res-hero" alt="Hero" width="100%" height="300px">
+        <img id="adBanner" src="/dogs-to-go.jpg" class="res-hero" alt="Hero" width="100%" height="300px">
         <div class="title">Dogs to Go</div>
     </div>
     <div class="container px-4">
@@ -226,10 +229,6 @@
     </div>
     <script src="/d/socket.io"> </script>
     <script>
-        $('#myModal').on('shown.bs.modal', function () {
-            $('#myInput').trigger('focus')
-        });
-
         var socket = io();
         var currentAd = 0;
         var adData = [];
@@ -262,6 +261,5 @@
 
 
         }, 8000);
-
     </script>
 </body>
