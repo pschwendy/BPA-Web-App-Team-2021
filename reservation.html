@@ -45,7 +45,7 @@
         </div>
     </nav>
     <div class="head-hero">
-        <img src="dogs-to-go.jpg" class="res-hero" alt="Hero" width="100%" height="300px">
+        <img id="adBanner" src="dogs-to-go.jpg" class="res-hero" alt="Hero" width="100%" height="300px">
         <div class="title">Dogs to Go</div>
     </div>
     <div class="container px-4">
@@ -125,7 +125,7 @@
             <div class="col m-2">
                 <div class="row">
                     <div class = "col">
-                        <h5 class="res-header">Dogs to Go</h5>
+                        <h5 id="res-header">Dogs to Go</h5>
                     </div>
                     <div class = "col">
                         <select name="rate" class="right">
@@ -138,8 +138,8 @@
                         </select>
                     </div>
                 </div>
-                <p>Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!</p>
-                <p style="font-weight: bold;">Average Wait Time: 4 minutes</p>
+                <p id="description">Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!</p>
+                <p id="waitTime" style="font-weight: bold;">Average Wait Time: 4 minutes</p>
             </div>
             <!--
 
@@ -223,5 +223,45 @@
                 </div>
             </div>-->
         </div>
-    </div> 
+    </div>
+    <script src="/d/socket.io"> </script>
+    <script>
+        $('#myModal').on('shown.bs.modal', function () {
+            $('#myInput').trigger('focus')
+        });
+
+        var socket = io();
+        var currentAd = 0;
+        var adData = [];
+
+        socket.emit("getAdData", currentAd);
+        socket.on("getAdData", function(msg){
+
+          adData = msg;
+          console.log(adData);
+
+        });
+
+        var swapper = window.setInterval(function(){
+
+          var msg;
+          currentAd += 1;
+          if (currentAd < adData.length){
+            msg = adData[currentAd];
+          }
+          else{
+            currentAd = 0;
+            msg = adData[0];
+          }
+
+          document.getElementById("res-header").innerHTML = msg.name;
+          document.getElementsByClassName("title")[0].innerHTML = msg.name;
+          document.getElementById("adBanner").src = msg.image;
+          document.getElementById("waitTime").innerHTML = "Average Wait Time: " + msg.avgWait;
+          document.getElementById("description").innerHTML = msg.description;
+
+
+        }, 8000);
+
+    </script>
 </body>
