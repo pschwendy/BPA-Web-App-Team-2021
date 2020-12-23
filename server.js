@@ -6,13 +6,13 @@ var server = require("http").Server(app);
 var io = require("socket.io");
 
 
-app.use(express.static("/static"));
+app.use(express.static("/static-files"));
 
 
 app.get("/", function(req, res){
 
   //replace directory with actual value of client file
-  res.sendFile(__dirname + "/static/test.html");
+  res.sendFile('reservation.html');
 
 });
 

@@ -8,9 +8,10 @@
 
 .right{
     float: right;
+    align-items: top;
 }
 
-#res-header{
+.res-header{
     vertical-align: top;
 }
 
@@ -21,4 +22,23 @@
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 48px;
+}
+
+.reserve{
+    padding: 4px 4px 4px 4px;
+    display: grid;
+    align-items: center;
+    font-size: 1.2rem;
+    border-bottom: 1px solid goldenrod;
+}
+.group-reserve{
+    background-color: gold;
+}
+.group-reserve:hover{
+    background-color: goldenrod;
+}
+
+#reservations{
+    height: 160px;
+    overflow-y: scroll;
 }
