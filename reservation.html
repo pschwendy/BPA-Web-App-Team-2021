@@ -52,31 +52,7 @@
         <div class="title">Dogs to Go</div>
     </div>
     <div class="container px-4">
-        <script>
-            var maxWidth = 912;
-            if($(document).width() < maxWidth) {
-                $('#reservation-card').parent('#main');
-                $('#reservation-card').parent('#here');
-                $('#reservation-card').removeClass('float-right');
-            }
-            else {
-                $('#reservation-card').parent('.container');
-                $('#reservation-card').addClass('float-right');
-            }
-            function editLayout() {
-                if($(document).width() < maxWidth) {
-                    $('#reservation-card').parent('#main');
-                    $('#reservation-card').parent('#here');
-                    $('#reservation-card').removeClass('float-right');
-                    
-                }
-                else {
-                    $('#reservation-card').parent('.container');
-                    $('#reservation-card').addClass('float-right');
-                }
-                console.log($('#reservation-card').parent());
-            }
-        </script>
+        <div id = "lead"></div>
         <aside id="reservation-card" class="card mt-3 float-right" style="width: 18rem;">
             <div class="card-body">
               <h5 class="card-title">Make a Reservation</h5>
@@ -145,9 +121,6 @@
                 
             </div>
         </aside>
-        <!--
-            
-        -->
         <hr>
         <main id="main" class="row">
             <div class="col m-2">
@@ -252,6 +225,37 @@
                 </div>
             </div>-->
         </main>
+        <script>
+            var maxWidth = 912;
+            if($(document).width() < maxWidth) {
+                $('#reservation-card').parent('#main');
+                $('#reservation-card').insertAfter('#title-border');
+                $('#reservation-card').removeClass('float-right');
+                $('#reservation-card').css("width", "100%");
+                console.log("HI");
+            }
+            else {
+                $('#reservation-card').parent('.container');
+                $('#reservation-card').insertAfter('#lead');
+                $('#reservation-card').addClass('float-right');
+                $('#reservation-card').css("width", "auto");
+            }
+            function editLayout() {
+                if($(document).width() < maxWidth) {
+                    $('#reservation-card').insertAfter('#title-border');
+                    $('#reservation-card').remove('.container');
+                    $('#reservation-card').parent('#main');
+                    $('#reservation-card').removeClass('float-right');
+                    $('#reservation-card').css("width", "100%");
+                }
+                else {
+                    $('#reservation-card').insertAfter('#lead');
+                    $('#reservation-card').parent('.container');
+                    $('#reservation-card').addClass('float-right');
+                    $('#reservation-card').css("width", "auto");
+                }
+            }
+        </script>
     </div>
     <script src="/socket.io/socket.io.js"> </script>
     <script>
@@ -266,15 +270,6 @@
           console.log(adData);
             console.log(adData[1].name)
         });
-        
-        /*var show = function(){
-            var data = adData[1];
-            document.getElementById("res-header").innerHTML = data.name;
-            document.getElementsByClassName("title")[0].innerHTML = data.name;
-            document.getElementByClassName("res-hero").src = data.image;
-            document.getElementById("waitTime").innerHTML = "Average Wait Time: " + data.avgWait;
-            document.getElementById("description").innerHTML = data.description;
-        };*/
         
         var swapper = window.setInterval(function(){
 

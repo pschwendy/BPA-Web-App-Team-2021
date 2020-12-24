@@ -46,9 +46,4 @@
     overflow-y: scroll;
 }
 
-#reservation-card{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    flex: 0 1 calc(50% - 1em);
-}
+/*#reservation-card{}*/
