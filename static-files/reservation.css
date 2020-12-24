@@ -2,7 +2,7 @@
     position: relative;
 }
 
-.res-hero{
+#res-hero{
     object-fit: cover;
 }
 

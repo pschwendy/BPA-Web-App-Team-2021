@@ -5,8 +5,6 @@ var server = require("http").Server(app);
 //you never know when it might come in handy :)
 var io = require("socket.io")(server);
 
-
-
 //keeping it as JSON for now; will be moved to database once that becomes available
 var restaurantData = [{
 
@@ -46,13 +44,9 @@ var restaurantData = [{
 }];
 
 io.on("connection", function(socket){
-
-
   socket.on("getAdData", function(msg){
     socket.emit("getAdData", restaurantData);
   });
-
-
 });
 
 
@@ -60,34 +54,23 @@ app.use(express.static("static-files"));
 
 
 app.get("/", function(req, res){
-
   //replace directory with actual value of client file
   res.sendFile(__dirname + "/reservation.html");
-
 });
 
 app.get("/d/socket.io", function(req, res){
-
   res.sendFile(__dirname + "/node_modules/socket.io/client-dist/socket.io.js");
-
 });
 
 app.get("/:place", function(req, res){
-
   //replace directory with actual value of client file
   res.sendFile(__dirname + "/static-files/" + req.param.place);
-
 });
 
-
 app.post("/something", function(req, res){
-
-
   //handle forms in these thingies
 
 });
-
-
 
 server.listen(5432, function(){
   console.log("listening on port 5432");

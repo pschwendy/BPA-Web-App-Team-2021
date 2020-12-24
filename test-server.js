@@ -3,7 +3,7 @@ var express = require('express');
 var http = require('http').Server(app);
 
 app.get('/', function(req, res){
-	res.sendfile('reservation.html');
+	res.sendFile(__dirname + "/reservation.html");
 });
 app.use(express.static("static-files"));
 
