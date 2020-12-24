@@ -55,7 +55,7 @@ app.use(express.static("static-files"));
 
 app.get("/", function(req, res){
   //replace directory with actual value of client file
-  res.sendFile(__dirname + "/reservation.html");
+  res.sendFile(__dirname + "/index.html");
 });
 
 app.get("/d/socket.io", function(req, res){
