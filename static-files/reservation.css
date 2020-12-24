@@ -9,6 +9,9 @@
 .right{
     float: right;
     align-items: top;
+    display: flex;
+    justify-content: space-between;
+    flex-grow: 3;
 }
 
 .res-header{
@@ -41,4 +44,11 @@
 #reservations{
     height: 160px;
     overflow-y: scroll;
+}
+
+#reservation-card{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    flex: 0 1 calc(50% - 1em);
 }

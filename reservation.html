@@ -8,7 +8,7 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </head>
-<body>
+<body onresize="editLayout()">
     <nav class="navbar navbar-expand navbar-light bg-light">
         <!--<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -52,7 +52,32 @@
         <div class="title">Dogs to Go</div>
     </div>
     <div class="container px-4">
-        <div class="card mt-3 right" style="width: 18rem;">
+        <script>
+            var maxWidth = 912;
+            if($(document).width() < maxWidth) {
+                $('#reservation-card').parent('#main');
+                $('#reservation-card').parent('#here');
+                $('#reservation-card').removeClass('float-right');
+            }
+            else {
+                $('#reservation-card').parent('.container');
+                $('#reservation-card').addClass('float-right');
+            }
+            function editLayout() {
+                if($(document).width() < maxWidth) {
+                    $('#reservation-card').parent('#main');
+                    $('#reservation-card').parent('#here');
+                    $('#reservation-card').removeClass('float-right');
+                    
+                }
+                else {
+                    $('#reservation-card').parent('.container');
+                    $('#reservation-card').addClass('float-right');
+                }
+                console.log($('#reservation-card').parent());
+            }
+        </script>
+        <aside id="reservation-card" class="card mt-3 float-right" style="width: 18rem;">
             <div class="card-body">
               <h5 class="card-title">Make a Reservation</h5>
               <hr>
@@ -119,16 +144,16 @@
                 </div>
                 
             </div>
-          </div>
+        </aside>
         <!--
             
         -->
         <hr>
-        <div class="row">
+        <main id="main" class="row">
             <div class="col m-2">
                 <div class="row">
                     <div class = "col">
-                        <h5 id="res-header">Dogs to Go</h5>
+                        <h4 id="res-header">Dogs to Go</h4>
                     </div>
                     <div class = "col">
                         <select name="rate" class="right">
@@ -141,6 +166,7 @@
                         </select>
                     </div>
                 </div>
+                <hr id="title-border">
                 <p id="description">Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!</p>
                 <p id="waitTime" style="font-weight: bold;">Average Wait Time: 4 minutes</p>
             </div>
@@ -225,7 +251,7 @@
                     </div>
                 </div>
             </div>-->
-        </div>
+        </main>
     </div>
     <script src="/socket.io/socket.io.js"> </script>
     <script>
