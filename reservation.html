@@ -126,7 +126,7 @@
             <div class="col m-2">
                 <div class="row">
                     <div class = "col">
-                        <h4 id="res-header">Dogs to Go</h4>
+                        <h4 id="res-header">Restaurant</h4>
                     </div>
                     <div class = "col">
                         <select name="rate" class="right">
@@ -140,8 +140,8 @@
                     </div>
                 </div>
                 <hr id="title-border">
-                <p id="description">Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!Eat some dogs!</p>
-                <p id="waitTime" style="font-weight: bold;">Average Wait Time: 4 minutes</p>
+                <p id="description">Description</p>
+                <p id="waitTime" style="font-weight: bold;">Average Wait Time</p>
             </div>
             <!--
 
@@ -259,6 +259,7 @@
     </div>
     <script src="/socket.io/socket.io.js"> </script>
     <script>
+        
         var socket = io();
         var currentAd = 0;
         var adData = [];
@@ -270,11 +271,19 @@
           console.log(adData);
             console.log(adData[1].name)
         });
-        
+        socket.on("receiveAdData", function(data, i){
+            var msg = data[i];
+            document.getElementById("res-header").innerHTML = msg.name;
+            document.getElementsByClassName("title")[0].innerHTML = msg.name;
+            document.getElementById("res-hero").src = msg.image;
+            document.getElementById("waitTime").innerHTML = "Average Wait Time: " + msg.avgWait;
+            document.getElementById("description").innerHTML = msg.description;
+        });
+        /*            
         var swapper = window.setInterval(function(){
 
           var msg;
-          currentAd += 1;
+          //currentAd += 1;
           if (currentAd < adData.length){
             msg = adData[currentAd];
           }
@@ -288,6 +297,6 @@
           document.getElementById("res-hero").src = msg.image;
           document.getElementById("waitTime").innerHTML = "Average Wait Time: " + msg.avgWait;
           document.getElementById("description").innerHTML = msg.description;
-        }, 8000);
+        }, 8000);*/
     </script>
 </body>
