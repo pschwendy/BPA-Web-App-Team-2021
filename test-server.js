@@ -4,6 +4,7 @@ var server = require("http").Server(app);
 var path = require('path');
 //you never know when it might come in handy :)
 var io = require("socket.io")(server);
+var formidable = require("formidable");
 
 //keeping it as JSON for now; will be moved to database once that becomes available
 var restaurantData = [{
@@ -50,7 +51,8 @@ var restaurantData = [{
 
 
 
-
+var cookieParser = require("cookie-parser");
+app.use(cookieParser());
 app.use(express.static("static-files"));
 app.use('/restaurant', express.static(path.join(__dirname, 'static-files')));
 
@@ -68,15 +70,28 @@ app.get("/d/socket.io", function(req, res){
   res.sendFile(__dirname + "/node_modules/socket.io/client-dist/socket.io.js");
 });
 
+app.post("/login", function(req, res){
+
+  //should also validate log in once database is ready
+  //for now, it just creates a cookie based on the username
+  var form = new formidable.IncomingForm();
+  form.parse(req, function(err, fields, files){
+
+
+    var username = fields.uname;
+    res.cookie("name", username).send("Sent a cookie!");
+
+
+  });
+
+});
+
 app.get("/:place", function(req, res){
   //replace directory with actual value of client file
   res.sendFile(__dirname + "/static-files/" + req.param.place);
 });
 
-app.post("/something", function(req, res){
-  //handle forms in these thingies
 
-});
 
 server.listen(5432, function(){
   console.log("listening on port 5432");

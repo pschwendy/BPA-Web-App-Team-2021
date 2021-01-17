@@ -44,7 +44,7 @@
           </form>-->
         </div>
         <div>
-          <button class="nav-item btn btn-outline-success my-2 my-sm-0">Log In</button>
+          <button class="nav-item btn btn-outline-success my-2 my-sm-0" data-toggle="modal" data-target="#loginModal">Log In</button>
         <div>
     </nav>
     <div class="head-hero">
@@ -118,7 +118,7 @@
                         </button>
                     </div>
                 </div>
-                
+
             </div>
         </aside>
         <hr>
@@ -145,7 +145,7 @@
             </div>
             <!--
 
-            
+
             <div class ="col m-2">
                 <div class ="row">
                     <div class ="col">
@@ -199,31 +199,37 @@
                     <!--<button type="button" class="btn btn-primary right" data-toggle="modal" data-target="#exampleModalCenter">
                         Make a Reservation Now!
                     </button>-->
-                <!-- 
+                <!--
                 </form>-->
-                
-  
-                <!-- Modal 
-                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+
+
+                <!--repurposed the reserve modal for login-->
+                <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Reserve</h5>
+                        <h5 class="modal-title" id="exampleModalLongTitle">Log In</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                         </div>
                         <div class="modal-body">
-                        ...
+                          <form method="POST" action="/login">
+                            <input for="uname" name="uname" type="text" placeholder="Username"/>
+                            <input for="pwd" name="pwd" type="password" placeholder="Password"/>
+                            <button type="submit" class="btn btn-primary">SUBMIT</button>
+                          </form>
                         </div>
                         <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <!--<button type="button" class="btn btn-primary">GO</button>-->
                         </div>
                     </div>
                     </div>
                 </div>
-            </div>-->
+
+
+            </div>
         </main>
         <script>
             var maxWidth = 912;
@@ -259,7 +265,7 @@
     </div>
     <script src="/socket.io/socket.io.js"> </script>
     <script>
-        
+
         var socket = io();
         var currentAd = 0;
         var adData = [];
@@ -279,7 +285,7 @@
             document.getElementById("waitTime").innerHTML = "Average Wait Time: " + msg.avgWait;
             document.getElementById("description").innerHTML = msg.description;
         });
-        /*            
+        /*
         var swapper = window.setInterval(function(){
 
           var msg;

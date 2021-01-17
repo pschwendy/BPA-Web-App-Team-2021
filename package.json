@@ -11,6 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "express": "*",
-    "socket.io": "^3.0.4"
+    "socket.io": "^3.0.4",
+    "formidable": "*",
+    "cookie-parser": "*"
   }
 }
