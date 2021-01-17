@@ -23,7 +23,14 @@
     <div class = "form"> 
         <form action = "javascript:void(0);" method = "POST" onsubmit="app.Add()">
             <input type = "text" id = "add-todo" placeholder="thing to-do">
+            <input type = "text" id = "add-time" placeholder="time">
+            <select id="add-timeOfDay">
+                <option value="am">am</option>
+                <option value="pm">pm</option>
+              </select>
             <input type = "submit" value = "Add" class = "btn btn-primary"></input>
+            
+
         </form>
         <p> You Have: </p>
         <p id = "counter"></p>
@@ -36,6 +43,11 @@
     <div id = "edit-box" role = "aria-hidden">
         <form action = "javascript:void(0);" method = "POST" id = "save-edit">
             <input type = "text" id = "edit-todo">
+            <input type = "text" id = "edit-time" placeholder="time">
+            <select id="edit-timeOfDay">
+                <option value="am">am</option>
+                <option value="pm">pm</option>
+              </select>
             <input type = "submit" value = "save" class = "btn btn-success">
             <a onclick = "CloseInput()" aria-label = "Close">&#10006;</a>
         </form>
