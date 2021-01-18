@@ -60,9 +60,25 @@ function signup(username, password, email) {
 } /* signup */
 
 // reservation function
-// 
-function reserve() {
-
+// inserts reservation into reservations table
+// input: attraction -> name of attraction reserved
+// input: account_id -> user id of logged in account 
+// input: num_people -> number of people in reservation
+// input: res_time -> time of reservation
+// input: res_date -> date of reservation
+function reserve(attraction, account_id, num_people, res_time, res_date) {
+    let sql = "INSERT INTO reservations(attractionName, numPeople time, date, user) VALUES ($attraction, $num_people, $time, $date, $user)";
+    db.run(sql, {
+        $attraction: attraction,
+        $num_people: num_people,
+        $time: res_time,
+        $date: res_date,
+        $user: account_id,
+    }, (err) => {
+        if(err) {
+            throw(err);
+        }
+    });
 } /* reserve */
 
 export { login, signup, reserve };
