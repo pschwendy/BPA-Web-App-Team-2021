@@ -58,12 +58,14 @@ app.use('/restaurant', express.static(path.join(__dirname, 'static-files')));
 
 app.get("/", function(req, res){
   //replace directory with actual value of client file
-  res.sendFile(__dirname + "/reservation.html");
+  /*res.sendFile(__dirname + "/reservation.html");
   io.on("connection", function(socket){
 	socket.on("getAdData", function(msg){
 	  socket.emit("getAdData", restaurantData);
 	});
-  });
+  });*/
+  //replace directory with actual value of client file
+  res.sendFile(__dirname + "/index.html");
 });
 
 app.get("/d/socket.io", function(req, res){
@@ -101,15 +103,15 @@ app.get("/restaurant/:restaurantPage", function(req, res){
 	//replace directory with actual value of client file
 	res.sendFile(__dirname + "/reservation.html");
 	io.on("connection", function(socket){
-	socket.on("getAdData", function(msg){
-		console.log("in!");
-		for(i = 0; i < restaurantData.length; i++) {
-			if(restaurantData[i].page == req.params.restaurantPage) {
-				socket.emit("receiveAdData", restaurantData, i);
-				console.log("done!");
-				break;
-			}
-		}
-	});
+    socket.on("getAdData", function(msg){
+      console.log("in!");
+      for(i = 0; i < restaurantData.length; i++) {
+        if(restaurantData[i].page == req.params.restaurantPage) {
+          socket.emit("receiveAdData", restaurantData, i);
+          console.log("done!");
+          break;
+        }
+      }
+    });
 	});
 });

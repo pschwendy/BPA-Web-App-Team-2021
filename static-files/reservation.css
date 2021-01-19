@@ -25,6 +25,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 48px;
+    text-align: center;
 }
 
 .reserve{
@@ -32,8 +33,8 @@
     display: grid;
     align-items: center;
     font-size: 1.2rem;
-    /*border-bottom: 1px solid goldenrod;*/
 }
+
 .group-reserve{
     background-color: gold;
 }

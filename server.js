@@ -9,6 +9,7 @@ var io = require("socket.io")(server);
 var restaurantData = [{
 
   "name":"Dogs to Go",
+  "page":"dogs-to-go",
   "avgWait":"4 minutes",
   "image":"/dogs-to-go.jpg",
   "description":"Eat some dogs! East some dogs! Eat some dogs!"
@@ -16,6 +17,7 @@ var restaurantData = [{
 }, {
 
   "name":"Easy As Pie Diner",
+  "page":"easy-as-pie",
   "avgWait":"18 minutes",
   "image":"/easy-as-pie-diner.jpg",
   "description": "Enjoy Gordon Ramsay's signature cuisine in this premium dining experience."
@@ -23,6 +25,7 @@ var restaurantData = [{
 },{
 
   "name":"Forever Cool Ice Cream",
+  "page":"forever-cool-ice-cream",
   "avgWait":"8 minutes",
   "image":"/foreveer-cool-ice-cream.jpg",
   "description":"Enjoy ice cream that is forever cool in a definitely non-ambiguous way."
@@ -30,6 +33,7 @@ var restaurantData = [{
 },{
 
   "name":"Chickens-R-Us",
+  "page":"chickens-r-us",
   "avgWait":"10 minutes",
   "image":"/chickens-r-us.jpg",
   "description":"CHICKENS ARE US. WE ARE THE CHICKENS."
@@ -37,6 +41,7 @@ var restaurantData = [{
 },{
 
   "name":"Chuck Wagon",
+  "page":"chuck-wagon",
   "avgWait": "17 minutes",
   "image":"/chuck-wagon.jpg",
   "description":"A classic American diner. If you eat enough, we might even let you ride in Chuck's wagon..."
@@ -70,6 +75,23 @@ app.get("/:place", function(req, res){
 app.post("/something", function(req, res){
   //handle forms in these thingies
 
+});
+
+app.get("/restaurant/:restaurantPage", function(req, res){
+	//replace directory with actual value of client file
+	res.sendFile(__dirname + "/reservation.html");
+    io.on("connection", function(socket){
+    socket.on("getAdData", function(msg){
+      console.log("in!");
+      for(i = 0; i < restaurantData.length; i++) {
+        if(restaurantData[i].page == req.params.restaurantPage) {
+          socket.emit("receiveAdData", restaurantData, i);
+          console.log("done!");
+          break;
+        }
+      }
+    });
+	});
 });
 
 server.listen(5432, function(){
