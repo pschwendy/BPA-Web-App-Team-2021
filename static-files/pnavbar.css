@@ -1,3 +1,14 @@
+.topnav{
+    overflow: hidden;
+}
+
+#navigation {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
 @media only screen and (min-width : 992px) {
     .brand {
         left: 50%;
