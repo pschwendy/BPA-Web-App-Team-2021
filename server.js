@@ -77,7 +77,7 @@ app.post("/something", function(req, res){
 
 });
 
-app.get("/restaurant/:restaurantPage", function(req, res){
+app.get("/restaurants/:restaurantPage", function(req, res){
 	//replace directory with actual value of client file
 	res.sendFile(__dirname + "/reservation.html");
     io.on("connection", function(socket){

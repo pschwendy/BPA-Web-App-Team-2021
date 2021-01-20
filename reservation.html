@@ -242,11 +242,10 @@
         var currentAd = 0;
         var adData = [];
 
-        socket.emit("getAdData", currentAd);
+        socket.emit("getAdData");
         socket.on("getAdData", function(msg){
-
-          adData = msg;
-          console.log(adData);
+            adData = msg;
+            console.log(adData);
             console.log(adData[1].name)
         });
         socket.on("receiveAdData", function(data, i){

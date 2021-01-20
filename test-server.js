@@ -54,7 +54,7 @@ var restaurantData = [{
 var cookieParser = require("cookie-parser");
 app.use(cookieParser());
 app.use(express.static("static-files"));
-app.use('/restaurant', express.static(path.join(__dirname, 'static-files')));
+app.use('/restaurants', express.static(path.join(__dirname, 'static-files')));
 
 app.get("/", function(req, res){
   //replace directory with actual value of client file
@@ -99,11 +99,10 @@ server.listen(5432, function(){
   console.log("listening on port 5432");
 })
 
-app.get("/restaurant/:restaurantPage", function(req, res){
-	//replace directory with actual value of client file
+app.get("/restaurants/:restaurantPage", function(req, res){
 	res.sendFile(__dirname + "/reservation.html");
 	io.on("connection", function(socket){
-    socket.on("getAdData", function(msg){
+    /*socket.on("getAdData", function(){
       console.log("in!");
       for(i = 0; i < restaurantData.length; i++) {
         if(restaurantData[i].page == req.params.restaurantPage) {
@@ -112,6 +111,13 @@ app.get("/restaurant/:restaurantPage", function(req, res){
           break;
         }
       }
-    });
+    });*/
+    for(i = 0; i < restaurantData.length; i++) {
+      if(restaurantData[i].page == req.params.restaurantPage) {
+        socket.emit("receiveAdData", restaurantData, i);
+        console.log("done!");
+        break;
+      }
+    }
 	});
 });
