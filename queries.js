@@ -106,7 +106,7 @@ class Queries{
     } /* delete_reservation */
 
     // reservation function
-    // deletes reservation from reservations table
+    // updates reservation from reservations table
     // input: attraction -> name of attraction reserved
     // input: account_id -> user id of logged in account 
     // input: old_num_people -> original number of people in reservation

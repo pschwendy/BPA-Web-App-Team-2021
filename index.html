@@ -11,6 +11,7 @@
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script src="https://kit.fontawesome.com/3aa210e078.js" crossorigin="anonymous"></script>
 </head>
 <body>
   <div class="head-hero">
@@ -24,8 +25,8 @@
       $("#navigation").load("pnavbar.html");
     });
   </script>
-  <div class="px-4 py-4 text-center" style="font-size: 1.2em; background-color: lightsalmon;">
-    Weather!!
+  <div class="px-4 py-4 text-center info">
+    <div style="margin: auto; border-left:1px solid lightcoral;height:100px"></div>
   </div>
   <div class="px-4 py-4 mb-4 text-center">
     <div class="container">
@@ -76,5 +77,18 @@
       <span class="sr-only">Next</span>
     </a>
   </div>
+  <footer>
+    <div style="width: 100vw; background-image: url(https://www.worldatlas.com/r/w1200-h630-c1200x630/upload/0e/f9/19/theme-parks.jpg)">
+      <img style="filter: brightness(50%); width:100%; height: 200px; object-fit:cover;" src="https://www.worldatlas.com/r/w1200-h630-c1200x630/upload/0e/f9/19/theme-parks.jpg">
+      <!--<button class=" btn btn-outline-primary mr-2" data-toggle="modal" data-target="#signUpModal">Sign Up</button>
+    <button class=" btn btn-outline-success" data-toggle="modal" data-target="#loginModal">Log In</button>-->
+    </div>
+    <div id="footer"></div>
+    <script>
+      $(function() {
+        $("#footer").load("pfooter.html");
+      });
+    </script>
+  </footer>
 </body>
 </html>

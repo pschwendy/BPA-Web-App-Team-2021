@@ -10,9 +10,10 @@
   "author": "Anthony Varkey",
   "license": "ISC",
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.2",
+    "cookie-parser": "*",
     "express": "*",
-    "socket.io": "^3.0.4",
     "formidable": "*",
-    "cookie-parser": "*"
+    "socket.io": "^3.0.4"
   }
 }
