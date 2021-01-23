@@ -49,7 +49,37 @@ var restaurantData = [{
 
 }];
 
+//storing tasks as json for now, change to db at some point
+var tasks = [];
 
+io.on("connection", function(socket){
+
+  socket.on("getTaskData", function(msg){
+
+    //query database for all tasks here and send them; using JSON for now
+    var allTasks = [];
+
+    for (task of tasks){
+      if (task.user == msg){
+        allTasks.push(task);
+      }
+    }
+
+    console.log(allTasks);
+
+    socket.emit("getTaskData", allTasks);
+
+  });
+
+  socket.on("addTask", function(msg){
+
+    tasks.push({"user": msg[2], "time": msg[1], "task": msg[0]});
+    console.log(msg);
+
+  })
+
+
+})
 
 var cookieParser = require("cookie-parser");
 app.use(cookieParser());
@@ -81,12 +111,25 @@ app.post("/login", function(req, res){
 
 
     var username = fields.uname;
+    console.log(username);
     res.cookie("name", username).send("Sent a cookie!");
 
 
   });
 
 });
+
+
+//for my own testing purposes
+app.get("/itinerary", function(req,res){
+  res.sendFile(__dirname + "/Itinerary.html");
+});
+
+app.get("/itenerary.js", function(req,res){
+  res.sendFile(__dirname + "/itenerary.js");
+});
+
+
 
 app.get("/:place", function(req, res){
   //replace directory with actual value of client file

@@ -1,3 +1,6 @@
+var socket = io();
+var username = "USER";
+
 var app =  new function() {
 
 
@@ -8,11 +11,11 @@ var app =  new function() {
 
     this.FetchAll = function () { // Takes all of our tasks and displays them
         let data = '';
-        
+
         if (this.times.length > 1) {
             this.sortTime();
-        
-            
+
+
         }
 
         if (this.tasks.length > 0) {
@@ -26,11 +29,11 @@ var app =  new function() {
                 data += '</tr>'
             }
         }
-        
+
         this.Count(this.tasks.length);
         return this.el.innerHTML = data;
     };
-    
+
     this.Add = function () { //adds a task
         elTask = document.getElementById('add-todo');
     //    elTime = document.getElementById('add-time');
@@ -46,6 +49,7 @@ var app =  new function() {
         if (task && time && checkTime(time)) {
             this.tasks.push(task.trim());
             this.times.push(elTime);
+            socket.emit("addTask", [task, elTime, username]);
        //     this.timesOfDays.push(timeOfDay);
             elTask.value = '';
             document.getElementById('add-time').value = '';
@@ -64,14 +68,14 @@ var app =  new function() {
         elTime.timeOfDay.value = this.times[item].timeOfDay;
         document.getElementById('edit-box').style.display = 'block'; //defaults to close, displays it.
         self = this;
-        
+
 
         document.getElementById('save-edit').onsubmit = function() {
             var task = elTask.value;
             let time = elTime.hour.value;
             let amPm = elTime.timeOfDay.value;
             if (task && time && checkTime(time)) {
-                
+
                 editTime = {
                     hour: time.trim(),
                     timeOfDay: amPm
@@ -104,51 +108,53 @@ var app =  new function() {
         }
     }
 
-   
+
 
     this.sortTime = function () {
-    
+
         this.times.sort(function(c, d) {
             a = c.hour
             b = d.hour
-    
-    
+
+
             if (a.length === 4) {
             var x = a[0] + a[2] + a[3];
             }
             else {
             var x = a[0] + a[1] + a[3] + a[4];
             }
-    
+
             if (b.length === 4) {
             var y = b[0] + b[2] + b[3];
             }
             else {
             var y = b[0] + b[1] + b[3] + b[4];
             }
-    
+
             e = parseInt(x, 10);
             f = parseInt(y, 10);
-    
+
             if (e>f) {return 1;}
             if (f>e) {return -1;}
             return 0
-        
+
         });
-    
-    
-    
+
+
+
         this.times.sort(function(a, b){
         var x = a.timeOfDay.toLowerCase();
         var y = b.timeOfDay.toLowerCase();
         if (x < y) {return -1;}
         if (x > y) {return 1;}
-        return 0; 
+        return 0;
         });
-    
-        
-    
-    } 
+
+
+
+
+
+    }
 }
 
 app.FetchAll(); //fetches all by default
@@ -183,3 +189,31 @@ function isDigit(charr) {
     return false;
 }
 
+
+
+
+
+window.onload = function(){
+
+
+  var cookieData = document.cookie;
+  username = cookieData.slice(cookieData.indexOf("name=") + 5, cookieData.length);
+
+  //change this to user id or whatever else is used to identify users
+  socket.emit("getTaskData", username);
+
+
+
+}
+
+socket.on("getTaskData", function(msg){
+
+
+  for (task of msg){
+    app.tasks.push(task.task);
+    app.times.push(task.time);
+  }
+
+  app.FetchAll();
+
+});
