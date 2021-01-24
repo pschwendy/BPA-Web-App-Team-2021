@@ -7,15 +7,25 @@ var app =  new function() {
     this.el = document.getElementById('tasks');
     this.tasks = [];
     this.times = [];
-    var sortedTimes = [];
-    var sortedTasks = [];
+    this.combinedArray = [];
+   
     
     //S();
 
     this.FetchAll = function () { // Takes all of our tasks and displays them
+        this.combinedArray = [];
+        for (i = 0; i < this.tasks.length; i++ ) {
+            var taskTime = {
+                theTask: this.tasks[i],
+                theTime: this.times[i]
+            }
+            this.combinedArray.push(taskTime);
+        }
+        console.log("tasks: ");
+        console.log(this.tasks);
+        console.log("combinedArray: ");
+        console.log(this.combinedArray);
 
-        sortedTimes = this.times;
-        sortedTasks = this.tasks;
 
         document.getElementById('edit-box').style.display = 'none';
         let data = '';
@@ -28,8 +38,8 @@ var app =  new function() {
         if (this.tasks.length > 0) {
             for (i = 0; i < this.tasks.length; i++) {
                 data += '<tr>'; //adds table row
-                data += '<td>' + (i+1) + '. ' + sortedTasks[i] + '</td>'; //adds table cell so it says the task number then the task info i.e 3. Eat lunch
-                data += '<td>' + sortedTimes[i] + '</td>';
+                data += '<td>' + (i+1) + '. ' + this.combinedArray[i].theTask + '</td>'; //adds table cell so it says the task number then the task info i.e 3. Eat lunch
+                data += '<td>' + this.combinedArray[i].theTime + '</td>';
                 data += '<td> <button onclick = "app.Edit('+i+')" class = "btn btn-warning" > Edit </button> </td>'; // adds edit button
                 data += '<td> <button onclick = "app.Delete('+i+')" class = "btn btn-danger"> Delete </button> </td';
                 data += '</tr>'
@@ -106,10 +116,11 @@ var app =  new function() {
 
     this.sortTime = function () {
 
-        sortedTimes.sort(function(a, b) {
+        this.combinedArray.sort(function(c, d) {
 
 
-
+            a = c.theTime;
+            b = d.theTime;
             if (a.length === 4) {
             var x = a[0] + a[2] + a[3];
             }
@@ -126,12 +137,6 @@ var app =  new function() {
 
             e = parseInt(x, 10);
             f = parseInt(y, 10);
-
-            sortedTasks.sort(function (a,b) {
-                if (e>f) {return 1;}
-                if (f>e) {return -1;}
-                return 0 ;
-            });
 
             if (e>f) {return 1;}
             if (f>e) {return -1;}
