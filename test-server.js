@@ -85,7 +85,7 @@ var cookieParser = require("cookie-parser");
 app.use(cookieParser());
 app.use(express.static("static-files"));
 app.use('/restaurants', express.static(path.join(__dirname, 'static-files')));
-
+const portal_path = __dirname + "/portal.html";
 app.get("/", function(req, res){
   //replace directory with actual value of client file
   /*res.sendFile(__dirname + "/reservation.html");
@@ -125,23 +125,9 @@ app.get("/itinerary", function(req,res){
   res.sendFile(__dirname + "/Itinerary.html");
 });
 
-app.get("/itenerary.js", function(req,res){
-  res.sendFile(__dirname + "/itenerary.js");
+app.get("/restaurants", function(req,res){
+  res.sendFile(__dirname + "/portal.html");
 });
-
-
-
-app.get("/:place", function(req, res){
-  //replace directory with actual value of client file
-  res.sendFile(__dirname + "/static-files/" + req.param.place);
-});
-
-
-
-server.listen(5432, function(){
-  console.log("listening on port 5432");
-})
-
 app.get("/restaurants/:restaurantPage", function(req, res){
 	res.sendFile(__dirname + "/reservation.html");
 	io.on("connection", function(socket){
@@ -164,3 +150,24 @@ app.get("/restaurants/:restaurantPage", function(req, res){
     }
 	});
 });
+
+app.get("/itenerary.js", function(req,res){
+  res.sendFile(__dirname + "/itenerary.js");
+});
+
+
+
+app.get("/:place", function(req, res){
+  //replace directory with actual value of client file
+  res.sendFile(__dirname + "/static-files/" + req.params.place);
+});
+
+
+
+server.listen(3000, function(){
+  console.log("listening on port 3000");
+})
+
+
+
+
