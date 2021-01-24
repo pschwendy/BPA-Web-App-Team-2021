@@ -7,23 +7,29 @@ var app =  new function() {
     this.el = document.getElementById('tasks');
     this.tasks = [];
     this.times = [];
-    //sort();
+    var sortedTimes = [];
+    var sortedTasks = [];
+    
+    //S();
 
     this.FetchAll = function () { // Takes all of our tasks and displays them
+
+        sortedTimes = this.times;
+        sortedTasks = this.tasks;
+
+        document.getElementById('edit-box').style.display = 'none';
         let data = '';
 
         if (this.times.length > 1) {
             this.sortTime();
 
-
-        }
+        } 
 
         if (this.tasks.length > 0) {
             for (i = 0; i < this.tasks.length; i++) {
                 data += '<tr>'; //adds table row
-                data += '<td>' + (i+1) + '. ' + this.tasks[i] + '</td>'; //adds table cell so it says the task number then the task info i.e 3. Eat lunch
-                data += '<td>' + this.times[i].hour + '</td>';
-                data += '<td>' + this.times[i].timeOfDay + '</td>';
+                data += '<td>' + (i+1) + '. ' + sortedTasks[i] + '</td>'; //adds table cell so it says the task number then the task info i.e 3. Eat lunch
+                data += '<td>' + sortedTimes[i] + '</td>';
                 data += '<td> <button onclick = "app.Edit('+i+')" class = "btn btn-warning" > Edit </button> </td>'; // adds edit button
                 data += '<td> <button onclick = "app.Delete('+i+')" class = "btn btn-danger"> Delete </button> </td';
                 data += '</tr>'
@@ -36,20 +42,17 @@ var app =  new function() {
 
     this.Add = function () { //adds a task
         elTask = document.getElementById('add-todo');
-    //    elTime = document.getElementById('add-time');
 
-        let elTime = {
-            hour: document.getElementById('add-time').value,
-            timeOfDay: document.getElementById('add-timeOfDay').value
-        }
-   //     elTimeOfDay = document.getElementById('add-timeOfDay');
+        let elTime = document.getElementById('add-time');
+        console.log(elTime.value)
         let task = elTask.value;
-        let time = elTime.hour;
-        let timeOfDay = elTime.timeOfDay;
-        if (task && time && checkTime(time)) {
+        let time = elTime.value;
+
+        if (task && time) {
             this.tasks.push(task.trim());
-            this.times.push(elTime);
-            socket.emit("addTask", [task, elTime, username]);
+            this.times.push(time);
+            console.log(this.times);
+            socket.emit("addTask", [task, time, username]);
        //     this.timesOfDays.push(timeOfDay);
             elTask.value = '';
             document.getElementById('add-time').value = '';
@@ -59,30 +62,21 @@ var app =  new function() {
 
     this.Edit = function(item) {  //edits task
         elTask = document.getElementById('edit-todo');
-        let elTime = {
-            hour: document.getElementById('edit-time'),
-            timeOfDay: document.getElementById('edit-timeOfDay')
-        }
+        let elTime = document.getElementById('edit-time');
+
         elTask.value = this.tasks[item];
-        elTime.hour.value = this.times[item].hour;
-        elTime.timeOfDay.value = this.times[item].timeOfDay;
+        elTime.value = this.times[item];
         document.getElementById('edit-box').style.display = 'block'; //defaults to close, displays it.
         self = this;
 
 
         document.getElementById('save-edit').onsubmit = function() {
             var task = elTask.value;
-            let time = elTime.hour.value;
-            let amPm = elTime.timeOfDay.value;
+            let time = elTime.value;
             if (task && time && checkTime(time)) {
 
-                editTime = {
-                    hour: time.trim(),
-                    timeOfDay: amPm
-                }
-
                 self.tasks.splice(item, 1, task.trim());
-                self.times.splice(item, 1, editTime);
+                self.times.splice(item, 1, time);
                 self.FetchAll();
                 CloseInput();
             }
@@ -112,9 +106,8 @@ var app =  new function() {
 
     this.sortTime = function () {
 
-        this.times.sort(function(c, d) {
-            a = c.hour
-            b = d.hour
+        sortedTimes.sort(function(a, b) {
+
 
 
             if (a.length === 4) {
@@ -134,24 +127,17 @@ var app =  new function() {
             e = parseInt(x, 10);
             f = parseInt(y, 10);
 
+            sortedTasks.sort(function (a,b) {
+                if (e>f) {return 1;}
+                if (f>e) {return -1;}
+                return 0 ;
+            });
+
             if (e>f) {return 1;}
             if (f>e) {return -1;}
             return 0
 
         });
-
-
-
-        this.times.sort(function(a, b){
-        var x = a.timeOfDay.toLowerCase();
-        var y = b.timeOfDay.toLowerCase();
-        if (x < y) {return -1;}
-        if (x > y) {return 1;}
-        return 0;
-        });
-
-
-
 
 
     }
