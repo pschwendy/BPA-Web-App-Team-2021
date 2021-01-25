@@ -23,7 +23,8 @@
     <div class = "form">
         <form action = "javascript:void(0);" method = "POST" onsubmit="app.Add()">
             <input type = "text" id = "add-todo" placeholder="thing to-do">
-            <input type = "time" id = "add-time" placeholder="time">
+            <input type = "time" id = "add-time" placeholder= "time">
+            <input type = "date" id = "add-date">
             <input type = "submit" value = "Add" class = "btn btn-primary"></input>
 
 
@@ -40,10 +41,13 @@
         <form action = "javascript:void(0);" method = "POST" id = "save-edit">
             <input type = "text" id = "edit-todo">
             <input type = "time" id = "edit-time" placeholder="time">
+            <input type = "date" id = "edit-date">
             <input type = "submit" value = "save" class = "btn btn-success">
             <a onclick = "CloseInput()" aria-label = "Close">&#10006;</a>
         </form>
     </div>
+
+    <p id = "output">Output:  </p>
 
   <script src="/socket.io/socket.io.js"></script>
   <script src="/itenerary.js"></script>
