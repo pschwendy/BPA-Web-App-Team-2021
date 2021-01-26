@@ -2,7 +2,7 @@ const sqlite3 = require('sqlite3').verbose();
 
 class Queries{
     db = new sqlite3.Database('./testdb.db');
-
+    
     // login function
     // checks if database query @ username has password = input password
     // input: username -> username used for finding user in database

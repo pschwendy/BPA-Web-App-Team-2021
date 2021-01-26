@@ -127,6 +127,9 @@ app.get("/itinerary", function(req,res){
 
 app.get("/restaurants", function(req,res){
   res.sendFile(__dirname + "/portal.html");
+  io.once("connection", function(socket){
+    socket.emit("receiveAttractions", restaurantData);
+  });
 });
 app.get("/restaurants/:restaurantPage", function(req, res){
 	res.sendFile(__dirname + "/reservation.html");

@@ -14,6 +14,8 @@
     "cookie-parser": "*",
     "express": "*",
     "formidable": "*",
+    "mysql": "^2.18.1",
+    "node-mysql": "^0.4.2",
     "socket.io": "^3.0.4",
     "sqlite3": "^5.0.1"
   }

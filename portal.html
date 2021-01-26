@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+  <script src="https://code.jquery.com/jquery-git.js"></script>
   <meta charset="utf-8">
   <title>Restaurants</title>
   <meta name="description" content="High Thrills Theme Park">
@@ -47,35 +48,81 @@
         <div class="container">BLURB</div>
     </div>
     <div class="portals">
-        <div class="container py-2">
-            <div class="my-4 py-4 card">
-                <div class="card-body">
-                  This is some text within a card body.
-                </div>
-              </div>
-              <div class="my-4 py-4 card">
-                <div class="card-body">
-                  This is some text within a card body.
-                </div>
-              </div>
-              <div class="my-4 py-4 card">
-                <div class="card-body">
-                  This is some text within a card body.
-                </div>
-              </div>   
-              <div class="my-4 py-4 card">
-                <div class="card-body">
-                  This is some text within a card body.
-                </div>
-              </div>  
-              <div class="my-4 py-4 card">
-                <div class="card-body">
-                  This is some text within a card body.
-                </div>
-              </div>                             
+      <div class="container py-2">
+        <!--<div class="card bg-dark text-white">
+          <img class="card-img" src="..." alt="Card image">
+          <div class="card-img-overlay">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+            <p class="card-text">Last updated 3 mins ago</p>
+          </div>
         </div>
+        <div class="card bg-dark text-white">
+          <img class="card-img" src="..." alt="Card image">
+          <div class="card-img-overlay">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+            <p class="card-text">Last updated 3 mins ago</p>
+          </div>
+        </div>
+        <div class="card bg-dark text-white">
+          <img class="card-img" src="..." alt="Card image">
+          <div class="card-img-overlay">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+            <p class="card-text">Last updated 3 mins ago</p>
+          </div>
+        </div>
+        <div class="card bg-dark text-white">
+          <img class="card-img" src="..." alt="Card image">
+          <div class="card-img-overlay">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+            <p class="card-text">Last updated 3 mins ago</p>
+          </div>
+        </div>
+        <div class="card bg-dark text-white">
+          <img class="card-img" src="..." alt="Card image">
+          <div class="card-img-overlay">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+            <p class="card-text">Last updated 3 mins ago</p>
+          </div>
+        </div>--->                        
+      </div>
     </div>
-    
+    <script src="/socket.io/socket.io.js"> </script>
+    <script>
+      var socket = io();
+      var adData = [];
+      socket.on("receiveAttractions", function(msg){
+        console.log(msg[0].image);
+        $(function(){
+          console.log(msg.length);
+          for(var i = 0; i < msg.length; ++i){
+            var cardImg = document.createElement("img");
+            cardImg.className = "p-img card-img";
+            cardImg.src = msg[i].image;
+            
+            var cardTitle = document.createElement("h2");
+            cardTitle.className = "card-title"
+            cardTitle.innerText = msg[i].name;
+
+            var cardImgOverlay = document.createElement("div");
+            cardImgOverlay.className = "card-img-overlay";
+            cardImgOverlay.appendChild(cardTitle);
+
+            var card = document.createElement("div");
+            card.className = "card my-4 bg-dark text-white";
+            card.appendChild(cardImg);
+            card.appendChild(cardImgOverlay);
+
+            var element = $('.portals').find('.container');
+            element.append(card);
+          }
+        });
+      });
+    </script>
     <footer>
         <div style="width: 100vw; background-image: url(https://www.worldatlas.com/r/w1200-h630-c1200x630/upload/0e/f9/19/theme-parks.jpg)">
             <img style="filter: brightness(50%); width:100%; height: 200px; object-fit:cover;" src="https://www.worldatlas.com/r/w1200-h630-c1200x630/upload/0e/f9/19/theme-parks.jpg">

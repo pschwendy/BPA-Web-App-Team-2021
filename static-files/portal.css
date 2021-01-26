@@ -6,3 +6,9 @@
     background-size: cover;
     height:90%;
 }
+
+.p-img {
+    height: 35vh;
+    object-fit: cover;
+    filter: brightness(70%);
+}
