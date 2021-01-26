@@ -13,8 +13,8 @@
       </li>
     </ul>
     <span id="account">
-      <!--<button class="nav-item btn btn-outline-primary mr-2" data-toggle="modal" data-target="#signUpModal">Sign Up</button>
-      <button class="nav-item btn btn-outline-success" data-toggle="modal" data-target="#loginModal">Log In</button>-->
+      <button class="nav-item btn btn-outline-primary mr-2" data-toggle="modal" data-target="#signUpModal">Sign Up</button>
+      <button class="nav-item btn btn-outline-success" data-toggle="modal" data-target="#loginModal">Log In</button>
       </span>
   </div>
   <script src="https://code.jquery.com/jquery-git.js"></script>
@@ -31,8 +31,6 @@
       </div>';
       const name = document.cookie.split('=')[1];
       $("#account").html(account + name + accountnext);
-    } else {
-      console.log(":(");
     }
   </script>
 </nav>
