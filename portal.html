@@ -47,58 +47,21 @@
     <div class="px-4 py-4 text-center">
         <div class="container">BLURB</div>
     </div>
-    <div class="portals">
-      <div class="container py-2">
-        <!--<div class="card bg-dark text-white">
-          <img class="card-img" src="..." alt="Card image">
-          <div class="card-img-overlay">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-            <p class="card-text">Last updated 3 mins ago</p>
-          </div>
-        </div>
-        <div class="card bg-dark text-white">
-          <img class="card-img" src="..." alt="Card image">
-          <div class="card-img-overlay">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-            <p class="card-text">Last updated 3 mins ago</p>
-          </div>
-        </div>
-        <div class="card bg-dark text-white">
-          <img class="card-img" src="..." alt="Card image">
-          <div class="card-img-overlay">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-            <p class="card-text">Last updated 3 mins ago</p>
-          </div>
-        </div>
-        <div class="card bg-dark text-white">
-          <img class="card-img" src="..." alt="Card image">
-          <div class="card-img-overlay">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-            <p class="card-text">Last updated 3 mins ago</p>
-          </div>
-        </div>
-        <div class="card bg-dark text-white">
-          <img class="card-img" src="..." alt="Card image">
-          <div class="card-img-overlay">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-            <p class="card-text">Last updated 3 mins ago</p>
-          </div>
-        </div>--->                        
-      </div>
+    <div id="portals">
+      <div class="container py-2"></div>
     </div>
     <script src="/socket.io/socket.io.js"> </script>
     <script>
       var socket = io();
       var adData = [];
+      window.onload = function() {
+        socket.emit("getAttractions", "ONCE");
+      }
       socket.on("receiveAttractions", function(msg){
-        console.log(msg[0].image);
+        console.log(msg);
+        var element = $('#portals').find('.container');
+        element[0].innerHTML = '';
         $(function(){
-          console.log(msg.length);
           for(var i = 0; i < msg.length; ++i){
             var cardImg = document.createElement("img");
             cardImg.className = "p-img card-img";
@@ -116,9 +79,7 @@
             card.className = "card my-4 bg-dark text-white";
             card.appendChild(cardImg);
             card.appendChild(cardImgOverlay);
-
-            var element = $('.portals').find('.container');
-            element.append(card);
+            element[0].appendChild(card);
           }
         });
       });
