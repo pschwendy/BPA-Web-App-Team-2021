@@ -134,4 +134,4 @@ class Queries{
     } /* update_reservation */
 }
 
-export { Queries };
+module.exports = Queries;
