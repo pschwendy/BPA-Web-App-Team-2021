@@ -1,14 +1,17 @@
 .topnav{
-    overflow: hidden;
+
 }
 
 #navigation {
-    width: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
 }
 
+#account{
+    position: relative;
+}
+.dropdown {
+    position: relative;
+    z-index: 1000;
+}
 /*#p-nav {
     background-color: white;
 }*/

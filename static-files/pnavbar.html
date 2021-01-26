@@ -1,4 +1,4 @@
-<nav id="p-nav"class="topnav fixed-top navbar navbar-expand-lg navbar-light bg-light">
+<nav id="p-nav"class="header-top topnav fixed-top navbar navbar-expand-lg navbar-light bg-light">
   <a class="navbar-brand brand" id="brand" href="/">High Thrills Entertainment Park</a>
   <button class="navbar-toggler float-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -12,9 +12,29 @@
         <a class="nav-link" href="/rides">Rides</a>
       </li>
     </ul>
-    <button class="nav-item btn btn-outline-primary mr-2" data-toggle="modal" data-target="#signUpModal">Sign Up</button>
-    <button class="nav-item btn btn-outline-success" data-toggle="modal" data-target="#loginModal">Log In</button>
+    <span id="account">
+      <!--<button class="nav-item btn btn-outline-primary mr-2" data-toggle="modal" data-target="#signUpModal">Sign Up</button>
+      <button class="nav-item btn btn-outline-success" data-toggle="modal" data-target="#loginModal">Log In</button>-->
+      </span>
   </div>
+  <script src="https://code.jquery.com/jquery-git.js"></script>
+  <script>
+    if(document.cookie !="") {
+      $("#account").children().remove();
+      const account = '<div class="dropdown dropleft"> \
+        <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
+      const accountnext = '</button> \
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"> \
+          <a class="dropdown-item" href="/itinerary">Itinerary</a> \
+          <a class="dropdown-item" href="#">Log Out</a> \
+        </div> \
+      </div>';
+      const name = document.cookie.split('=')[1];
+      $("#account").html(account + name + accountnext);
+    } else {
+      console.log(":(");
+    }
+  </script>
 </nav>
 <div class="modal fade" id="signUpModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
