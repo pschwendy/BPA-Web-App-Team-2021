@@ -169,8 +169,8 @@ app.get("/:place", function(req, res){
 });
 
 
-
-server.listen(3000, function(){
+var port = process.env.PORT || 3000;
+server.listen(port, function(){
   console.log("listening on port 3000");
 })
 
