@@ -8,9 +8,9 @@ class Queries{
     // checks if database query @ username has password = input password
     // input: username -> username used for finding user in database
     // input: password -> checks if found user has this password
-    login(username, password) {
+    async login(username, password) {
         let sql = "SELECT password FROM users WHERE username=$username"
-        this.db.run(sql, {
+        await this.db.run(sql, {
             $username: username
         },
         (err, rows, callback) => {
@@ -76,7 +76,7 @@ class Queries{
     // input: res_date -> date of reservation
     reserve(attraction, account_id, num_people, res_time, res_date) {
         let sql = "INSERT INTO reservations(attractionName, numPeople time, date, user) VALUES ($attraction, $num_people, $time, $date, $user)";
-        this.db.run(sql, {
+        await this.db.run(sql, {
             $attraction: attraction,
             $num_people: num_people,
             $time: res_time,
@@ -96,9 +96,9 @@ class Queries{
     // input: num_people -> number of people in reservation
     // input: res_time -> time of reservation
     // input: res_date -> date of reservation
-    delete_reservation(attraction, account_id, num_people, res_time, res_date) {
+    async delete_reservation(attraction, account_id, num_people, res_time, res_date) {
         let sql = "DELETE FROM reservations WHERE attractionName=$attraction AND numPeople=$num_people AND time=$time AND date=$date AND user=$user";
-        this.db.run(sql, {
+        await this.db.run(sql, {
             $attraction: attraction,
             $num_people: num_people,
             $time: res_time,
@@ -121,9 +121,9 @@ class Queries{
     // input: new_num_people -> updated number of people in reservation
     // input: new_time -> updated time of reservation
     // input: new_date -> updated date of reservation
-    update_reservation(attraction, account_id, old_num_people, old_time, old_date, new_num_people, new_time, new_date) {
+    async update_reservation(attraction, account_id, old_num_people, old_time, old_date, new_num_people, new_time, new_date) {
         let sql = "UPDATE reservations SET numPeople=$new_new_people, time=$new_time, date=$new_date WHERE attractionName=$attraction AND numPeople=$old_num_people AND time=$old_time AND date=$old_date AND user=$user";
-        this.db.run(sql, {
+        await this.db.run(sql, {
             $attraction: attraction,
             $old_num_people: old_num_people,
             $old_time: old_time,
