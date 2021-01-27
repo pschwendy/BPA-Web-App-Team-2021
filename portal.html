@@ -55,7 +55,7 @@
       var socket = io();
       var adData = [];
       window.onload = function() {
-        socket.emit("getAttractions", "ONCE");
+        socket.emit("getAttractions");
       }
       socket.on("receiveAttractions", function(msg){
         console.log(msg);
