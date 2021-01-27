@@ -34,6 +34,25 @@
       const name = document.cookie.slice(document.cookie.indexOf("name=") + 5, document.cookie.length);
       $("#account").html(account + name + accountnext);
     }
+    else if (document.cookie.indexOf("ERROR=") != -1){
+
+      var errorCode = document.cookie.slice(document.cookie.indexOf("ERROR=") + 6, document.cookie.length);
+      switch (errorCode){
+
+        case "1":
+          window.alert("Sign Up Failed: Invalid email address (Error code: 1)");
+          break;
+        case "2":
+          window.alert("Sign Up Failed: Password does not meet requirements (Error Code: 2)");
+          break;
+        case "3":
+          window.alert("Sign Up Failed: Email already linked with existing account (Error Code: 3)");
+          break;
+
+      }
+
+
+    }
   </script>
 </nav>
 

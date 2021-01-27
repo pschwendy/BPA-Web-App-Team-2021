@@ -2,28 +2,35 @@ const sqlite3 = require('sqlite3').verbose();
 
 class Queries{
     db = new sqlite3.Database('./testdb.db');
-    output = false;
+    output = true;
 
     // login function
     // checks if database query @ username has password = input password
     // input: username -> username used for finding user in database
     // input: password -> checks if found user has this password
-    async login(username, password) {
+    login(username, password, callback) {
         let sql = "SELECT password FROM users WHERE username=$username"
-        await this.db.run(sql, {
+        this.db.get(sql, {
             $username: username
         },
-        (err, rows, callback) => {
+        (err, rows) => {
+            console.log(rows);
             // there should not be an error or more than one user found
             if(err) {
                 throw(err);
-            } else if (rows.length > 1) {
+            }
+            else if (!rows){
+              console.log("HUH");
+              return callback(false);
+            }else if (rows.length > 1) {
                 return false;
             }
             // logins in if password is correct
-            if (rows[0] == password) {
+            if (rows.password == password) {
+                console.log(rows[0]);
                 return callback(true);
             }
+            console.log("defaulted");
             return callback(false);
         });
     } /* login */
@@ -34,10 +41,10 @@ class Queries{
     // input: username -> username being used to create an account
     // input: password -> password being used to keep account safe
     // input: email -> email of user to receive updates
-    async signup(username, password, email) {
+    signup(username, password, email, callback) {
         let sql = "SELECT * FROM users WHERE username=$username";
         var self = this;
-        await this.db.get(sql, {
+        this.db.get(sql, {
             $username: username
         }, (err, rows) => {
             if(err) {
@@ -56,12 +63,10 @@ class Queries{
                 });
                 // logs in if conditions are met
                 console.log("gave true");
-                //self.output = true;
-                return true;
+                callback(true);
             } else {
                 console.log(rows);
-                //self.output = false;
-                return false;
+                callback(false);
             }
 
         });
@@ -74,7 +79,7 @@ class Queries{
     // input: num_people -> number of people in reservation
     // input: res_time -> time of reservation
     // input: res_date -> date of reservation
-    reserve(attraction, account_id, num_people, res_time, res_date) {
+    async reserve(attraction, account_id, num_people, res_time, res_date) {
         let sql = "INSERT INTO reservations(attractionName, numPeople time, date, user) VALUES ($attraction, $num_people, $time, $date, $user)";
         await this.db.run(sql, {
             $attraction: attraction,

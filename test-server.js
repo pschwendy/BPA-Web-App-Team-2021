@@ -129,10 +129,27 @@ app.post("/login", function(req, res){
   var form = new formidable.IncomingForm();
   form.parse(req, function(err, fields, files){
 
+    //cleanse useer of previous errors
+    res.clearCookie("ERROR");
 
     var username = fields.uname;
     var password = fields.pwd;
-    res.cookie("name", username).sendFile(__dirname + "/index.html");
+
+    console.log(username);
+    console.log(password);
+
+    querier.login(username, password, function(result){
+
+      if (result == true){
+        res.cookie("name", username).sendFile(__dirname + "/index.html");
+      }
+      else{
+        res.cookie("ERROR", 4).sendFile(__dirname + "/index.html");
+      }
+
+
+    });
+
 
   });
 
@@ -172,32 +189,39 @@ app.post("/signup", function(req, res){
 
     var emailWorks = checkEmail(email);
     var pwdWorks = checkPassword(password);
-    var dataWorks = querier.signup(email, password, nickname);
+    var dataWorks = false;
 
 
 
-    //add salt and hash stuff here
 
-    console.log(dataWorks);
 
-    if (emailWorks && pwdWorks && dataWorks){
-      console.log("HI");
-      res.cookie("name", email).sendFile(__dirname + "/index.html");
-    }
-    else{
-      if (!emailWorks){
-        res.cookie("ERROR", "Email address invalid").sendFile(__dirname + "/index.html");
-      }
-      else if (!pwdWorks){
-        res.cookie("ERROR", "Password does not meet requirements").sendFile(__dirname + "/index.html");
-      }
-      else if (!dataWorks){
-        res.cookie("ERROR", "The email address given already is linked to an account").sendFile(__dirname + "/index.html");
-      }
+      querier.signup(email, password, nickname, function(result){
 
-    }
+        dataWorks = result;
+        console.log(dataWorks);
 
-    res.end();
+        if (emailWorks && pwdWorks && (dataWorks== true)){
+          console.log("HI");
+          res.cookie("name", email).sendFile(__dirname + "/index.html");
+        }
+        else{
+          if (!emailWorks){
+            res.cookie("ERROR", 1).sendFile(__dirname + "/index.html");
+          }
+          else if (!pwdWorks){
+            res.cookie("ERROR", 2).sendFile(__dirname + "/index.html");
+          }
+          else if (!dataWorks){
+            res.cookie("ERROR", 3).sendFile(__dirname + "/index.html");
+          }
+
+        }
+
+
+
+      });
+
+
 
   });
 
