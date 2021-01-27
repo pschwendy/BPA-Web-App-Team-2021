@@ -11,13 +11,13 @@
   "license": "ISC",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.2",
+    "bcrypt": "*",
     "cookie-parser": "*",
     "express": "^4.17.1",
     "formidable": "*",
     "mysql": "^2.18.1",
     "node-mysql": "^0.4.2",
     "socket.io": "^3.0.4",
-    "sqlite3": "5.0.0",
-    "bcrypt": "*"
+    "sqlite3": "5.0.0"
   }
 }
