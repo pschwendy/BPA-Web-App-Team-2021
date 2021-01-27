@@ -1,4 +1,5 @@
 const sqlite3 = require('sqlite3').verbose();
+const bcrypt = require("bcrypt");
 
 class Queries{
     db = new sqlite3.Database('./testdb.db');
@@ -23,15 +24,21 @@ class Queries{
               console.log("HUH");
               return callback(false);
             }else if (rows.length > 1) {
-                return false;
+                return callback(false);
             }
             // logins in if password is correct
-            if (rows.password == password) {
+            bcrypt.compare(password, rows.password, function(err, result){
+
+              console.log("RES: " + result);
+              return callback(result);
+
+            });
+            /*if (rows.password == password) {
                 console.log(rows[0]);
                 return callback(true);
             }
             console.log("defaulted");
-            return callback(false);
+            return callback(false);*/
         });
     } /* login */
 

@@ -9,6 +9,8 @@ var formidable = require("formidable");
 var queries = require("./queries.js");
 
 var querier = new queries();
+const bcrypt = require("bcrypt");
+
 
 //keeping it as JSON for now; will be moved to database once that becomes available
 var restaurantData = [{
@@ -191,9 +193,11 @@ app.post("/signup", function(req, res){
     var pwdWorks = checkPassword(password);
     var dataWorks = false;
 
+    //salt and hash password with ten rounds of salting
+    bcrypt.hash(password, 10, function(err, hash){
 
-
-
+      console.log(password + " => " + hash);
+      password = hash;
 
       querier.signup(email, password, nickname, function(result){
 
@@ -217,9 +221,17 @@ app.post("/signup", function(req, res){
 
         }
 
-
-
       });
+
+
+    });
+
+
+
+
+
+
+
 
 
 
