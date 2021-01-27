@@ -12,7 +12,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.2",
     "cookie-parser": "*",
-    "express": "*",
+    "express": "^4.17.1",
     "formidable": "*",
     "mysql": "^2.18.1",
     "node-mysql": "^0.4.2",
