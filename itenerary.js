@@ -9,8 +9,8 @@ var app =  new function() {
     this.times = [];
     this.dates = [];
     this.combinedArray = [];
-   
-    
+
+
     //S();
 
     this.FetchAll = function () { // Takes all of our tasks and displays them
@@ -32,7 +32,7 @@ var app =  new function() {
 
         if (this.times.length > 1) {
             this.sortTime();
-        } 
+        }
 
         if (this.tasks.length > 0) {
             for (i = 0; i < this.tasks.length; i++) {
@@ -58,13 +58,14 @@ var app =  new function() {
         var time = elTime.value;
         var date = elDate.value;
 
+
         if (task && time) {
             this.tasks.push(task.trim());
             this.times.push(time);
             var convertedDate = convertDate(date);
             this.dates.push(convertedDate);
             console.log(this.times);
-            socket.emit("addTask", [task, time, username]);
+            socket.emit("addTask", [task, time, username, date]);
        //     this.timesOfDays.push(timeOfDay);
             elTask.value = '';
             document.getElementById('add-time').value = '';
@@ -101,6 +102,7 @@ var app =  new function() {
     };
 
     this.Delete = function (item) { //deletes element
+        socket.emit("deleteTask", [username, this.times[item], this.dates[item]]);
         this.tasks.splice(item, 1);
         this.times.splice(item, 1);
         this.dates.splice(item, 1);
@@ -157,7 +159,7 @@ var app =  new function() {
             if (day2 > day1) {return -1;}
 
         });
-        
+
 
         this.combinedArray.sort(function(el1, el2) {
 
@@ -251,9 +253,9 @@ socket.on("getTaskData", function(msg){
   for (task of msg){
     app.tasks.push(task.task);
     app.times.push(task.time);
+    app.dates.push(task.date);
   }
 
   app.FetchAll();
 
 });
-

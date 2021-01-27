@@ -6,6 +6,10 @@ var path = require('path');
 var io = require("socket.io")(server);
 var formidable = require("formidable");
 
+var queries = require("./queries.js");
+
+var querier = new queries();
+
 //keeping it as JSON for now; will be moved to database once that becomes available
 var restaurantData = [{
 
@@ -73,11 +77,20 @@ io.on("connection", function(socket){
 
   socket.on("addTask", function(msg){
 
-    tasks.push({"user": msg[2], "time": msg[1], "task": msg[0]});
+    tasks.push({"user": msg[2], "time": msg[1], "task": msg[0], "date": msg[3]});
     console.log(msg);
 
-  })
+  });
 
+  socket.on("deleteTask", function(msg){
+
+    for (var i = 0; i < tasks.length; i++){
+      if (tasks[i].user == msg[0] && tasks[i].time == msg[1] && tasks[i].date == msg[2]){
+        tasks.splice(i, 1);
+      }
+    }
+
+  });
 
 })
 
@@ -102,6 +115,13 @@ app.get("/d/socket.io", function(req, res){
   res.sendFile(__dirname + "/node_modules/socket.io/client-dist/socket.io.js");
 });
 
+app.get("/logout", function(req, res){
+
+  res.clearCookie("name").sendFile(__dirname + "/index.html");
+
+
+});
+
 app.post("/login", function(req, res){
 
   //should also validate log in once database is ready
@@ -111,9 +131,73 @@ app.post("/login", function(req, res){
 
 
     var username = fields.uname;
-    console.log(username);
-    res.cookie("name", username).send("Sent a cookie!");
+    var password = fields.pwd;
+    res.cookie("name", username).sendFile(__dirname + "/index.html");
 
+  });
+
+
+
+});
+
+function checkPassword(password){
+
+  //do all the length, characters, numbers stuff here
+
+  return true;
+
+}
+
+function checkEmail(email){
+
+  //check if email is actually an email
+  return true;
+
+
+}
+
+app.post("/signup", function(req, res){
+
+
+  var form = new formidable.IncomingForm();
+  form.parse(req, function(err, fields, files){
+
+    //cleanse user of lingering mishap cookie
+    res.clearCookie("ERROR");
+
+    var email = fields.email;
+    var password = fields.pwd;
+    var nickname = fields.nickname;
+
+
+    var emailWorks = checkEmail(email);
+    var pwdWorks = checkPassword(password);
+    var dataWorks = querier.signup(email, password, nickname);
+
+
+
+    //add salt and hash stuff here
+
+    console.log(dataWorks);
+
+    if (emailWorks && pwdWorks && dataWorks){
+      console.log("HI");
+      res.cookie("name", email).sendFile(__dirname + "/index.html");
+    }
+    else{
+      if (!emailWorks){
+        res.cookie("ERROR", "Email address invalid").sendFile(__dirname + "/index.html");
+      }
+      else if (!pwdWorks){
+        res.cookie("ERROR", "Password does not meet requirements").sendFile(__dirname + "/index.html");
+      }
+      else if (!dataWorks){
+        res.cookie("ERROR", "The email address given already is linked to an account").sendFile(__dirname + "/index.html");
+      }
+
+    }
+
+    res.end();
 
   });
 
@@ -172,7 +256,3 @@ app.get("/:place", function(req, res){
 server.listen(3000, function(){
   console.log("listening on port 3000");
 })
-
-
-
-

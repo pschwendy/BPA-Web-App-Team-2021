@@ -2,14 +2,15 @@ const sqlite3 = require('sqlite3').verbose();
 
 class Queries{
     db = new sqlite3.Database('./testdb.db');
-    
+    output = false;
+
     // login function
     // checks if database query @ username has password = input password
     // input: username -> username used for finding user in database
     // input: password -> checks if found user has this password
     login(username, password) {
         let sql = "SELECT password FROM users WHERE username=$username"
-        db.run(sql, {
+        this.db.run(sql, {
             $username: username
         },
         (err, rows, callback) => {
@@ -33,16 +34,17 @@ class Queries{
     // input: username -> username being used to create an account
     // input: password -> password being used to keep account safe
     // input: email -> email of user to receive updates
-    signup(username, password, email) {
+    async signup(username, password, email) {
         let sql = "SELECT * FROM users WHERE username=$username";
-        db.get(sql, {
+        var self = this;
+        await this.db.get(sql, {
             $username: username
-        }, (err, rows, callback) => {
+        }, (err, rows) => {
             if(err) {
                 throw(err);
             } else if(!rows) {
                 let insert_statement = "INSERT INTO users(username, password, admin, email) VALUES ($username, $password, $admin, $email)";
-                db.run(insert_statement, {
+                this.db.run(insert_statement, {
                     $username: username,
                     $password: password,
                     $admin: false,
@@ -53,24 +55,28 @@ class Queries{
                     }
                 });
                 // logs in if conditions are met
-                return callback(true);
+                console.log("gave true");
+                //self.output = true;
+                return true;
             } else {
-                return callback(false);
+                console.log(rows);
+                //self.output = false;
+                return false;
             }
-            
+
         });
     } /* signup */
 
     // reservation function
     // inserts reservation into reservations table
     // input: attraction -> name of attraction reserved
-    // input: account_id -> user id of logged in account 
+    // input: account_id -> user id of logged in account
     // input: num_people -> number of people in reservation
     // input: res_time -> time of reservation
     // input: res_date -> date of reservation
     reserve(attraction, account_id, num_people, res_time, res_date) {
         let sql = "INSERT INTO reservations(attractionName, numPeople time, date, user) VALUES ($attraction, $num_people, $time, $date, $user)";
-        db.run(sql, {
+        this.db.run(sql, {
             $attraction: attraction,
             $num_people: num_people,
             $time: res_time,
@@ -86,13 +92,13 @@ class Queries{
     // reservation function
     // deletes reservation from reservations table
     // input: attraction -> name of attraction reserved
-    // input: account_id -> user id of logged in account 
+    // input: account_id -> user id of logged in account
     // input: num_people -> number of people in reservation
     // input: res_time -> time of reservation
     // input: res_date -> date of reservation
     delete_reservation(attraction, account_id, num_people, res_time, res_date) {
         let sql = "DELETE FROM reservations WHERE attractionName=$attraction AND numPeople=$num_people AND time=$time AND date=$date AND user=$user";
-        db.run(sql, {
+        this.db.run(sql, {
             $attraction: attraction,
             $num_people: num_people,
             $time: res_time,
@@ -108,7 +114,7 @@ class Queries{
     // reservation function
     // updates reservation from reservations table
     // input: attraction -> name of attraction reserved
-    // input: account_id -> user id of logged in account 
+    // input: account_id -> user id of logged in account
     // input: old_num_people -> original number of people in reservation
     // input: old_time -> original time of reservation
     // input: old_date -> original date of reservation
@@ -117,7 +123,7 @@ class Queries{
     // input: new_date -> updated date of reservation
     update_reservation(attraction, account_id, old_num_people, old_time, old_date, new_num_people, new_time, new_date) {
         let sql = "UPDATE reservations SET numPeople=$new_new_people, time=$new_time, date=$new_date WHERE attractionName=$attraction AND numPeople=$old_num_people AND time=$old_time AND date=$old_date AND user=$user";
-        db.run(sql, {
+        this.db.run(sql, {
             $attraction: attraction,
             $old_num_people: old_num_people,
             $old_time: old_time,

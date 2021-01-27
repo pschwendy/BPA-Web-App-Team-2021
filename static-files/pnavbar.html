@@ -19,21 +19,25 @@
   </div>
   <script src="https://code.jquery.com/jquery-git.js"></script>
   <script>
-    if(document.cookie !="") {
+    if(document.cookie.indexOf("name") != -1) {
       $("#account").children().remove();
       const account = '<div class="dropdown dropleft"> \
         <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
       const accountnext = '</button> \
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"> \
           <a class="dropdown-item" href="/itinerary">Itinerary</a> \
-          <a class="dropdown-item" href="#">Log Out</a> \
+          <a class="dropdown-item" href="/logout">Log Out</a> \
         </div> \
       </div>';
-      const name = document.cookie.split('=')[1];
+      //old way didn't work
+      //const name = document.cookie.split('=')[1];
+      const name = document.cookie.slice(document.cookie.indexOf("name=") + 5, document.cookie.length);
       $("#account").html(account + name + accountnext);
     }
   </script>
 </nav>
+
+<!--The Sign Up Modal-->
 <div class="modal fade" id="signUpModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
   <div class="modal-content">
@@ -44,9 +48,11 @@
       </button>
       </div>
       <div class="modal-body">
-        <form method="POST" action="/login">
-          <input for="uname" name="uname" type="text" placeholder="Username"/>
+        <form method="POST" action="/signup">
+          <input for="uname" name="email" type="text" placeholder="Email"/>
           <input for="pwd" name="pwd" type="password" placeholder="Password"/>
+          <input for="repeatPwd" name="repeatPwd" type="password" placeholder="Repeat Password"/>
+          <input for="nickname" name="nickname" type="text" value="" placeholder="Nickname (Optional)"/>
           <button type="submit" class="btn btn-primary">SUBMIT</button>
         </form>
       </div>
@@ -57,6 +63,8 @@
   </div>
   </div>
 </div>
+
+
 <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
   <div class="modal-content">
