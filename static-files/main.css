@@ -1,14 +1,18 @@
-
-
 .hero {
     object-fit: cover;
     width: 100vw;
     height: 92vh;
     filter: brightness(70%);
     text-align: center;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    align-content: center;
+    align-items: center;
 }
 
-.card{
+.card {
     border: none;
     border-radius: 0;
 }
@@ -34,6 +38,18 @@
     justify-content: center; 
     font-size: 1.2em; 
     background-color: lightsalmon;
+}
+
+@media only screen and (max-width: 768px) {
+    .hero {
+        max-height: 75vh;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        position: relative;
+        align-content: center;
+        align-items: center;
+    }
 }
 /*
 body {
