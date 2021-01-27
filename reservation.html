@@ -30,8 +30,8 @@
             <div class="card-body">
               <h5 class="card-title">Make a Reservation</h5>
               <hr>
-              <form>
-                <label for="quantity">Attending:</label>
+              <form onsubmit= "app.submit()" action = "javascript:void(0);" method = "POST">
+                <label for="quantity" id = "quantity">Attending:</label>
                 <select name="quantity">
                     <option value="one">1</option>
                     <option value="two">2</option>
@@ -50,7 +50,7 @@
                 </div>
                 <div>
                     <label for="quantity">Time:</label>
-                    <select name="time">
+                    <select name="time" id = "time">
                         <option value="eight-am">8:00 A.M.</option>
                         <option value="eight-thirty-am">8:30 A.M.</option>
                         <option value="nine-am">9:00 A.M.</option>
@@ -70,6 +70,13 @@
                         <option value="twelve-pm">4:00 P.M.</option>
                     </select>
                 </div>
+                <div class="row">
+                    <div class="col reserve">
+                <button type="submit" class="btn btn-primary right res-button" data-toggle="modal" data-target="#exampleModalCenter" id = "submit-button" >
+                    Reserve
+                </button>
+            </div>
+        </div>
                 </form>
                 <script>
                     var date = new Date(); 
@@ -96,9 +103,7 @@
                 </script>
                 <div class="row">
                     <div class="col reserve">
-                        <button type="button" class="btn btn-primary right res-button" data-toggle="modal" data-target="#exampleModalCenter">
-                            Reserve
-                        </button>
+
                     </div>
                 </div>
 
@@ -214,7 +219,9 @@
 
             </div>
         </main>
+        <script src="/socket.io/socket.io.js"> </script>
         <script>
+            var socket = io();
             var maxWidth = 912;
             if($(document).width() < maxWidth) {
                 $('#reservation-card').parent('#main');
@@ -246,10 +253,12 @@
             }
         </script>
     </div>
-    <script src="/socket.io/socket.io.js"> </script>
+
     <script>
 
         var socket = io();
+        var username = "USER";
+        var restaurantName;
         var currentAd = 0;
         var adData = [];
 
@@ -266,7 +275,25 @@
             document.getElementById("res-hero").src = msg.image;
             document.getElementById("waitTime").innerHTML = "Average Wait Time: " + msg.avgWait;
             document.getElementById("description").innerHTML = msg.description;
+            restaurantName = msg.name;
         });
+
+        var app = new function () {
+
+            this.submit = function () {
+                var task = "reservation at " + restaurantName;
+                var time = document.getElementById('time');
+                var date = document.getElementById('date');
+                var quantity = document.getElementById('quantity');
+
+                socket.emit("addTask", [task, time.value, username, date.value, quantity.value]);
+                console.log("submitted");
+
+                return false;
+            };
+
+        }
+
         /*
         var swapper = window.setInterval(function(){
 
