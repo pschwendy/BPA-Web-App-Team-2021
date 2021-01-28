@@ -86,9 +86,9 @@ class Queries{
     // input: num_people -> number of people in reservation
     // input: res_time -> time of reservation
     // input: res_date -> date of reservation
-    async reserve(attraction, account_id, num_people, res_time, res_date) {
+    reserve(attraction, account_id, num_people, res_time, res_date) {
         let sql = "INSERT INTO reservations(attractionName, numPeople time, date, user) VALUES ($attraction, $num_people, $time, $date, $user)";
-        await this.db.run(sql, {
+        this.db.run(sql, {
             $attraction: attraction,
             $num_people: num_people,
             $time: res_time,
@@ -108,9 +108,9 @@ class Queries{
     // input: num_people -> number of people in reservation
     // input: res_time -> time of reservation
     // input: res_date -> date of reservation
-    async delete_reservation(attraction, account_id, num_people, res_time, res_date) {
+    delete_reservation(attraction, account_id, num_people, res_time, res_date) {
         let sql = "DELETE FROM reservations WHERE attractionName=$attraction AND numPeople=$num_people AND time=$time AND date=$date AND user=$user";
-        await this.db.run(sql, {
+        this.db.run(sql, {
             $attraction: attraction,
             $num_people: num_people,
             $time: res_time,
@@ -133,9 +133,9 @@ class Queries{
     // input: new_num_people -> updated number of people in reservation
     // input: new_time -> updated time of reservation
     // input: new_date -> updated date of reservation
-    async update_reservation(attraction, account_id, old_num_people, old_time, old_date, new_num_people, new_time, new_date) {
+    update_reservation(attraction, account_id, old_num_people, old_time, old_date, new_num_people, new_time, new_date) {
         let sql = "UPDATE reservations SET numPeople=$new_new_people, time=$new_time, date=$new_date WHERE attractionName=$attraction AND numPeople=$old_num_people AND time=$old_time AND date=$old_date AND user=$user";
-        await this.db.run(sql, {
+        this.db.run(sql, {
             $attraction: attraction,
             $old_num_people: old_num_people,
             $old_time: old_time,
@@ -150,6 +150,22 @@ class Queries{
             }
         });
     } /* update_reservation */
+
+    // getItinerary function
+    // returns list of reservations for an account
+    // input: account_id -> user id of logged in account
+    // input: callback -> callback function for asynchronous server
+    getItinerary(account_id, callback) {
+        let sql = "SELECT * FROM reservations WHERE user=$account_id";
+        this.db.get(sql, {
+            $user: account_id
+        }, (err, rows) => {
+            if(err) {
+                throw(err);
+            }
+            return callback(rows);
+        });
+    } /* getItinerary */
 }
 
 module.exports = Queries;
