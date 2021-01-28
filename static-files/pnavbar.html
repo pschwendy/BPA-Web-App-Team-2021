@@ -29,8 +29,6 @@
           <a class="dropdown-item" href="/logout">Log Out</a> \
         </div> \
       </div>';
-      //old way didn't work
-      //const name = document.cookie.split('=')[1];
       const name = document.cookie.slice(document.cookie.indexOf("name=") + 5, document.cookie.length);
       $("#account").html(account + name + accountnext);
     }

@@ -3,7 +3,6 @@ const bcrypt = require("bcrypt");
 
 class Queries{
     db = new sqlite3.Database('./testdb.db');
-    output = true;
 
     // login function
     // checks if database query @ username has password = input password
@@ -19,26 +18,17 @@ class Queries{
             // there should not be an error or more than one user found
             if(err) {
                 throw(err);
-            }
-            else if (!rows){
+            } else if (!rows) {
               console.log("HUH");
               return callback(false);
-            }else if (rows.length > 1) {
+            } else if (rows.length > 1) {
                 return callback(false);
             }
             // logins in if password is correct
             bcrypt.compare(password, rows.password, function(err, result){
-
               console.log("RES: " + result);
               return callback(result);
-
             });
-            /*if (rows.password == password) {
-                console.log(rows[0]);
-                return callback(true);
-            }
-            console.log("defaulted");
-            return callback(false);*/
         });
     } /* login */
 
