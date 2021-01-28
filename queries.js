@@ -1,7 +1,7 @@
 const sqlite3 = require('sqlite3').verbose();
 const bcrypt = require("bcrypt");
 
-class Queries{
+class Queries {
     db = new sqlite3.Database('./testdb.db');
 
     // login function
@@ -156,6 +156,6 @@ class Queries{
             return callback(rows);
         });
     } /* getItinerary */
-}
+}; /* Queries */
 
 module.exports = Queries;
