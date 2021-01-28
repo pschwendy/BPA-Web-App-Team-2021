@@ -1,0 +1,14 @@
+
+body {
+    background-color: black;
+}
+
+
+
+
+
+@media only screen and (max-width: 600px) {
+    .img_carousel {
+        display: none;
+    }
+  }

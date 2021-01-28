@@ -103,6 +103,7 @@ app.use(cookieParser());
 // access static files
 app.use(express.static("static-files"));
 app.use('/restaurants', express.static(path.join(__dirname, 'static-files')));
+app.use('/rides', express.static(path.join(__dirname, 'static-files')));
 
 // homepage
 // input: req -> http request
@@ -234,6 +235,13 @@ app.get("/itinerary", function(req,res){
 app.get("/restaurants", function(req,res) {
   res.sendFile(__dirname + "/portal.html");
 }); /* restaurants */
+
+app.get("/rides", function(req, res){
+
+  res.sendFile(__dirname + "/rides.html");
+
+}); 
+
 
 // reservation
 // input: req -> http request
