@@ -17,7 +17,7 @@
   <script src="https://kit.fontawesome.com/3aa210e078.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div class="head-hero">
+    <div class="">
         <div id="carouselExampleControls" class="p-carousel carousel slide" data-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active">
@@ -62,6 +62,7 @@
         console.log(msg);
         var element = $('#portals').find('.container');
         element[0].innerHTML = '';
+        // construct cards through DOM
         $(function(){
           for(var i = 0; i < msg.length; ++i){
             var cardImg = document.createElement("img");
@@ -72,22 +73,64 @@
             cardTitle.className = "card-title"
             cardTitle.innerText = msg[i].name;
 
+            var cardHover = document.createElement("div");
+            cardHover.className = "card-hover";
+            cardHover.style = "width: 0%;";
+            cardHover.id = msg[i].name + "-hover";
+
             var carrot = document.createElement("div");
             carrot.className = "portal fas fa-caret-right fa-10x float-right";
+            carrot.style = "right: 1%;";
+            carrot.id = msg[i].name;
+
+            const current_name = msg[i].name;
+            const current_name_hover = msg[i].name + "-hover";
+            carrot.onclick = function() {
+              for(carr of document.getElementsByClassName("portal")) {
+                if(carr.id == current_name) {
+                  continue;
+                }
+                carr.className = "portal fas fa-caret-right fa-10x float-right";
+                carr.style = "right: 1%;";
+              }
+              for(carr of document.getElementsByClassName("card-hover")) {
+                if(carr.id == current_name_hover) {
+                  continue;
+                }
+                carr.style = "width: 0%;";
+              }
+              if(document.getElementById(current_name).className == "portal fas fa-caret-left fa-10x float-right") {
+                document.getElementById(current_name).className = "portal fas fa-caret-right fa-10x float-right";
+                document.getElementById(current_name).style = "right: 1%;";
+                document.getElementById(current_name_hover).style = "width: 0%;";
+              } else {
+                document.getElementById(current_name).className = "portal fas fa-caret-left fa-10x float-right";
+                document.getElementById(current_name).style = "right: 46%;";
+                document.getElementById(current_name_hover).style = "width: 45%;";
+              }
+            };
 
             var cardImgOverlay = document.createElement("div");
             cardImgOverlay.className = "card-img-overlay";
+            cardImgOverlay.appendChild(cardHover);
             cardImgOverlay.appendChild(cardTitle);
-            cardImgOverlay.appendChild(carrot);
+            
+            var portal = document.createElement("a");
+            portal.href = msg[i].page;
+            portal.appendChild(cardImg);
+            portal.appendChild(cardImgOverlay);
 
             var card = document.createElement("div");
             card.className = "card my-3 border-0 text-white";
-            card.appendChild(cardImg);
-            card.appendChild(cardImgOverlay);
+            card.appendChild(portal);
+            card.appendChild(carrot);
+
             element[0].appendChild(card);
           }
         });
       });
+
+      
     </script>
     <footer>
         <div style="width: 100vw; background-image: url(https://www.worldatlas.com/r/w1200-h630-c1200x630/upload/0e/f9/19/theme-parks.jpg)">
