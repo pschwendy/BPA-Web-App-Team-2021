@@ -17,4 +17,62 @@ div > img {
     border-radius: 30px 30px 30px 30px;
 }
 
+.nav-item {
+    float: left;
+    color: white;
+}
+.nav-item > a, .nav-item > a:hover {
+    color: inherit;
+}
 
+.nav {
+    position: relative; top: 100px; width: 100%; background-color: grey; color: white;
+    justify-content: space-evenly;
+}
+
+li { 
+    display: table-cell; 
+    position: relative; 
+    padding: 15px 0;
+  }
+a:after {    
+  background: none repeat scroll 0 0 transparent;
+  bottom: 0;
+  content: "";
+  display: block;
+  height: 2px;
+  left: 50%;
+  position: absolute;
+  background: #fff;
+  transition: width 0.3s ease 0s, left 0.3s ease 0s;
+  width: 0;
+}
+a:hover:after { 
+  width: 100%; 
+  left: 0; 
+
+}
+
+.rollerPic {
+    float: left;
+    margin-right: 10px;
+    clear:both;
+    margin-right: 100px;
+}
+.rollerBio {
+    margin-left: 0px;
+    overflow:auto;
+    display:block;
+    width: 25%
+}
+#text-pic {
+    position: relative;
+    top: 200px;
+    margin: 0 auto;
+    left: 20%;
+    /* bring your own prefixes */
+
+    
+    /* bring your own prefixes */
+
+}

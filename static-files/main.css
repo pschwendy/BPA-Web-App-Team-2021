@@ -1,3 +1,7 @@
+body {
+    max-width: 100%;
+}
+
 .hero {
     object-fit: cover;
     width: 100vw;
