@@ -267,21 +267,43 @@
         var currentAd = 0;
         var adData = [];
 
-        socket.emit("getAdData");
+
+        //window.onload=function(){
+
+            /*restaurantName = window.location.href.slice(window.location.href.lastIndexOf("/") + 1, window.location.href.length);
+            console.log("SLICED: "  + restaurantName);
+            socket.emit("getAdData", restaurantName);*/
+
+        //}
+
+        //socket.emit("getAdData");
+        restaurantName = window.location.href.slice(window.location.href.lastIndexOf("/") + 1, window.location.href.length);
+        console.log("SLICED: "  + restaurantName);
+        socket.emit("getAdData", restaurantName);
         socket.on("getAdData", function(msg){
             adData = msg;
             console.log(adData);
             console.log(adData[1].name)
         });
-        socket.on("receiveAdData", function(data, i){
-            console.log("HELLLLO!!!");
-            var msg = data[i];
+        socket.on("receiveAdData", function(data){
+            console.log("Got a message");
+            var msg = data;
             document.getElementById("res-header").innerHTML = msg.name;
             document.getElementsByClassName("title")[0].innerHTML = msg.name;
             document.getElementById("res-hero").src = msg.imagelocation;
             document.getElementById("waitTime").innerHTML = "Average Wait Time: " + msg.average_wait_time;
             document.getElementById("description").innerHTML = msg.description;
             restaurantName = msg.name;
+            console.log(restaurantName);
+
+            /*var forms = document.getElementsByTagName("form");
+            for (form of forms){
+                form.action = "/restaurants/" + restaurantName.toLowerCase() + form.action.slice(form.action.lastIndexOf('/'), form.action.length);
+                console.log(form.action);
+            }
+
+            var pain = document.getElementById("pain")
+            pain.href = "/restaurants/" + restaurantName.toLowerCase() + pain.href.slice(pain.href.lastIndexOf('/'), pain.href.length);*/
         });
 
 
@@ -294,8 +316,10 @@
             console.log(form.action);
           }
 
+          
           var pain = document.getElementById("pain")
           pain.href = "/restaurants/" + restaurantName.toLowerCase() + pain.href.slice(pain.href.lastIndexOf('/'), pain.href.length);
+         
         }
         var app = new function () {
 

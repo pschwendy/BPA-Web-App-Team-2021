@@ -187,12 +187,6 @@ class Queries {
         if (err){
           throw(err);
         }
-        if (rows.length == 0){
-          return callback("FAILED");
-        }
-        else if (rows.length > 1){
-          return callback("FAILED");
-        }
         else{
           return callback(rows.id);
         }
@@ -218,7 +212,7 @@ class Queries {
             if(err) {
                 throw(err);
             }
-            console.log(rows);
+            //console.log(rows);
             return callback(rows);
         });
     }
