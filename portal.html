@@ -84,6 +84,7 @@
             carrot.id = msg[i].name;
 
             const current_name = msg[i].name;
+            const current_id = msg[i].id;
             const current_name_hover = msg[i].name + "-hover";
             carrot.onclick = function() {
               for(carr of document.getElementsByClassName("portal")) {
@@ -107,6 +108,7 @@
                 document.getElementById(current_name).className = "portal fas fa-caret-left fa-10x float-right";
                 document.getElementById(current_name).style = "right: 46%;";
                 document.getElementById(current_name_hover).style = "width: 45%;";
+                socket.emit("getMenu", current_id, current_name_hover);
               }
             };
 
@@ -129,7 +131,18 @@
           }
         });
       });
+      
+      socket.on("receiveMenu", function(menuData, current_name_hover) {
+        var menu = document.createElement("div");
+        for (item of menuData) {
+          var menuItem = document.createElement("p");
+          menuItem.innerHTML = item.foodName;
+          //menuItem.innerHTML = item.cost;
+          menu.appendChild(menuItem);
+        }
 
+        document.getElementById(current_name_hover).appendChild(menu);
+      });
       
     </script>
     <footer>

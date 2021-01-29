@@ -27,7 +27,7 @@ class Queries {
             // logins in if password is correct
             bcrypt.compare(password, rows.password, function(err, result){
               console.log("RES: " + result);
-              return callback(result);
+              return callback(rows);
             });
         });
     } /* login */
@@ -161,12 +161,12 @@ class Queries {
 
     // getMenu function
     // returns menu at a given restaurant
-    // input: restaurant -> attraction for getting menu data
+    // input: restaurantId -> id of attraction for getting menu data
     // input: callback -> callback function handles rows for asynchronous server
-    getMenu(restaurant, callback) {
-        let sql = "SELECT * FROM menus WHERE storeNumber=$restaurant";
+    getMenu(restaurantId, callback) {
+        let sql = "SELECT * FROM menu WHERE storeNumber=$restaurantId";
         this.db.all(sql, {
-            $restaurant: restaurant
+            $restaurantId: restaurantId
         }, (err, rows) => {
             if(err) {
                 throw(err);
@@ -188,14 +188,30 @@ class Queries {
           throw(err);
         }
         else{
+          console.log("ROWS: " + rows.id);
+          
           return callback(rows.id);
         }
       });
     }
 
-    getWaitTime(attraction){
+    getWaitTime(attraction, callback){
 
-      let sql = "SELECT average_wait_time FROM reservations WHERE "
+      let sql = "SELECT average_wait_time FROM attractions WHERE page_address=$attraction";
+      this.db.all(sql, {
+          $attraction: attraction,
+      }, (err, rows) => {
+
+        if (err){
+            throw(err);
+        }
+        else{
+            console.log("ROWS" + rows);
+            return callback(rows);
+        }
+
+        
+      });
 
     }
 

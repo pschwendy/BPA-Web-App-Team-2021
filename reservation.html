@@ -40,6 +40,7 @@
             <script src="https://code.jquery.com/jquery-git.js"></script>
             <script>
               var name = "";
+              var nick = "";
               if(document.cookie.indexOf("name") != -1) {
                 $("#account").children().remove();
                 const account = '<div id="user" class="dropdown"> \
@@ -50,8 +51,27 @@
                     <a onclick="removeG()" onload="changeForms()" id="pain" class="dropdown-item" href="./logout">Log Out</a> \
                   </div> \
                 </div>';
-                name = document.cookie.slice(document.cookie.indexOf("name=") + 5, document.cookie.length);
-                $("#account").html(account + name + accountnext);
+                if (document.cookie.indexOf(";", document.cookie.indexOf("name=")) ==  -1){
+                    name = document.cookie.slice(document.cookie.indexOf("name=") + 5, document.cookie.length);
+                }
+                else{
+                    name = document.cookie.slice(document.cookie.indexOf("name=") + 5, document.cookie.indexOf(";", document.cookie.indexOf("name=") + 5));
+                }
+
+                if (document.cookie.indexOf("nick") == -1){
+                    nick = name;
+                }
+                else{
+                    if (document.cookie.indexOf(";", document.cookie.indexOf("nick=")) != -1){
+                        nick=document.cookie.slice(document.cookie.indexOf("nick=") + 5, document.cookie.indexOf(";", document.cookie.indexOf("nick=") + 5));
+                    }
+                    else{
+                        nick = document.cookie.slice(document.cookie.indexOf("nick=") + 5, document.cookie.length);
+                    }
+                       
+                }
+                
+                $("#account").html(account + nick + accountnext);
                 if(document.cookie.indexOf("name") != -1) {
                   if($(document).width() < 992) {
                     $("#user").removeClass("dropleft");
@@ -97,7 +117,7 @@
                 </button>
                 </div>
                 <div class="modal-body">
-                  <form method="POST" action="/signup">
+                  <form class="signForms" method="POST" action="/signup">
                     <input for="uname" name="email" type="text" placeholder="Email"/>
                     <input for="pwd" name="pwd" type="password" placeholder="Password"/>
                     <input for="repeatPwd" name="repeatPwd" type="password" placeholder="Repeat Password"/>
@@ -131,7 +151,7 @@
                   </form>
                   <script src="https://apis.google.com/js/platform.js" async defer></script>
                  <meta name="google-signin-client_id" content="670268468186-s7jhd7bhkmnpssqe9r3rbsulde7p8a4h.apps.googleusercontent.com">
-                 <form method="POST" action="/gsignin" id="gForm">
+                 <form class="signForms" method="POST" action="/gsignin" id="gForm">
                    <div style="display: none;">
                      <input id="gUsername" for="gName" name="gName" type="text"/>
                      <input id="gPwd" for="gPwd" name="gPwd" type="password"/>
@@ -202,7 +222,7 @@
         $(function() {
           //$("#navigation").load("pnavbar.html");
 
-          var forms = document.getElementsByTagName("form");
+          var forms = document.getElementsByClassName("signForms");
           for (form of forms){
               console.log("BEFORE: " + form.action);
               form.action = "/restaurants/" + restaurantName.toLowerCase() + form.action.slice(form.action.lastIndexOf('/'), form.action.length);
@@ -401,7 +421,7 @@
                         </button>
                         </div>
                         <div class="modal-body">
-                          <form method="POST" action="/login">
+                          <form class="signForms" method="POST" action="/login">
                             <input for="uname" name="uname" type="text" placeholder="Username"/>
                             <input for="pwd" name="pwd" type="password" placeholder="Password"/>
                             <button type="submit" class="btn btn-primary">SUBMIT</button>
@@ -514,7 +534,7 @@
 
 
         //$("pnavbar.html").ready(function(){
-            var forms = document.getElementsByTagName("form");
+            var forms = document.getElementsByClassName("signForms");
             for (form of forms){
                 console.log("BEFORE: " + form.action);
                 form.action = "/restaurants/" + restaurantName.toLowerCase() + form.action.slice(form.action.lastIndexOf('/'), form.action.length);
@@ -535,12 +555,12 @@
         var app = new function () {
 
             this.submit = function () {
-                var task = "reservation at " + restaurantName;
+                var task = restaurantName.toLowerCase();
                 var time = document.getElementById('time');
                 var date = document.getElementById('date');
                 var quantity = document.getElementById('quantity');
 
-                socket.emit("addTask", [task, time.value, username, date.value, quantity.value]);
+                socket.emit("addTask", [task, time.value, name, date.value, quantity.value]);
                 console.log("submitted");
 
                 return false;

@@ -37,11 +37,11 @@ var app =  new function() {
         if (this.tasks.length > 0) {
             for (i = 0; i < this.tasks.length; i++) {
                 data += '<tr>'; //adds table row
-                data += '<td>' + (i+1) + '. ' + this.combinedArray[i].theTask + '</td>'; //adds table cell so it says the task number then the task info i.e 3. Eat lunch
+                data += '<td>' + (i+1) + '. ' + '</td>'; //adds table cell so it says the task number then the task info i.e 3. Eat lunch
+                data += '<td>' + this.combinedArray[i].theTask + '</td>';
                 data += '<td>' + this.combinedArray[i].theTime + '</td>';
                 data += '<td>' + this.combinedArray[i].theDate +'</td>';
-                data += '<td> <button onclick = "app.Edit('+i+')" class = "btn btn-warning" > Edit </button> </td>'; // adds edit button
-                data += '<td> <button onclick = "app.Delete('+i+')" class = "btn btn-danger"> Delete </button> </td';
+                data += '<td> <button onclick = "app.Edit('+i+')" class = "btn btn-warning" > Edit </button>  <button onclick = "app.Delete('+i+')" class = "btn btn-danger"> Delete </button></td>'; // adds edit button
                 data += '</tr>'
             }
         }
@@ -81,9 +81,10 @@ var app =  new function() {
 
         elTask.value = this.tasks[item];
         elTime.value = this.times[item];
-        elDate.value = this.dates[item];
+        elDate.value = convertBack(this.dates[item]);
         document.getElementById('edit-box').style.display = 'block'; //defaults to close, displays it.
         self = this;
+        
 
         document.getElementById('save-edit').onsubmit = function() {
             var task = elTask.value;
@@ -112,15 +113,18 @@ var app =  new function() {
     this.Count = function(data) { //counts and displays elemetnts
         let el = document.getElementById('counter');
         let name = 'Tasks';
+        let finalHTML = "You have ";
+
         if (data) {
             if (data == 1) {
                 name = 'Task';
             }
-            el.innerHTML = data + ' ' + name;
+            finalHTML += data + ' ' + name;
         }
         else {
-            el.innerHTML = "No " + name;``
+            finalHTML += "No " + name;``
         }
+        el.innerHTML = finalHTML;
     }
 
 
@@ -196,6 +200,11 @@ var app =  new function() {
 function convertDate(date) {
     var convertedDate =  date[5] + date[6] + date[7] +  date[8] + date[9] + date[4] + date[0] + date[1] + date[2] + date[3] ;
     return convertedDate;
+}
+
+function convertBack(date) {
+    var convertedBackDate = date[6] + date[7] + date[8] + date[9] + date[5] + date[0] + date[1] + date[2] + date[3] + date[4];
+    return convertedBackDate;
 }
 
 app.FetchAll(); //fetches all by default

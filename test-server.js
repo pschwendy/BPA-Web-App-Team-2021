@@ -83,14 +83,27 @@ io.on("connection", function(socket) {
     let date = msg[3];
     let quantity = msg[4];
     var userId;
+    var waitTime;
     var attractionWaitTime;
 
-    querier.
+    console.log("DATE: " + Date.parse(time));
 
+    var conflicts = 0;
 
+    //querier.
+
+    console.log("WORKING");
+    console.log(task);
     querier.getUserId(msg[2], function(result){
       userId = result;
+      querier.getWaitTime(task, function(result){
+
+        waitTime = result[0].average_wait_time;
+        
+
+      });
     });
+    
 
     //querier.reserve()
   });
@@ -124,6 +137,13 @@ io.on("connection", function(socket) {
         }
       }
     });
+  });
+
+  socket.on("getMenu", function(id, hover) {
+    querier.getMenu(id, (data) => {
+      socket.emit("receiveMenu", data, hover);
+    });
+    //socket.emit("receiveAttractions", restaurantData);
   });
 })
 
@@ -163,7 +183,9 @@ app.get("/d/socket.io", function(req, res) {
 // input: res -> app response
 app.get("/:whatever?/:whateverTwo?/logout", function(req, res) {
   console.log(req.path);
+  res.clearCookie("ERROR");
   res.clearCookie("name");
+  res.clearCookie("nick");
   if (req.params.whatever != undefined){
     if (req.params.whateverTwo != undefined){
       res.redirect("/" + req.params.whatever + "/" + req.params.whateverTwo);
@@ -215,9 +237,10 @@ app.post("/:whatever?/:whateverTwo?/login", function(req, res) {
     console.log(password);
 
     querier.login(username, password, function(result) {
-      if (result == true) {
+      if (result != false) {
         console.log("SUPPOSED COOKIE:" + result.email);
         res.cookie("name", result.email);
+        res.cookie("nick", result.nickname);
         if (req.params.whatever != undefined){
           if (req.params.whateverTwo != undefined){
             res.redirect("/" + req.params.whatever + "/" + req.params.whateverTwo);
@@ -288,11 +311,12 @@ app.post("/:whatever?/:whateverTwo?/signup", function(req, res) {
 
       querier.signup(email, password, nickname, function(result){
         dataWorks = result;
-        console.log(dataWorks);
+        //console.log(dataWorks);
 
         if (emailWorks && pwdWorks && (dataWorks== true)) {
           console.log("HI");
-          res.cookie("name", nickname);
+          res.cookie("name", email);
+          res.cookie("nick", nickname);
         }
 
         if (!emailWorks) {
@@ -356,7 +380,8 @@ app.post("/:whatever?/:whateverTwo?/gsignin", function(req, res){
 
         if (emailWorks && pwdWorks && (dataWorks== true)){
           console.log("HI");
-          res.cookie("name", nickname)
+          res.cookie("name", email);
+          res.cookie("nick", nickname);
           if (req.params.whatever != undefined){
             if (req.params.whateverTwo != undefined){
               res.redirect("/" + req.params.whatever + "/" + req.params.whateverTwo);
@@ -404,8 +429,9 @@ app.post("/:whatever?/:whateverTwo?/gsignin", function(req, res){
           else if (!dataWorks){
             querier.login(email, oldPassword, function(result){
 
-              if (result == true){
-                res.cookie("name", nickname);
+              if (result != false){
+                res.cookie("name", email);
+                res.cookie("nick", nickname);
               }
               else{
                 res.cookie("ERROR", 4);

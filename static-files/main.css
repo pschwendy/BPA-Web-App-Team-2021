@@ -65,6 +65,40 @@ footer > .head-hero > img {
     transform: translate(-50%, -50%);
 }
 
+.carousel-heading{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    user-select: none;
+    width: 76vw;
+    object-fit: cover;
+}
+
+.carousel-image{
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    filter: brightness(45%);
+    overflow: hidden;
+    height: auto;
+    max-height: 93vh;
+    object-fit: cover;
+  }
+  
+  #carousel-title{
+    filter: brightness(100%);
+    font-size: 4em;
+    color: white;
+    margin: 0 0 8px;
+  }
+  
+  .carousel-description{
+    filter: brightness(100%);
+    color: white;
+    font-size: 1.2em;
+  }
+  
 @media only screen and (max-width: 768px) {
     .hero {
         max-height: 75vh;
@@ -75,6 +109,21 @@ footer > .head-hero > img {
         align-content: center;
         align-items: center;
     }
+    .carousel-image{
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        filter: brightness(45%);
+        overflow: hidden;
+        height: 50vh;
+        width: 100%;
+        object-fit: cover;
+      }
+      #carousel-title{
+        font-size: 2.5em;
+        color: white;
+        margin: 0 0 8px;
+      }
 }
 /*
 body {
