@@ -2,10 +2,10 @@
   "name": "park-web-app",
   "version": "1.0.0",
   "description": "The server for the BPA Web Application event",
-  "main": "server.js",
+  "main": "test-server.js",
   "scripts": {
-    "test": "node server.js",
-    "start": "node server.js"
+    "test": "node test-server.js",
+    "start": "node test-server.js"
   },
   "author": "Anthony Varkey",
   "license": "ISC",

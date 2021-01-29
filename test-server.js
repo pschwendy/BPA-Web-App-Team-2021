@@ -10,7 +10,7 @@ var formidable = require("formidable");
 var queries = require("./queries.js");
 var querier = new queries();
 
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 
 //keeping it as JSON for now; will be moved to database once that becomes available
 var restaurantData = [{
