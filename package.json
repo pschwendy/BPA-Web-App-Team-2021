@@ -9,9 +9,12 @@
   },
   "author": "Anthony Varkey",
   "license": "ISC",
+  "engines": { 
+    "node": "v12.13.1" 
+  },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.2",
-    "bcrypt": "^5.0.0",
+    "bcryptjs": "^2.4.3",
     "cookie-parser": "*",
     "express": "^4.17.1",
     "formidable": "*",
