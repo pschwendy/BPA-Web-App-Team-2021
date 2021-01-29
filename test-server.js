@@ -86,11 +86,11 @@ io.on("connection", function(socket) {
     var waitTime;
     var attractionWaitTime;
 
-    console.log("DATE: " + Date.parse(time));
-
     var conflicts = 0;
 
     //querier.
+
+    console.log("NEWWWWWWW");
 
     console.log("WORKING");
     console.log(task);
@@ -99,6 +99,22 @@ io.on("connection", function(socket) {
       querier.getWaitTime(task, function(result){
 
         waitTime = result[0].average_wait_time;
+        console.log("TIME DATA");
+        console.log(waitTime);
+        var time = new Date(new Date() - (60000 * waitTime))
+        let hours = time.getHours();
+        let min = time.getMinutes();
+        let sec = time.getSeconds();
+        if (hours < 10){
+          hours = "0" + hours;
+        }
+        if (min < 10){
+          min = "0" + min;
+        }
+        if (sec < 10){
+          sec = "0" + sec;
+        }
+        var actual = time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
         
 
       });

@@ -52,3 +52,9 @@
 .text-pic {
     display: none;
 }
+
+.gridMenuArea {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-template-rows: auto;
+}
