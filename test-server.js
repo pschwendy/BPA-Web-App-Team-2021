@@ -220,6 +220,85 @@ app.post("/signup", function(req, res) {
   });
 }); /* signup */
 
+app.post("/gsignin", function(req, res){
+
+  //console.log("RECEIVED SOMETHING");
+
+  var form = new formidable.IncomingForm();
+  form.parse(req, function(err, fields, files){
+
+    //cleanse user of lingering mishap cookie
+    res.clearCookie("ERROR");
+
+    var email = fields.gName;
+    var password = fields.gPwd;
+    var nickname = fields.gNick;
+
+    var oldPassword = fields.gPwd;
+
+    console.log(email +" " + password + " " + nickname);
+
+
+    var emailWorks = true;
+    var pwdWorks = true;
+    var dataWorks = false;
+
+    //salt and hash password with ten rounds of salting
+    bcrypt.hash(password, 10, function(err, hash){
+
+      password = hash;
+
+      querier.signup(email, password, nickname, function(result){
+
+        dataWorks = result;
+        console.log(dataWorks);
+
+        if (emailWorks && pwdWorks && (dataWorks== true)){
+          console.log("HI");
+          res.cookie("name", email).sendFile(__dirname + "/index.html");
+        }
+        else{
+          if (!emailWorks){
+            res.cookie("ERROR", 1).sendFile(__dirname + "/index.html");
+          }
+          else if (!pwdWorks){
+            res.cookie("ERROR", 2).sendFile(__dirname + "/index.html");
+          }
+          else if (!dataWorks){
+            querier.login(email, oldPassword, function(result){
+
+              if (result == true){
+                res.cookie("name", email).sendFile(__dirname + "/index.html");
+              }
+              else{
+                res.cookie("ERROR", 4).sendFile(__dirname + "/index.html");
+              }
+
+
+            });
+          }
+
+        }
+
+      });
+
+
+    });
+
+
+
+  });
+
+});
+
+
+
+
+
+
+
+
+
 
 // for my own testing purposes
 // itinerary
@@ -238,7 +317,7 @@ app.get("/restaurants", function(req,res) {
 
 app.get("/rides", function(req, res){
   res.sendFile(__dirname + "/rides.html");
-}); 
+});
 
 
 // reservation

@@ -19,6 +19,7 @@
   </div>
   <script src="https://code.jquery.com/jquery-git.js"></script>
   <script>
+    var name = "";
     if(document.cookie.indexOf("name") != -1) {
       $("#account").children().remove();
       const account = '<div class="dropdown dropleft"> \
@@ -29,7 +30,7 @@
           <a class="dropdown-item" href="/logout">Log Out</a> \
         </div> \
       </div>';
-      const name = document.cookie.slice(document.cookie.indexOf("name=") + 5, document.cookie.length);
+      name = document.cookie.slice(document.cookie.indexOf("name=") + 5, document.cookie.length);
       $("#account").html(account + name + accountnext);
     }
     else if (document.cookie.indexOf("ERROR=") != -1){
@@ -102,12 +103,50 @@
         </form>
         <script src="https://apis.google.com/js/platform.js" async defer></script>
        <meta name="google-signin-client_id" content="670268468186-s7jhd7bhkmnpssqe9r3rbsulde7p8a4h.apps.googleusercontent.com">
-       <div class="g-signin2" data-onsuccess="onSignIn"></div>
+       <form method="POST" action="gsignin" id="gForm">
+         <div style="display: none;">
+           <input id="gUsername" for="gName" name="gName" type="text"/>
+           <input id="gPwd" for="gPwd" name="gPwd" type="password"/>
+           <input id="gNick" for="gNick" name="gNick" type="text"/>
+         </div>
+         <div class="g-signin2" data-onsuccess="onSignIn"></div>
+       </form>
       </div>
       <div class="modal-footer">
       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       <!--<button type="button" class="btn btn-primary">GO</button>-->
       </div>
   </div>
+
+  <script>
+
+    function removeG(){
+
+      console.log("REMOVEEEEE");
+      var auth2 = gapi.auth2.getAuthInstance();
+      auth2.disconnect();
+
+    }
+
+    function onSignIn(googleUser){
+
+      var profile = googleUser.getBasicProfile();
+
+      // The ID token you need to pass to your backend:
+      var id_token = googleUser.getAuthResponse().id_token;
+      console.log("ID Token: " + id_token);
+
+      document.getElementById("gUsername").value = profile.getEmail();
+      document.getElementById("gNick").value = profile.getGivenName();
+      document.getElementById("gPwd").value = "g";
+      if (name == ""){
+        document.getElementById("gForm").submit();
+      }
+
+    }
+
+
+
+  </script>
   </div>
 </div>
