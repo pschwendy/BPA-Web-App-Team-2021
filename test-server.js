@@ -131,7 +131,8 @@ app.get("/d/socket.io", function(req, res) {
 // input: req -> http request
 // input: res -> app response
 app.get("/logout", function(req, res) {
-  res.clearCookie("name").sendFile(__dirname + "/index.html");
+  res.clearCookie("name");
+  res.redirect("/");
 }); /* logout */
 
 // login
@@ -153,9 +154,11 @@ app.post("/login", function(req, res) {
 
     querier.login(username, password, function(result) {
       if (result == true) {
-        res.cookie("name", username).sendFile(__dirname + "/index.html");
+        res.cookie("name", username);
+        res.redirect("/");
       } else {
-        res.cookie("ERROR", 4).sendFile(__dirname + "/index.html");
+        res.cookie("ERROR", 4);
+        res.redirect("/");
       }
     });
   });
@@ -203,17 +206,19 @@ app.post("/signup", function(req, res) {
 
         if (emailWorks && pwdWorks && (dataWorks== true)) {
           console.log("HI");
-          res.cookie("name", email).sendFile(__dirname + "/index.html");
+          res.cookie("name", email)
           return;
         }
 
         if (!emailWorks) {
-          res.cookie("ERROR", 1).sendFile(__dirname + "/index.html");
+          res.cookie("ERROR", 1)
         } else if (!pwdWorks) {
-          res.cookie("ERROR", 2).sendFile(__dirname + "/index.html");
+          res.cookie("ERROR", 2)
         } else if (!dataWorks) {
-          res.cookie("ERROR", 3).sendFile(__dirname + "/index.html");
+          res.cookie("ERROR", 3)
         }
+
+        res.redirect("/");
 
       });
     });
@@ -255,24 +260,29 @@ app.post("/gsignin", function(req, res){
 
         if (emailWorks && pwdWorks && (dataWorks== true)){
           console.log("HI");
-          res.cookie("name", email).sendFile(__dirname + "/index.html");
+          res.cookie("name", email)
+          res.redirect("/");
         }
         else{
           if (!emailWorks){
-            res.cookie("ERROR", 1).sendFile(__dirname + "/index.html");
+            res.cookie("ERROR", 1);
+            res.redirect("/");
           }
           else if (!pwdWorks){
-            res.cookie("ERROR", 2).sendFile(__dirname + "/index.html");
+            res.cookie("ERROR", 2);
+            res.redirect("/");
           }
           else if (!dataWorks){
             querier.login(email, oldPassword, function(result){
 
               if (result == true){
-                res.cookie("name", email).sendFile(__dirname + "/index.html");
+                res.cookie("name", email);
               }
               else{
-                res.cookie("ERROR", 4).sendFile(__dirname + "/index.html");
+                res.cookie("ERROR", 4);
               }
+
+              res.redirect("/");
 
 
             });
