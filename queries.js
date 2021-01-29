@@ -148,7 +148,7 @@ class Queries {
     // input: callback -> callback function handles rows for asynchronous server
     getItinerary(account_id, callback) {
         let sql = "SELECT * FROM reservations WHERE user=$account_id";
-        this.db.get(sql, {
+        this.db.all(sql, {
             $user: account_id
         }, (err, rows) => {
             if(err) {
@@ -165,7 +165,7 @@ class Queries {
     // input: callback -> callback function handles rows for asynchronous server
     getMenu(restaurant, callback) {
         let sql = "SELECT * FROM menus WHERE storeNumber=$restaurant";
-        this.db.get(sql, {
+        this.db.all(sql, {
             $restaurant: restaurant
         }, (err, rows) => {
             if(err) {
@@ -196,16 +196,12 @@ class Queries {
         else{
           return callback(rows.id);
         }
-
-
       });
-
     }
 
     getWaitTime(attraction){
 
       let sql = "SELECT average_wait_time FROM reservations WHERE "
-
 
     }
 
@@ -213,12 +209,19 @@ class Queries {
 
       let sql = "SELECT numPeople FROM reservations WHERE attractionRideName=$attraction AND date=$date AND "
 
-
-
-
-
     }
 
+    getAttractions(callback){
+        let sql = "SELECT * FROM attraction";
+        this.db.all(sql, 
+        (err, rows) => {
+            if(err) {
+                throw(err);
+            }
+            console.log(rows);
+            return callback(rows);
+        });
+    }
 
 }; /* Queries */
 

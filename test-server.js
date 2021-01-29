@@ -92,8 +92,12 @@ io.on("connection", function(socket) {
 
   // returns on requested attractions for * portal page *
   socket.on("getAttractions", function(msg) {
-    socket.emit("receiveAttractions", restaurantData);
+    querier.getAttractions((data) => {
+      socket.emit("receiveAttractions", data);
+    });
+    //socket.emit("receiveAttractions", restaurantData);
   });
+
 })
 
 // cookies!
@@ -346,13 +350,21 @@ app.get("/restaurants/:restaurantPage", function(req, res) {
         }
       }
     });*/
-    for(i = 0; i < restaurantData.length; i++) {
-      if(restaurantData[i].page == req.params.restaurantPage) {
-        socket.emit("receiveAdData", restaurantData, i);
-        console.log("done!");
-        break;
-      }
-    }
+    socket.on("getAdData", function() {
+      console.log("HELLO");
+      querier.getAttractions((data) => {
+        for(i = 0; i < data.length; i++) {
+          console.log(req.params.restaurantPage);
+          if(data[i].page_address == req.params.restaurantPage) {
+            socket.emit("receiveAdData", data, i);
+            console.log("done!");
+            break;
+          }
+        }
+      });
+    });
+    
+    
 	});
 }); /* reservation */
 

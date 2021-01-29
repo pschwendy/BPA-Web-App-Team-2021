@@ -67,7 +67,7 @@
           for(var i = 0; i < msg.length; ++i){
             var cardImg = document.createElement("img");
             cardImg.className = "p-img card-img";
-            cardImg.src = msg[i].image;
+            cardImg.src = msg[i].imagelocation;
             
             var cardTitle = document.createElement("h2");
             cardTitle.className = "card-title"
@@ -116,7 +116,7 @@
             cardImgOverlay.appendChild(cardTitle);
             
             var portal = document.createElement("a");
-            portal.href = msg[i].page;
+            portal.href = msg[i].page_address;
             portal.appendChild(cardImg);
             portal.appendChild(cardImgOverlay);
 
