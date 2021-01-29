@@ -237,9 +237,7 @@ app.get("/restaurants", function(req,res) {
 }); /* restaurants */
 
 app.get("/rides", function(req, res){
-
   res.sendFile(__dirname + "/rides.html");
-
 }); 
 
 

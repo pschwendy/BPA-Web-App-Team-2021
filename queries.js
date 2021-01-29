@@ -38,6 +38,7 @@ class Queries {
     // input: username -> username being used to create an account
     // input: password -> password being used to keep account safe
     // input: email -> email of user to receive updates
+    // input: callback -> callback function handles rows for asynchronous server
     signup(username, password, email, callback) {
         let sql = "SELECT * FROM users WHERE username=$username";
         var self = this;
@@ -144,7 +145,7 @@ class Queries {
     // getItinerary function
     // returns list of reservations for an account
     // input: account_id -> user id of logged in account
-    // input: callback -> callback function for asynchronous server
+    // input: callback -> callback function handles rows for asynchronous server
     getItinerary(account_id, callback) {
         let sql = "SELECT * FROM reservations WHERE user=$account_id";
         this.db.get(sql, {
@@ -156,6 +157,22 @@ class Queries {
             return callback(rows);
         });
     } /* getItinerary */
+
+    // getMenu function
+    // returns menu at a given restaurant
+    // input: restaurant -> attraction for getting menu data
+    // input: callback -> callback function handles rows for asynchronous server
+    getMenu(restaurant, callback) {
+        let sql = "SELECT * FROM menus WHERE storeNumber=$restaurant";
+        this.db.get(sql, {
+            $restaurant: restaurant
+        }, (err, rows) => {
+            if(err) {
+                throw(err);
+            }
+            return callback(rows);
+        });
+    } /* getMenu */
 }; /* Queries */
 
 module.exports = Queries;
