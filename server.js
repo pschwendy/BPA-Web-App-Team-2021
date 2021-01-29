@@ -7,7 +7,6 @@ var io = require("socket.io")(server);
 var formidable = require("formidable");
 
 const sqlite3 = require('sqlite3').verbose();
-const bcrypt = require("bcrypt");
 
 //keeping it as JSON for now; will be moved to database once that becomes available
 var restaurantData = [{
