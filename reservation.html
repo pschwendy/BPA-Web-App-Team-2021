@@ -11,6 +11,15 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    
+
+    <style>
+        .card-img-top, .card {
+            border-top-left-radius: 30px;
+            border-top-right-radius: 30px;
+        }
+    </style>
+
 </head>
 <body onresize="editLayout()">
     <div class="head-hero">
@@ -251,17 +260,17 @@
               <hr>
               <form onsubmit= "app.submit()" action = "javascript:void(0);" method = "POST">
                 <label for="quantity" id = "quantity">Attending:</label>
-                <select name="quantity">
-                    <option value="one">1</option>
-                    <option value="two">2</option>
-                    <option value="three">3</option>
-                    <option value="four">4</option>
-                    <option value="five">5</option>
-                    <option value="six">6</option>
-                    <option value="seven">7</option>
-                    <option value="eight">8</option>
-                    <option value="nine">9</option>
-                    <option value="ten">10</option>
+                <select name="quantity" id="realQuantity">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
                 </select>
                 <div>
                     <label for="date">Date:</label>
@@ -270,23 +279,23 @@
                 <div>
                     <label for="quantity">Time:</label>
                     <select name="time" id = "time">
-                        <option value="eight-am">8:00 A.M.</option>
-                        <option value="eight-thirty-am">8:30 A.M.</option>
-                        <option value="nine-am">9:00 A.M.</option>
-                        <option value="nine-thirty-am">9:30 A.M.</option>
-                        <option value="ten-am">10:00 A.M.</option>
-                        <option value="ten-thirty-am">10:30 A.M.</option>
-                        <option value="eleven-am">11:00 A.M.</option>
-                        <option value="eleven-thirty-am">11:30 A.M.</option>
-                        <option value="twelve-pm">12:00 P.M.</option>
-                        <option value="twelve-thirty-pm">12:30 P.M.</option>
-                        <option value="twelve-pm">1:00 P.M.</option>
-                        <option value="twelve-pm">1:30 P.M.</option>
-                        <option value="twelve-pm">2:00 P.M.</option>
-                        <option value="twelve-pm">2:30 P.M.</option>
-                        <option value="twelve-pm">3:00 P.M.</option>
-                        <option value="twelve-pm">3:30 P.M.</option>
-                        <option value="twelve-pm">4:00 P.M.</option>
+                        <option value="8:00:00">8:00 A.M.</option>
+                        <option value="8:30:00">8:30 A.M.</option>
+                        <option value="9:00:00">9:00 A.M.</option>
+                        <option value="9:30:00">9:30 A.M.</option>
+                        <option value="10:00:00">10:00 A.M.</option>
+                        <option value="10:30:00">10:30 A.M.</option>
+                        <option value="11:00:00">11:00 A.M.</option>
+                        <option value="11:30:00">11:30 A.M.</option>
+                        <option value="12:00:00">12:00 P.M.</option>
+                        <option value="12:30:00">12:30 P.M.</option>
+                        <option value="13:00:00">1:00 P.M.</option>
+                        <option value="13:30:00">1:30 P.M.</option>
+                        <option value="14:00:00">2:00 P.M.</option>
+                        <option value="14:30:00">2:30 P.M.</option>
+                        <option value="15:00:00">3:00 P.M.</option>
+                        <option value="15:30:00">3:30 P.M.</option>
+                        <option value="16:00:00">4:00 P.M.</option>
                     </select>
                 </div>
                 <div class="row">
@@ -439,74 +448,74 @@
                     <!-- Cards go here-->
 
                     <div class="card" style="width: 18rem;">
-                        <img class="card-img-top" src="..." alt="Card image cap">
+                        <img class="card-img-top" src="rollercoaster.jpg" alt="Card image cap" style = "border-top-left-radius: 30px; border-top-right-radius: 30px;">
                         <div class="card-body">
                           <h5 class="card-title">Card title</h5>
                           <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                          <a href="#" class="btn btn-primary">Go somewhere</a>
+
                         </div>
                       </div>
 
                       <div class="card" style="width: 18rem;">
-                        <img class="card-img-top" src="..." alt="Card image cap">
+                        <img class="card-img-top" src="rollercoaster.jpg" alt="Card image cap">
                         <div class="card-body">
                           <h5 class="card-title">Card title</h5>
                           <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                          <a href="#" class="btn btn-primary">Go somewhere</a>
+
                         </div>
                       </div>
 
                       <div class="card" style="width: 18rem;">
-                        <img class="card-img-top" src="..." alt="Card image cap">
+                        <img class="card-img-top" src="rollercoaster.jpg" alt="Card image cap">
                         <div class="card-body">
                           <h5 class="card-title">Card title</h5>
                           <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                          <a href="#" class="btn btn-primary">Go somewhere</a>
+
                         </div>
                       </div>
 
                       <div class="card" style="width: 18rem;">
-                        <img class="card-img-top" src="..." alt="Card image cap">
+                        <img class="card-img-top" src="rollercoaster.jpg" alt="Card image cap">
                         <div class="card-body">
                           <h5 class="card-title">Card title</h5>
                           <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                          <a href="#" class="btn btn-primary">Go somewhere</a>
+
                         </div>
                       </div>
 
                       <div class="card" style="width: 18rem;">
-                        <img class="card-img-top" src="..." alt="Card image cap">
+                        <img class="card-img-top" src="rollercoaster.jpg" alt="Card image cap">
                         <div class="card-body">
                           <h5 class="card-title">Card title</h5>
                           <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                          <a href="#" class="btn btn-primary">Go somewhere</a>
+
                         </div>
                       </div>
 
                       <div class="card" style="width: 18rem;">
-                        <img class="card-img-top" src="..." alt="Card image cap">
+                        <img class="card-img-top" src="rollercoaster.jpg" alt="Card image cap">
                         <div class="card-body">
                           <h5 class="card-title">Card title</h5>
                           <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                          <a href="#" class="btn btn-primary">Go somewhere</a>
+
                         </div>
                       </div>
 
                       <div class="card" style="width: 18rem;">
-                        <img class="card-img-top" src="..." alt="Card image cap">
+                        <img class="card-img-top" src="rollercoaster.jpg" alt="Card image cap">
                         <div class="card-body">
                           <h5 class="card-title">Card title</h5>
                           <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                          <a href="#" class="btn btn-primary">Go somewhere</a>
+
                         </div>
                       </div>
 
                       <div class="card" style="width: 18rem;">
-                        <img class="card-img-top" src="..." alt="Card image cap">
+                        <img class="card-img-top" src="rollercoaster.jpg" alt="Card image cap">
                         <div class="card-body">
                           <h5 class="card-title">Card title</h5>
                           <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                          <a href="#" class="btn btn-primary">Go somewhere</a>
+
                         </div>
                       </div>
                 </div>
@@ -618,6 +627,14 @@
           
         //}
 
+        socket.on("addTask_res", function(msg){
+            if (msg == true){
+                window.alert("Success, reservation made.");
+            }
+            else{
+                window.alert("Sorry, that reservation was not possible. Try a different time or different place.");
+            }
+        })
 
         //$("pnavbar.html").ready(function(){
             var forms = document.getElementsByClassName("signForms");
@@ -644,10 +661,11 @@
                 var task = restaurantName.toLowerCase();
                 var time = document.getElementById('time');
                 var date = document.getElementById('date');
-                var quantity = document.getElementById('quantity');
-
-                socket.emit("addTask", [task, time.value, name, date.value, quantity.value]);
-                console.log("submitted");
+                var quantity = document.getElementById('realQuantity');
+                socket.emit("addTask", [task, time.value, name, date.value, parseInt(quantity.value)]);
+                console.log(quantity.value);
+                console.log(time.value);
+                console.log(date.value);
 
                 return false;
             };

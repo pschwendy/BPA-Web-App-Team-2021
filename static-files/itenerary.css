@@ -101,3 +101,22 @@ tbody td {
     z-index: -1;
 }
 */
+
+
+@media only screen and (max-width: 1500px) {
+
+    table {
+        width: 100%;
+    }
+    .edit-box {
+        position: relative;
+        left: -100px;
+    }
+
+    .save-edit {
+        position: relative;
+        width: 50%;
+        left: -100px;
+    }
+
+}

@@ -79,7 +79,7 @@ io.on("connection", function(socket) {
   socket.on("addTask", function(msg) {
     //tasks.push({"user": msg[2], "time": msg[1], "task": msg[0], "date": msg[3]});
     let task = msg[0];
-    let time = msg[1];
+    var time = msg[1];
     let date = msg[3];
     let quantity = msg[4];
     var userId;
@@ -116,6 +116,18 @@ io.on("connection", function(socket) {
         }
         var actual = time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
         
+        console.log("GETTING CONFLICTS");
+        querier.getConflicts(task, date, time, actual, function(result){
+          console.log(result);
+        });
+
+        if (conflicts + quantity < 50){
+          querier.reserve(task, userId, quantity, time, date);
+          socket.emit("addTask_res", true);
+        }
+        else{
+          socket.emit("addTask_res", false);
+        }
 
       });
     });

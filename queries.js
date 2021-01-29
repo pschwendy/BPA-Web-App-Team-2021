@@ -78,7 +78,8 @@ class Queries {
     // input: res_time -> time of reservation
     // input: res_date -> date of reservation
     reserve(attraction, account_id, num_people, res_time, res_date) {
-        let sql = "INSERT INTO reservations(attractionName, numPeople time, date, user) VALUES ($attraction, $num_people, $time, $date, $user)";
+        console.log("NUMBER HERE: " + num_people);
+        let sql = "INSERT INTO reservations(attractionRideName, numPeople, time, date, user) VALUES ($attraction, $num_people, $time, $date, $user)";
         this.db.run(sql, {
             $attraction: attraction,
             $num_people: num_people,
@@ -183,14 +184,14 @@ class Queries {
       this.db.get(sql, {
         $username: username
       }, (err, rows) => {
-
+        console.log("FULL: " + rows);
         if (err){
           throw(err);
         }
         else{
           console.log("ROWS: " + rows.id);
           
-          return callback(rows.id);
+          //return callback(rows.id);
         }
       });
     }
@@ -215,9 +216,31 @@ class Queries {
 
     }
 
-    getConflicts(attraction, date, startTime, endTime){
+    getConflicts(attraction, date, startTime, endTime, callback){
     
-      let sql = "SELECT numPeople FROM reservations WHERE attractionRideName=$attraction AND date=$date AND time BETWEEN $time AND DATEADD(MINUTE, @waitTime, $time)"
+      let sql = "SELECT * FROM reservations WHERE attractionRideName=$attraction AND date=$date AND time BETWEEN $endTime AND $startTime";
+      this.db.all(sql,{
+
+        $attraction: attraction,
+        $date: date,
+        $startTime: startTime,
+        $endTime: endTime,
+
+
+      }, (err, rows) =>{
+
+        if (err){
+            throw(err);
+        }
+        else{
+            console.log("THE ROWS FOUND");
+            console.log(rows);
+            return callback(rows);
+        }
+
+
+      });
+
 
     }
 
