@@ -13,6 +13,20 @@
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script>
+    $(document).ready(() => {
+        let hash = window.location.hash
+        if (hash) {
+            hash = hash.substr(1)
+            let target = `a[href$="${hash}"]`
+            $(".text-pic").hide();
+            $(".nav-item").removeClass("active");
+            console.log(target);
+            $(target).show();
+            $(target).addClass("active");
+        }
+    })
+  </script>
 </head>
 
 <body>
@@ -41,9 +55,9 @@
     <div><img src = "rollercoaster.jpg"></div>
 
   </div>
-  <ul class="nav">
+  <ul class="nav anav">
     <li class="nav-item" id = "rollercoasterbutton">
-      <a class="nav-link" id = "rando">Roller Coaster</a>
+      <a class="nav-link" id = "rando" href = "#; return false;">Roller Coaster</a>
     </li>
     <li class="nav-item" id = "ferriswheelbutton">
       <a class="nav-link" >Ferris Wheel</a>
@@ -62,7 +76,7 @@
     </li>
   </ul>
 
-  <ul class="nav" >
+  <ul class="nav anav" >
     <li class="nav-item" id = "parachutedropbutton"> 
       <a class="nav-link" href="#">Parachute Drop</a>
     </li>
@@ -84,80 +98,178 @@
   </ul>
 
   <div id = "rollercoaster" class = "text-pic" >
-    <img class = "rollerpic pic" src = "rollercoaster.jpg">
-    <p class = "rollerbio bio"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ornare nunc feugiat, dictum felis at, volutpat diam. Ut non nisi lacus. Vivamus ac auctor felis, quis vestibulum massa. Maecenas et mauris vulputate, sollicitudin ante sit amet, blandit sapien. Morbi rutrum semper sem et pulvinar. Duis non eros ac velit faucibus fermentum. Etiam molestie, quam sit amet convallis rutrum, velit dui rhoncus odio, non elementum ex tellus eget leo. Aenean sit amet imperdiet metus, sed tristique turpis. Fusce lectus nisl, tempus vitae leo sit amet, porttitor porttitor nulla. Curabitur vehicula, ante eget iaculis placerat, lectus elit varius quam, ac faucibus dolor ipsum consectetur diam. Integer auctor lacinia nunc in efficitur. Mauris nisi nunc, pharetra eu maximus et, mattis consectetur nisi.</p>
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <img class = "rollerpic pic" src = "rollercoaster.jpg">
+        </div>
+        <div class="col">
+          <p class = "rollerbio bio"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ornare nunc feugiat, dictum felis at, volutpat diam. Ut non nisi lacus. Vivamus ac auctor felis, quis vestibulum massa. Maecenas et mauris vulputate, sollicitudin ante sit amet, blandit sapien. Morbi rutrum semper sem et pulvinar. Duis non eros ac velit faucibus fermentum. Etiam molestie, quam sit amet convallis rutrum, velit dui rhoncus odio, non elementum ex tellus eget leo. Aenean sit amet imperdiet metus, sed tristique turpis. Fusce lectus nisl, tempus vitae leo sit amet, porttitor porttitor nulla. Curabitur vehicula, ante eget iaculis placerat, lectus elit varius quam, ac faucibus dolor ipsum consectetur diam. Integer auctor lacinia nunc in efficitur. Mauris nisi nunc, pharetra eu maximus et, mattis consectetur nisi.</p>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div id = "ferriswheel" class = "text-pic">
-    <img class = "ferriswheelpic pic" src = "chickens-r-us.jpg">
-    <p class = "ferriswheelbio bio"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ornare nunc feugiat, dictum felis at, volutpat diam. Ut non nisi lacus. Vivamus ac auctor felis, quis vestibulum massa. Maecenas et mauris vulputate, sollicitudin ante sit amet, blandit sapien. Morbi rutrum semper sem et pulvinar. Duis non eros ac velit faucibus fermentum. Etiam molestie, quam sit amet convallis rutrum, velit dui rhoncus odio, non elementum ex tellus eget leo. Aenean sit amet imperdiet metus, sed tristique turpis. Fusce lectus nisl, tempus vitae leo sit amet, porttitor porttitor nulla. Curabitur vehicula, ante eget iaculis placerat, lectus elit varius quam, ac faucibus dolor ipsum consectetur diam. Integer auctor lacinia nunc in efficitur. Mauris nisi nunc, pharetra eu maximus et, mattis consectetur nisi.</p>
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <img class = "img-fluid pic" src = "chickens-r-us.jpg">
+        </div>
+        <div class="col">
+          <p class = "bio"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ornare nunc feugiat, dictum felis at, volutpat diam. Ut non nisi lacus. Vivamus ac auctor felis, quis vestibulum massa. Maecenas et mauris vulputate, sollicitudin ante sit amet, blandit sapien. Morbi rutrum semper sem et pulvinar. Duis non eros ac velit faucibus fermentum. Etiam molestie, quam sit amet convallis rutrum, velit dui rhoncus odio, non elementum ex tellus eget leo. Aenean sit amet imperdiet metus, sed tristique turpis. Fusce lectus nisl, tempus vitae leo sit amet, porttitor porttitor nulla. Curabitur vehicula, ante eget iaculis placerat, lectus elit varius quam, ac faucibus dolor ipsum consectetur diam. Integer auctor lacinia nunc in efficitur. Mauris nisi nunc, pharetra eu maximus et, mattis consectetur nisi.</p>
+        </div>
+      </div>
+    </div>  
   </div>
 
   <div id = "swings" class = "text-pic">
-    <img class = "swingspic pic" src = "chuck-wagon.jpg">
-    <p class = "swingsbio bio"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ornare nunc feugiat, dictum felis at, volutpat diam. Ut non nisi lacus. Vivamus ac auctor felis, quis vestibulum massa. Maecenas et mauris vulputate, sollicitudin ante sit amet, blandit sapien. Morbi rutrum semper sem et pulvinar. Duis non eros ac velit faucibus fermentum. Etiam molestie, quam sit amet convallis rutrum, velit dui rhoncus odio, non elementum ex tellus eget leo. Aenean sit amet imperdiet metus, sed tristique turpis. Fusce lectus nisl, tempus vitae leo sit amet, porttitor porttitor nulla. Curabitur vehicula, ante eget iaculis placerat, lectus elit varius quam, ac faucibus dolor ipsum consectetur diam. Integer auctor lacinia nunc in efficitur. Mauris nisi nunc, pharetra eu maximus et, mattis consectetur nisi.</p>
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <img class = "img-fluid rollerpic pic" src = "forever-cool-ice-cream.jpg">
+        </div>
+        <div class="col">
+          <p class = "rollerbio bio"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ornare nunc feugiat, dictum felis at, volutpat diam. Ut non nisi lacus. Vivamus ac auctor felis, quis vestibulum massa. Maecenas et mauris vulputate, sollicitudin ante sit amet, blandit sapien. Morbi rutrum semper sem et pulvinar. Duis non eros ac velit faucibus fermentum. Etiam molestie, quam sit amet convallis rutrum, velit dui rhoncus odio, non elementum ex tellus eget leo. Aenean sit amet imperdiet metus, sed tristique turpis. Fusce lectus nisl, tempus vitae leo sit amet, porttitor porttitor nulla. Curabitur vehicula, ante eget iaculis placerat, lectus elit varius quam, ac faucibus dolor ipsum consectetur diam. Integer auctor lacinia nunc in efficitur. Mauris nisi nunc, pharetra eu maximus et, mattis consectetur nisi.</p>
+        </div>
+      </div>
+    </div>    
   </div>
   
   <div id = "rocketship" class = "text-pic">
-    <img class = "rocketshippic pic" src = "dogs-to-go.jpg">
-    <p class = "rocketshipbio bio"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ornare nunc feugiat, dictum felis at, volutpat diam. Ut non nisi lacus. Vivamus ac auctor felis, quis vestibulum massa. Maecenas et mauris vulputate, sollicitudin ante sit amet, blandit sapien. Morbi rutrum semper sem et pulvinar. Duis non eros ac velit faucibus fermentum. Etiam molestie, quam sit amet convallis rutrum, velit dui rhoncus odio, non elementum ex tellus eget leo. Aenean sit amet imperdiet metus, sed tristique turpis. Fusce lectus nisl, tempus vitae leo sit amet, porttitor porttitor nulla. Curabitur vehicula, ante eget iaculis placerat, lectus elit varius quam, ac faucibus dolor ipsum consectetur diam. Integer auctor lacinia nunc in efficitur. Mauris nisi nunc, pharetra eu maximus et, mattis consectetur nisi.</p>
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <img class = "img-fluid rollerpic pic" src = "easy-as-pie-diner.jpg">
+        </div>
+        <div class="col">
+          <p class = "rollerbio bio"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ornare nunc feugiat, dictum felis at, volutpat diam. Ut non nisi lacus. Vivamus ac auctor felis, quis vestibulum massa. Maecenas et mauris vulputate, sollicitudin ante sit amet, blandit sapien. Morbi rutrum semper sem et pulvinar. Duis non eros ac velit faucibus fermentum. Etiam molestie, quam sit amet convallis rutrum, velit dui rhoncus odio, non elementum ex tellus eget leo. Aenean sit amet imperdiet metus, sed tristique turpis. Fusce lectus nisl, tempus vitae leo sit amet, porttitor porttitor nulla. Curabitur vehicula, ante eget iaculis placerat, lectus elit varius quam, ac faucibus dolor ipsum consectetur diam. Integer auctor lacinia nunc in efficitur. Mauris nisi nunc, pharetra eu maximus et, mattis consectetur nisi.</p>
+        </div>
+      </div>
+    </div>    
   </div>
 
   <div id = "slingshot" class = "text-pic">
-    <img class = "slingshotpic pic" src = "easy-as-pie-diner.jpg">
-    <p class = "slingshotbio bio"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ornare nunc feugiat, dictum felis at, volutpat diam. Ut non nisi lacus. Vivamus ac auctor felis, quis vestibulum massa. Maecenas et mauris vulputate, sollicitudin ante sit amet, blandit sapien. Morbi rutrum semper sem et pulvinar. Duis non eros ac velit faucibus fermentum. Etiam molestie, quam sit amet convallis rutrum, velit dui rhoncus odio, non elementum ex tellus eget leo. Aenean sit amet imperdiet metus, sed tristique turpis. Fusce lectus nisl, tempus vitae leo sit amet, porttitor porttitor nulla. Curabitur vehicula, ante eget iaculis placerat, lectus elit varius quam, ac faucibus dolor ipsum consectetur diam. Integer auctor lacinia nunc in efficitur. Mauris nisi nunc, pharetra eu maximus et, mattis consectetur nisi.</p>
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <img class = "img-fluid rollerpic pic" src = "chuck-wagon.jpg">
+        </div>
+        <div class="col">
+          <p class = "rollerbio bio"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ornare nunc feugiat, dictum felis at, volutpat diam. Ut non nisi lacus. Vivamus ac auctor felis, quis vestibulum massa. Maecenas et mauris vulputate, sollicitudin ante sit amet, blandit sapien. Morbi rutrum semper sem et pulvinar. Duis non eros ac velit faucibus fermentum. Etiam molestie, quam sit amet convallis rutrum, velit dui rhoncus odio, non elementum ex tellus eget leo. Aenean sit amet imperdiet metus, sed tristique turpis. Fusce lectus nisl, tempus vitae leo sit amet, porttitor porttitor nulla. Curabitur vehicula, ante eget iaculis placerat, lectus elit varius quam, ac faucibus dolor ipsum consectetur diam. Integer auctor lacinia nunc in efficitur. Mauris nisi nunc, pharetra eu maximus et, mattis consectetur nisi.</p>
+        </div>
+      </div>
+    </div>  
   </div>
 
   <div id = "train" class = "text-pic">
-    <img class = "trainpic pic" src = "rollercoaster.jpg">
-    <p class = "trainbio bio"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ornare nunc feugiat, dictum felis at, volutpat diam. Ut non nisi lacus. Vivamus ac auctor felis, quis vestibulum massa. Maecenas et mauris vulputate, sollicitudin ante sit amet, blandit sapien. Morbi rutrum semper sem et pulvinar. Duis non eros ac velit faucibus fermentum. Etiam molestie, quam sit amet convallis rutrum, velit dui rhoncus odio, non elementum ex tellus eget leo. Aenean sit amet imperdiet metus, sed tristique turpis. Fusce lectus nisl, tempus vitae leo sit amet, porttitor porttitor nulla. Curabitur vehicula, ante eget iaculis placerat, lectus elit varius quam, ac faucibus dolor ipsum consectetur diam. Integer auctor lacinia nunc in efficitur. Mauris nisi nunc, pharetra eu maximus et, mattis consectetur nisi.</p>
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <img class = "img-fluidrollerpic pic" src = "chickens-r-us.jpg">
+        </div>
+        <div class="col">
+          <p class = "rollerbio bio"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ornare nunc feugiat, dictum felis at, volutpat diam. Ut non nisi lacus. Vivamus ac auctor felis, quis vestibulum massa. Maecenas et mauris vulputate, sollicitudin ante sit amet, blandit sapien. Morbi rutrum semper sem et pulvinar. Duis non eros ac velit faucibus fermentum. Etiam molestie, quam sit amet convallis rutrum, velit dui rhoncus odio, non elementum ex tellus eget leo. Aenean sit amet imperdiet metus, sed tristique turpis. Fusce lectus nisl, tempus vitae leo sit amet, porttitor porttitor nulla. Curabitur vehicula, ante eget iaculis placerat, lectus elit varius quam, ac faucibus dolor ipsum consectetur diam. Integer auctor lacinia nunc in efficitur. Mauris nisi nunc, pharetra eu maximus et, mattis consectetur nisi.</p>
+        </div>
+      </div>
+    </div>  
   </div>
 
   <div id = "parachutedrop" class = "text-pic">
-    <img class = "parachutedroppic pic" src = "chuck-wagon.jpg">
-    <p class = "parachitedropbio bio"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ornare nunc feugiat, dictum felis at, volutpat diam. Ut non nisi lacus. Vivamus ac auctor felis, quis vestibulum massa. Maecenas et mauris vulputate, sollicitudin ante sit amet, blandit sapien. Morbi rutrum semper sem et pulvinar. Duis non eros ac velit faucibus fermentum. Etiam molestie, quam sit amet convallis rutrum, velit dui rhoncus odio, non elementum ex tellus eget leo. Aenean sit amet imperdiet metus, sed tristique turpis. Fusce lectus nisl, tempus vitae leo sit amet, porttitor porttitor nulla. Curabitur vehicula, ante eget iaculis placerat, lectus elit varius quam, ac faucibus dolor ipsum consectetur diam. Integer auctor lacinia nunc in efficitur. Mauris nisi nunc, pharetra eu maximus et, mattis consectetur nisi.</p>
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <img class = "img-fluid rollerpic pic" src = "dogs-to-go.jpg">
+        </div>
+        <div class="col">
+          <p class = "rollerbio bio"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ornare nunc feugiat, dictum felis at, volutpat diam. Ut non nisi lacus. Vivamus ac auctor felis, quis vestibulum massa. Maecenas et mauris vulputate, sollicitudin ante sit amet, blandit sapien. Morbi rutrum semper sem et pulvinar. Duis non eros ac velit faucibus fermentum. Etiam molestie, quam sit amet convallis rutrum, velit dui rhoncus odio, non elementum ex tellus eget leo. Aenean sit amet imperdiet metus, sed tristique turpis. Fusce lectus nisl, tempus vitae leo sit amet, porttitor porttitor nulla. Curabitur vehicula, ante eget iaculis placerat, lectus elit varius quam, ac faucibus dolor ipsum consectetur diam. Integer auctor lacinia nunc in efficitur. Mauris nisi nunc, pharetra eu maximus et, mattis consectetur nisi.</p>
+        </div>
+      </div>
+    </div>  
   </div>
 
   <div id = "merrygoround" class = "text-pic">
-    <img class = "merrygoroundpic pic" src = "rollercoaster.jpg">
-    <p class = "merrygoroundbio bio"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ornare nunc feugiat, dictum felis at, volutpat diam. Ut non nisi lacus. Vivamus ac auctor felis, quis vestibulum massa. Maecenas et mauris vulputate, sollicitudin ante sit amet, blandit sapien. Morbi rutrum semper sem et pulvinar. Duis non eros ac velit faucibus fermentum. Etiam molestie, quam sit amet convallis rutrum, velit dui rhoncus odio, non elementum ex tellus eget leo. Aenean sit amet imperdiet metus, sed tristique turpis. Fusce lectus nisl, tempus vitae leo sit amet, porttitor porttitor nulla. Curabitur vehicula, ante eget iaculis placerat, lectus elit varius quam, ac faucibus dolor ipsum consectetur diam. Integer auctor lacinia nunc in efficitur. Mauris nisi nunc, pharetra eu maximus et, mattis consectetur nisi.</p>
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <img class = "img-fluid rollerpic pic" src = "easy-as-pie-diner.jpg">
+        </div>
+        <div class="col">
+          <p class = "rollerbio bio"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ornare nunc feugiat, dictum felis at, volutpat diam. Ut non nisi lacus. Vivamus ac auctor felis, quis vestibulum massa. Maecenas et mauris vulputate, sollicitudin ante sit amet, blandit sapien. Morbi rutrum semper sem et pulvinar. Duis non eros ac velit faucibus fermentum. Etiam molestie, quam sit amet convallis rutrum, velit dui rhoncus odio, non elementum ex tellus eget leo. Aenean sit amet imperdiet metus, sed tristique turpis. Fusce lectus nisl, tempus vitae leo sit amet, porttitor porttitor nulla. Curabitur vehicula, ante eget iaculis placerat, lectus elit varius quam, ac faucibus dolor ipsum consectetur diam. Integer auctor lacinia nunc in efficitur. Mauris nisi nunc, pharetra eu maximus et, mattis consectetur nisi.</p>
+        </div>
+      </div>
+    </div>  
   </div>
 
   <div id = "antiquecars" class = "text-pic">
-    <img class = "antiquepic pic" src = "rollercoaster.jpg">
-    <p class = "antiquebio bio"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ornare nunc feugiat, dictum felis at, volutpat diam. Ut non nisi lacus. Vivamus ac auctor felis, quis vestibulum massa. Maecenas et mauris vulputate, sollicitudin ante sit amet, blandit sapien. Morbi rutrum semper sem et pulvinar. Duis non eros ac velit faucibus fermentum. Etiam molestie, quam sit amet convallis rutrum, velit dui rhoncus odio, non elementum ex tellus eget leo. Aenean sit amet imperdiet metus, sed tristique turpis. Fusce lectus nisl, tempus vitae leo sit amet, porttitor porttitor nulla. Curabitur vehicula, ante eget iaculis placerat, lectus elit varius quam, ac faucibus dolor ipsum consectetur diam. Integer auctor lacinia nunc in efficitur. Mauris nisi nunc, pharetra eu maximus et, mattis consectetur nisi.</p>
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <img class = "image-fluid rollerpic pic" src = "chuck-wagon.jpg">
+        </div>
+        <div class="col">
+          <p class = "rollerbio bio"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ornare nunc feugiat, dictum felis at, volutpat diam. Ut non nisi lacus. Vivamus ac auctor felis, quis vestibulum massa. Maecenas et mauris vulputate, sollicitudin ante sit amet, blandit sapien. Morbi rutrum semper sem et pulvinar. Duis non eros ac velit faucibus fermentum. Etiam molestie, quam sit amet convallis rutrum, velit dui rhoncus odio, non elementum ex tellus eget leo. Aenean sit amet imperdiet metus, sed tristique turpis. Fusce lectus nisl, tempus vitae leo sit amet, porttitor porttitor nulla. Curabitur vehicula, ante eget iaculis placerat, lectus elit varius quam, ac faucibus dolor ipsum consectetur diam. Integer auctor lacinia nunc in efficitur. Mauris nisi nunc, pharetra eu maximus et, mattis consectetur nisi.</p>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div id = "cageride" class = "text-pic">
-    <img class = "cageridepic pic" src = "forever-cool-ice-cream.jpg">
-    <p class = "cageridebio bio"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ornare nunc feugiat, dictum felis at, volutpat diam. Ut non nisi lacus. Vivamus ac auctor felis, quis vestibulum massa. Maecenas et mauris vulputate, sollicitudin ante sit amet, blandit sapien. Morbi rutrum semper sem et pulvinar. Duis non eros ac velit faucibus fermentum. Etiam molestie, quam sit amet convallis rutrum, velit dui rhoncus odio, non elementum ex tellus eget leo. Aenean sit amet imperdiet metus, sed tristique turpis. Fusce lectus nisl, tempus vitae leo sit amet, porttitor porttitor nulla. Curabitur vehicula, ante eget iaculis placerat, lectus elit varius quam, ac faucibus dolor ipsum consectetur diam. Integer auctor lacinia nunc in efficitur. Mauris nisi nunc, pharetra eu maximus et, mattis consectetur nisi.</p>
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <img class = "image-fluid rollerpic pic" src = "rollercoaster.jpg">
+        </div>
+        <div class="col">
+          <p class = "rollerbio bio"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ornare nunc feugiat, dictum felis at, volutpat diam. Ut non nisi lacus. Vivamus ac auctor felis, quis vestibulum massa. Maecenas et mauris vulputate, sollicitudin ante sit amet, blandit sapien. Morbi rutrum semper sem et pulvinar. Duis non eros ac velit faucibus fermentum. Etiam molestie, quam sit amet convallis rutrum, velit dui rhoncus odio, non elementum ex tellus eget leo. Aenean sit amet imperdiet metus, sed tristique turpis. Fusce lectus nisl, tempus vitae leo sit amet, porttitor porttitor nulla. Curabitur vehicula, ante eget iaculis placerat, lectus elit varius quam, ac faucibus dolor ipsum consectetur diam. Integer auctor lacinia nunc in efficitur. Mauris nisi nunc, pharetra eu maximus et, mattis consectetur nisi.</p>
+        </div>
+      </div>
+    </div>  
   </div>
 
   <div id = "hauntedcastleride" class = "text-pic">
-    <img class = "hauntedcastleridepic pic" src = "rollercoaster.jpg">
-    <p class = "hauntedcastleridebio bio"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ornare nunc feugiat, dictum felis at, volutpat diam. Ut non nisi lacus. Vivamus ac auctor felis, quis vestibulum massa. Maecenas et mauris vulputate, sollicitudin ante sit amet, blandit sapien. Morbi rutrum semper sem et pulvinar. Duis non eros ac velit faucibus fermentum. Etiam molestie, quam sit amet convallis rutrum, velit dui rhoncus odio, non elementum ex tellus eget leo. Aenean sit amet imperdiet metus, sed tristique turpis. Fusce lectus nisl, tempus vitae leo sit amet, porttitor porttitor nulla. Curabitur vehicula, ante eget iaculis placerat, lectus elit varius quam, ac faucibus dolor ipsum consectetur diam. Integer auctor lacinia nunc in efficitur. Mauris nisi nunc, pharetra eu maximus et, mattis consectetur nisi.</p>
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <img class = "image-fluid rollerpic pic" src = "chickens-r-us.jpg">
+        </div>
+        <div class="col">
+          <p class = "rollerbio bio"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ornare nunc feugiat, dictum felis at, volutpat diam. Ut non nisi lacus. Vivamus ac auctor felis, quis vestibulum massa. Maecenas et mauris vulputate, sollicitudin ante sit amet, blandit sapien. Morbi rutrum semper sem et pulvinar. Duis non eros ac velit faucibus fermentum. Etiam molestie, quam sit amet convallis rutrum, velit dui rhoncus odio, non elementum ex tellus eget leo. Aenean sit amet imperdiet metus, sed tristique turpis. Fusce lectus nisl, tempus vitae leo sit amet, porttitor porttitor nulla. Curabitur vehicula, ante eget iaculis placerat, lectus elit varius quam, ac faucibus dolor ipsum consectetur diam. Integer auctor lacinia nunc in efficitur. Mauris nisi nunc, pharetra eu maximus et, mattis consectetur nisi.</p>
+        </div>
+      </div>
+    </div>  
   </div>
 
   <div id = "boats" class = "text-pic">
-    <img class = "boatspic pic" src = "dogs-to-go.jpg">
-    <p class = "boatsbio bio"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ornare nunc feugiat, dictum felis at, volutpat diam. Ut non nisi lacus. Vivamus ac auctor felis, quis vestibulum massa. Maecenas et mauris vulputate, sollicitudin ante sit amet, blandit sapien. Morbi rutrum semper sem et pulvinar. Duis non eros ac velit faucibus fermentum. Etiam molestie, quam sit amet convallis rutrum, velit dui rhoncus odio, non elementum ex tellus eget leo. Aenean sit amet imperdiet metus, sed tristique turpis. Fusce lectus nisl, tempus vitae leo sit amet, porttitor porttitor nulla. Curabitur vehicula, ante eget iaculis placerat, lectus elit varius quam, ac faucibus dolor ipsum consectetur diam. Integer auctor lacinia nunc in efficitur. Mauris nisi nunc, pharetra eu maximus et, mattis consectetur nisi.</p>
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <img class = "image-fluid rollerpic pic" src = "rollercoaster.jpg">
+        </div>
+        <div class="col">
+          <p class = "rollerbio bio"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ornare nunc feugiat, dictum felis at, volutpat diam. Ut non nisi lacus. Vivamus ac auctor felis, quis vestibulum massa. Maecenas et mauris vulputate, sollicitudin ante sit amet, blandit sapien. Morbi rutrum semper sem et pulvinar. Duis non eros ac velit faucibus fermentum. Etiam molestie, quam sit amet convallis rutrum, velit dui rhoncus odio, non elementum ex tellus eget leo. Aenean sit amet imperdiet metus, sed tristique turpis. Fusce lectus nisl, tempus vitae leo sit amet, porttitor porttitor nulla. Curabitur vehicula, ante eget iaculis placerat, lectus elit varius quam, ac faucibus dolor ipsum consectetur diam. Integer auctor lacinia nunc in efficitur. Mauris nisi nunc, pharetra eu maximus et, mattis consectetur nisi.</p>
+        </div>
+      </div>
+    </div>  
   </div>
 
   <script>
 
-    $("#rollercoasterbutton").on("click", () => {
+  $("#rollercoasterbutton").on("click", () => {
     $(".text-pic").hide();
     $(".nav-item").removeClass("active");
     $("#rollercoaster").show();
-    $("#rollercoasterbutton").addClass("active")
+    $("#rollercoasterbutton").addClass("active");
+    return false;
  })
   
-    $("#ferriswheelbutton").on("click", () => {
+  $("#ferriswheelbutton").on("click", () => {
     $(".text-pic").hide();
     $(".nav-item").removeClass("active");
     $("#ferriswheel").show();
     $("#ferriswheelbutton").addClass("active");
    console.log("button pressed");
+   return false;
  })
 
  $("#swingsbutton").on("click", () => {
@@ -165,6 +277,7 @@
     $(".nav-item").removeClass("active");
     $("#swings").show();
     $("#swingsbutton").addClass("active");
+    return false;
    console.log("button pressed");
  }) 
 
@@ -173,6 +286,7 @@
     $(".nav-item").removeClass("active");
     $("#rocketship").show();
     $("#rocketshipbutton").addClass("active");
+    return false;
    console.log("button pressed");
  })
 
@@ -189,6 +303,7 @@
     $(".nav-item").removeClass("active");
     $("#train").show();
     $("#trainbutton").addClass("active");
+    return false;
    console.log("button pressed");
  })
 
@@ -197,6 +312,7 @@
     $(".nav-item").removeClass("active");
     $("#parachutedrop").show();
     $("#parachutedropbutton").addClass("active");
+    return false;
    console.log("button pressed");
  })
 
@@ -205,6 +321,7 @@
     $(".nav-item").removeClass("active");
     $("#merrygoround").show();
     $("#merrygoroundbutton").addClass("active");
+    return false;
    console.log("button pressed");
  })
 
@@ -213,6 +330,7 @@
     $(".nav-item").removeClass("active");
     $("#antiquecars").show();
     $("#antiquecarsbutton").addClass("active");
+    return false;
    console.log("button pressed");
  })
 
@@ -221,6 +339,7 @@
     $(".nav-item").removeClass("active");
     $("#cageride").show();
     $("#cageridebutton").addClass("active");
+    return false;
    console.log("button pressed");
  })
 
@@ -229,6 +348,7 @@
     $(".nav-item").removeClass("active");
     $("#hauntedcastleride").show();
     $("#hauntedcastleridebutton").addClass("active");
+    return false;
    console.log("button pressed");
  })
 
@@ -237,6 +357,7 @@
     $(".nav-item").removeClass("active");
     $("#boats").show();
     $("#boatsbutton").addClass("active");
+    return false;
    console.log("button pressed");
  })
 

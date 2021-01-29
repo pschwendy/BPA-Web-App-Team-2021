@@ -1,4 +1,4 @@
-<nav id="p-nav"class="header-top topnav fixed-top navbar navbar-expand-lg navbar-light bg-light">
+<nav id="p-nav"class="header-top topnav fixed-top navbar navbar-expand-lg navbar-dark bg-dark">
   <a class="navbar-brand brand" id="brand" href="/">High Thrills Entertainment Park</a>
   <button class="navbar-toggler float-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -22,7 +22,7 @@
     var name = "";
     if(document.cookie.indexOf("name") != -1) {
       $("#account").children().remove();
-      const account = '<div class="dropdown dropleft"> \
+      const account = '<div id="user" class="dropdown"> \
         <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
       const accountnext = '</button> \
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"> \
@@ -52,8 +52,17 @@
           break;
 
       }
-
-
+    // WORRY ABOUT THIS LATER
+    function editLayout() {
+      if(document.cookie.indexOf("name") != -1) {
+        if($(document).width() < 992) {
+          $("#user").find(".dropdown-menu").style = "";
+        } else {
+          $("#user").find(".dropdown-menu").style = "width:100%";
+        }
+      }
+    }
+    // WORRY ABOUT THIS LATER
     }
   </script>
 </nav>

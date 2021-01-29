@@ -34,7 +34,7 @@ var restaurantData = [{
   "name":"Forever Cool Ice Cream",
   "page":"forever-cool-ice-cream",
   "avgWait":"8 minutes",
-  "image":"/foreveer-cool-ice-cream.jpg",
+  "image":"/forever-cool-ice-cream.jpg",
   "description":"Enjoy ice cream that is forever cool in a definitely non-ambiguous way."
 
 },{
@@ -77,24 +77,8 @@ io.on("connection", function(socket) {
 
   // pushes task to list
   socket.on("addTask", function(msg) {
-    //tasks.push({"user": msg[2], "time": msg[1], "task": msg[0], "date": msg[3]});
-    let task = msg[0];
-    let time = msg[1];
-    let date = msg[3];
-    let quantity = msg[4];
-    var userId;
-    var attractionWaitTime;
-
-    querier.
-
-
-    querier.getUserId(msg[2], function(result){
-
-      userId = result;
-
-    });
-
-    //querier.reserve()
+    tasks.push({"user": msg[2], "time": msg[1], "task": msg[0], "date": msg[3]});
+    console.log(msg);
   });
 
   // deletes task from itinerary
@@ -146,47 +130,17 @@ app.get("/d/socket.io", function(req, res) {
 // logout
 // input: req -> http request
 // input: res -> app response
-app.get("/:whatever?/:whateverTwo?/logout", function(req, res) {
-  console.log(req.path);
+app.get("/logout", function(req, res) {
   res.clearCookie("name");
-  if (req.params.whatever != undefined){
-    if (req.params.whateverTwo != undefined){
-      res.redirect("/" + req.params.whatever + "/" + req.params.whateverTwo);
-    }
-    else{
-      res.redirect("/" + req.params.whatever);
-    }
-
-  }
-  else{
-    res.redirect('/');
-  }
-
-
-
+  res.redirect("/");
 }); /* logout */
 
 // login
 // input: req -> http request
 // input: res -> app response
-
-/*app.post("/:whatever/login", function(req, res){
-  res.redirect("login");
-})
-app.get("/:whatever/logout", function(req, res){
-  res.redirect("logout");
-});
-app.post("/:whatever/signup", function(req, res){
-  res.redirect("signup");
-});
-app.post("/:whatever/gsignin", function(req, res){
-  res.redirect("gsignin");
-});*/
-
-app.post("/:whatever?/:whateverTwo?/login", function(req, res) {
+app.post("/login", function(req, res) {
   //should also validate log in once database is ready
   //for now, it just creates a cookie based on the username
-  console.log(req.path);
   var form = new formidable.IncomingForm();
   form.parse(req, function(err, fields, files) {
     //cleanse useer of previous errors
@@ -201,32 +155,10 @@ app.post("/:whatever?/:whateverTwo?/login", function(req, res) {
     querier.login(username, password, function(result) {
       if (result == true) {
         res.cookie("name", username);
-        if (req.params.whatever != undefined){
-          if (req.params.whateverTwo != undefined){
-            res.redirect("/" + req.params.whatever + "/" + req.params.whateverTwo);
-          }
-          else{
-            res.redirect("/" + req.params.whatever);
-          }
-
-        }
-        else{
-          res.redirect('/');
-        }
+        res.redirect("/");
       } else {
         res.cookie("ERROR", 4);
-        if (req.params.whatever != undefined){
-          if (req.params.whateverTwo != undefined){
-            res.redirect("/" + req.params.whatever + "/" + req.params.whateverTwo);
-          }
-          else{
-            res.redirect("/" + req.params.whatever);
-          }
-
-        }
-        else{
-          res.redirect('/');
-        }
+        res.redirect("/");
       }
     });
   });
@@ -249,8 +181,7 @@ function checkEmail(email) {
 // signup
 // input: req -> http request
 // input: res -> app response
-app.post("/:whatever?/:whateverTwo?/signup", function(req, res) {
-  console.log(req.path);
+app.post("/signup", function(req, res) {
   var form = new formidable.IncomingForm();
   form.parse(req, function(err, fields, files) {
     //cleanse user of lingering mishap cookie
@@ -275,7 +206,8 @@ app.post("/:whatever?/:whateverTwo?/signup", function(req, res) {
 
         if (emailWorks && pwdWorks && (dataWorks== true)) {
           console.log("HI");
-          res.cookie("name", email);
+          res.cookie("name", email)
+          return;
         }
 
         if (!emailWorks) {
@@ -286,28 +218,17 @@ app.post("/:whatever?/:whateverTwo?/signup", function(req, res) {
           res.cookie("ERROR", 3)
         }
 
-        if (req.params.whatever != undefined){
-          if (req.params.whateverTwo != undefined){
-            res.redirect("/" + req.params.whatever + "/" + req.params.whateverTwo);
-          }
-          else{
-            res.redirect("/" + req.params.whatever);
-          }
-
-        }
-        else{
-          res.redirect('/');
-        }
+        res.redirect("/");
 
       });
     });
   });
 }); /* signup */
 
-app.post("/:whatever?/:whateverTwo?/gsignin", function(req, res){
+app.post("/gsignin", function(req, res){
 
   //console.log("RECEIVED SOMETHING");
-  console.log(req.path);
+
   var form = new formidable.IncomingForm();
   form.parse(req, function(err, fields, files){
 
@@ -340,49 +261,16 @@ app.post("/:whatever?/:whateverTwo?/gsignin", function(req, res){
         if (emailWorks && pwdWorks && (dataWorks== true)){
           console.log("HI");
           res.cookie("name", email)
-          if (req.params.whatever != undefined){
-            if (req.params.whateverTwo != undefined){
-              res.redirect("/" + req.params.whatever + "/" + req.params.whateverTwo);
-            }
-            else{
-              res.redirect("/" + req.params.whatever);
-            }
-
-          }
-          else{
-            res.redirect('/');
-          }
+          res.redirect("/");
         }
         else{
           if (!emailWorks){
             res.cookie("ERROR", 1);
-            if (req.params.whatever != undefined){
-              if (req.params.whateverTwo != undefined){
-                res.redirect("/" + req.params.whatever + "/" + req.params.whateverTwo);
-              }
-              else{
-                res.redirect("/" + req.params.whatever);
-              }
-
-            }
-            else{
-              res.redirect('/');
-            }
+            res.redirect("/");
           }
           else if (!pwdWorks){
             res.cookie("ERROR", 2);
-            if (req.params.whatever != undefined){
-              if (req.params.whateverTwo != undefined){
-                res.redirect("/" + req.params.whatever + "/" + req.params.whateverTwo);
-              }
-              else{
-                res.redirect("/" + req.params.whatever);
-              }
-
-            }
-            else{
-              res.redirect('/');
-            }
+            res.redirect("/");
           }
           else if (!dataWorks){
             querier.login(email, oldPassword, function(result){
@@ -394,18 +282,7 @@ app.post("/:whatever?/:whateverTwo?/gsignin", function(req, res){
                 res.cookie("ERROR", 4);
               }
 
-              if (req.params.whatever != undefined){
-                if (req.params.whateverTwo != undefined){
-                  res.redirect("/" + req.params.whatever + "/" + req.params.whateverTwo);
-                }
-                else{
-                  res.redirect("/" + req.params.whatever);
-                }
-
-              }
-              else{
-                res.redirect('/');
-              }
+              res.redirect("/");
 
 
             });

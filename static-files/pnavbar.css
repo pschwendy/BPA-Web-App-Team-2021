@@ -1,6 +1,23 @@
 /*#p-nav {
     background-color: white;
 }*/
+.navbar-brand::after{
+    background: none repeat scroll 0 0 transparent;
+    bottom: 0;
+    content: "";
+    display: block;
+    height: 2px;
+    left: 50%;
+    position: absolute;
+    background: #fff;
+    transition: width 0.25s ease 0s, left 0.25s ease 0s;
+    width: 0;
+}
+.navbar-brand:hover::after { 
+  width: 100%; 
+  left: 0; 
+}
+
 @media only screen and (min-width : 992px) {
     .navbar-brand{
         text-align: center;
