@@ -274,30 +274,28 @@
             console.log(adData[1].name)
         });
         socket.on("receiveAdData", function(data, i){
+            console.log("HELLLLO!!!");
             var msg = data[i];
             document.getElementById("res-header").innerHTML = msg.name;
             document.getElementsByClassName("title")[0].innerHTML = msg.name;
-            document.getElementById("res-hero").src = msg.image;
-            document.getElementById("waitTime").innerHTML = "Average Wait Time: " + msg.avgWait;
+            document.getElementById("res-hero").src = msg.imagelocation;
+            document.getElementById("waitTime").innerHTML = "Average Wait Time: " + msg.average_wait_time;
             document.getElementById("description").innerHTML = msg.description;
             restaurantName = msg.name;
         });
 
 
         window.onload = function(){
-
-
           console.log("HI");
+
           var forms = document.getElementsByTagName("form");
           for (form of forms){
             form.action = "/restaurants/" + restaurantName.toLowerCase() + form.action.slice(form.action.lastIndexOf('/'), form.action.length);
             console.log(form.action);
           }
+
           var pain = document.getElementById("pain")
           pain.href = "/restaurants/" + restaurantName.toLowerCase() + pain.href.slice(pain.href.lastIndexOf('/'), pain.href.length);
-
-
-
         }
         var app = new function () {
 
