@@ -1,14 +1,20 @@
 
-body {
-    background-color: black;
+.img_carousel {
+    position: relative;
+    top: 80px;
+    display: grid;
+    grid-template-columns:auto auto auto auto auto auto auto auto auto auto auto auto;
+
+    grid-gap: 50px;
+    padding: 10px;
+    grid-auto-flow: column;
+    grid-auto-columns: 200px;
+    overflow-y: auto;
+}
+
+div > img {
+    height: 300px;
+    border-radius: 30px 30px 30px 30px;
 }
 
 
-
-
-
-@media only screen and (max-width: 600px) {
-    .img_carousel {
-        display: none;
-    }
-  }
