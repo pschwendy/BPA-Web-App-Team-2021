@@ -6,12 +6,11 @@ var path = require('path');
 var io = require("socket.io")(server);
 var formidable = require("formidable");
 
+var queries = require("./queries.js");
+var querier = new queries();
 //keeping it as JSON for now; will be moved to database once that becomes available
 var restaurantData = [{
 
-
-var queries = require("./queries.js");
-var querier = new queries();
   "name":"Dogs to Go",
   "page":"dogs-to-go",
   "avgWait":"4 minutes",
