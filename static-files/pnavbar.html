@@ -27,7 +27,7 @@
       const accountnext = '</button> \
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"> \
           <a class="dropdown-item" href="/itinerary">Itinerary</a> \
-          <a onclick="removeG()" class="dropdown-item" href="/logout">Log Out</a> \
+          <a onclick="removeG()" id="pain" class="dropdown-item" href="./logout">Log Out</a> \
         </div> \
       </div>';
       name = document.cookie.slice(document.cookie.indexOf("name=") + 5, document.cookie.length);
@@ -103,7 +103,7 @@
         </form>
         <script src="https://apis.google.com/js/platform.js" async defer></script>
        <meta name="google-signin-client_id" content="670268468186-s7jhd7bhkmnpssqe9r3rbsulde7p8a4h.apps.googleusercontent.com">
-       <form method="POST" action="gsignin" id="gForm">
+       <form method="POST" action="/gsignin" id="gForm">
          <div style="display: none;">
            <input id="gUsername" for="gName" name="gName" type="text"/>
            <input id="gPwd" for="gPwd" name="gPwd" type="password"/>
