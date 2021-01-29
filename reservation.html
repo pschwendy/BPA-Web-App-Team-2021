@@ -19,11 +19,7 @@
     </div>
     <div id="navigation"></div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
-      $(function() {
-        $("#navigation").load("pnavbar.html");
-      });
-    </script>
+
     <div class="container px-4">
         <div id = "lead"></div>
         <aside id="reservation-card" class="card mt-3 float-right" style="width: 18rem;">
@@ -79,7 +75,7 @@
         </div>
                 </form>
                 <script>
-                    var date = new Date(); 
+                    var date = new Date();
                     var currentYear = date.getFullYear();
                     var currentMonth = date.getMonth() + 1;
                     var month = currentMonth;
@@ -219,8 +215,17 @@
 
             </div>
         </main>
+        <script>
+          $(function() {
+            $("#navigation").load("pnavbar.html");
+          });
+        </script>
         <script src="/socket.io/socket.io.js"> </script>
         <script>
+        window.onload = function(){
+          console.log(window.location.href);
+        }
+
             var socket = io();
             var maxWidth = 912;
             if($(document).width() < maxWidth) {
@@ -278,6 +283,22 @@
             restaurantName = msg.name;
         });
 
+
+        window.onload = function(){
+
+
+          console.log("HI");
+          var forms = document.getElementsByTagName("form");
+          for (form of forms){
+            form.action = "/restaurants/" + restaurantName.toLowerCase() + form.action.slice(form.action.lastIndexOf('/'), form.action.length);
+            console.log(form.action);
+          }
+          var pain = document.getElementById("pain")
+          pain.href = "/restaurants/" + restaurantName.toLowerCase() + pain.href.slice(pain.href.lastIndexOf('/'), pain.href.length);
+
+
+
+        }
         var app = new function () {
 
             this.submit = function () {
@@ -293,5 +314,29 @@
             };
 
         }
+<<<<<<< HEAD
+=======
+
+
+        /*
+        var swapper = window.setInterval(function(){
+
+          var msg;
+          //currentAd += 1;
+          if (currentAd < adData.length){
+            msg = adData[currentAd];
+          }
+          else{
+            currentAd = 0;
+            msg = adData[0];
+          }
+
+          document.getElementById("res-header").innerHTML = msg.name;
+          document.getElementsByClassName("title")[0].innerHTML = msg.name;
+          document.getElementById("res-hero").src = msg.image;
+          document.getElementById("waitTime").innerHTML = "Average Wait Time: " + msg.avgWait;
+          document.getElementById("description").innerHTML = msg.description;
+        }, 8000);*/
+>>>>>>> 355fcbdc08c42976482b95a30a5e8fa424e1210c
     </script>
 </body>

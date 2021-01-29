@@ -75,7 +75,7 @@
     <li class="nav-item" id = "cageridebutton">
       <a class="nav-link" href="#">Cage Ride</a>
     </li>
-    <li class="nav-item" id = "hauntedcastlebutton">
+    <li class="nav-item" id = "hauntedcastleridebutton">
       <a class="nav-link" href="#">Haunted Castle Ride</a>
     </li>
     <li class="nav-item" id = "boatsbutton">
@@ -227,16 +227,16 @@
  $("#hauntedcastleridebutton").on("click", () => {
     $(".text-pic").hide();
     $(".nav-item").removeClass("active");
-    $("#haustlecastleride").show();
-    $("#haustlecastleridebutton").addClass("active");
+    $("#hauntedcastleride").show();
+    $("#hauntedcastleridebutton").addClass("active");
    console.log("button pressed");
  })
 
- $("#boatbutton").on("click", () => {
+ $("#boatsbutton").on("click", () => {
     $(".text-pic").hide();
     $(".nav-item").removeClass("active");
-    $("#boat").show();
-    $("#boatbutton").addClass("active");
+    $("#boats").show();
+    $("#boatsbutton").addClass("active");
    console.log("button pressed");
  })
 
