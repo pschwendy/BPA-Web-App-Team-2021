@@ -529,6 +529,6 @@ app.get("/:place", function(req, res) {
 
 // listen to server port
 var port = process.env.PORT || 3000;
-server.listen(port, function() {
+server.listen(port, function(){
   console.log("listening on port 3000");
-})
+});
