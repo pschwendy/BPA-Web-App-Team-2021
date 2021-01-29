@@ -6,7 +6,9 @@ var path = require('path');
 var io = require("socket.io")(server);
 var formidable = require("formidable");
 
-const sqlite3 = require('sqlite3').verbose();
+var queries = require("./queries.js");
+var querier = new queries();
+
 const bcrypt = require("bcryptjs");
 
 //keeping it as JSON for now; will be moved to database once that becomes available
