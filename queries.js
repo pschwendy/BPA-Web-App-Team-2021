@@ -215,9 +215,9 @@ class Queries {
 
     }
 
-    getConflicts(attraction, date, time){
-
-      let sql = "SELECT numPeople FROM reservations WHERE attractionRideName=$attraction AND date=$date AND "
+    getConflicts(attraction, date, startTime, endTime){
+    
+      let sql = "SELECT numPeople FROM reservations WHERE attractionRideName=$attraction AND date=$date AND time BETWEEN $time AND DATEADD(MINUTE, @waitTime, $time)"
 
     }
 
