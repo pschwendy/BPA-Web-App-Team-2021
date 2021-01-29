@@ -27,7 +27,7 @@
       const accountnext = '</button> \
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"> \
           <a class="dropdown-item" href="/itinerary">Itinerary</a> \
-          <a class="dropdown-item" href="/logout">Log Out</a> \
+          <a onclick="removeG()" class="dropdown-item" href="/logout">Log Out</a> \
         </div> \
       </div>';
       name = document.cookie.slice(document.cookie.indexOf("name=") + 5, document.cookie.length);
