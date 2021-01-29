@@ -1,3 +1,6 @@
+body{
+    max-width: 100%;
+}
 
 .img_carousel {
     position: relative;
@@ -34,18 +37,18 @@ li {
     display: table-cell; 
     position: relative; 
     padding: 15px 0;
-  }
+}
 a:after {    
-  background: none repeat scroll 0 0 transparent;
-  bottom: 0;
-  content: "";
-  display: block;
-  height: 2px;
-  left: 50%;
-  position: absolute;
-  background: #fff;
-  transition: width 0.3s ease 0s, left 0.3s ease 0s;
-  width: 0;
+    background: none repeat scroll 0 0 transparent;
+    bottom: 0;
+    content: "";
+    display: block;
+    height: 2px;
+    left: 50%;
+    position: absolute;
+    background: #fff;
+    transition: width 0.3s ease 0s, left 0.3s ease 0s;
+    width: 0;
 }
 a:hover:after { 
   width: 100%; 
@@ -53,19 +56,8 @@ a:hover:after {
 
 }
 
-.rollerPic {
-    float: left;
-    margin-right: 10px;
-    clear:both;
-    margin-right: 100px;
-}
-.rollerBio {
-    margin-left: 0px;
-    overflow:auto;
-    display:block;
-    width: 25%
-}
-#text-pic {
+.text-pic {
+    display: none;
     position: relative;
     top: 200px;
     margin: 0 auto;
@@ -75,4 +67,21 @@ a:hover:after {
     
     /* bring your own prefixes */
 
+}
+
+.pic {
+    float: left;
+    margin-right: 10px;
+    clear:both;
+    margin-right: 100px;
+}
+.bio {
+    margin-left: 0px;
+    overflow:auto;
+    display:block;
+    width: 25%
+}
+
+.active {
+    background-color: black;
 }

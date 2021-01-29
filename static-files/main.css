@@ -44,6 +44,27 @@ body {
     background-color: lightsalmon;
 }
 
+footer > .head-hero > img {
+    object-fit: cover;
+    width: 100vw;
+    
+    filter: brightness(70%);
+    text-align: center;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    align-content: center;
+    align-items: center;
+}
+
+#footer-buttons{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 @media only screen and (max-width: 768px) {
     .hero {
         max-height: 75vh;
