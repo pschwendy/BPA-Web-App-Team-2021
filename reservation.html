@@ -17,7 +17,210 @@
         <img src="" id="res-hero" alt="Hero" width="100%" height="400px">
         <div class="title">Dogs to Go</div>
     </div>
-    <div id="navigation"></div>
+    <div id="navigation">
+        <nav onresize="editUser()" id="p-nav"class="header-top topnav fixed-top navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand brand" id="brand" href="/">High Thrills Entertainment Park</a>
+            <button class="navbar-toggler float-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse"  id="navbarNav">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                  <a class="nav-link" href="/restaurants">Restaurants</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/rides">Rides</a>
+                </li>
+              </ul>
+              <span id="account">
+                <button class="nav-item btn btn-outline-primary mr-2" data-toggle="modal" data-target="#signUpModal">Sign Up</button>
+                <button class="nav-item btn btn-outline-success" data-toggle="modal" data-target="#loginModal">Log In</button>
+                </span>
+            </div>
+            <script src="https://code.jquery.com/jquery-git.js"></script>
+            <script>
+              var name = "";
+              if(document.cookie.indexOf("name") != -1) {
+                $("#account").children().remove();
+                const account = '<div id="user" class="dropdown"> \
+                  <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
+                const accountnext = '</button> \
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"> \
+                    <a class="dropdown-item" href="/itinerary">Itinerary</a> \
+                    <a onclick="removeG()" onload="changeForms()" id="pain" class="dropdown-item" href="./logout">Log Out</a> \
+                  </div> \
+                </div>';
+                name = document.cookie.slice(document.cookie.indexOf("name=") + 5, document.cookie.length);
+                $("#account").html(account + name + accountnext);
+                if(document.cookie.indexOf("name") != -1) {
+                  if($(document).width() < 992) {
+                    $("#user").removeClass("dropleft");
+                  } else {
+                    $("#user").addClass("dropleft");
+                  }
+                }
+              }
+              else if (document.cookie.indexOf("ERROR=") != -1){
+          
+                var errorCode = document.cookie.slice(document.cookie.indexOf("ERROR=") + 6, document.cookie.length);
+                switch (errorCode){
+          
+                  case "1":
+                    window.alert("Sign Up Failed: Invalid email address (Error code: 1)");
+                    break;
+                  case "2":
+                    window.alert("Sign Up Failed: Password does not meet requirements (Error Code: 2)");
+                    break;
+                  case "3":
+                    window.alert("Sign Up Failed: Email already linked with existing account (Error Code: 3)");
+                    break;
+                  case "4":
+                    window.alert("Sign In Failed: Invalid email or password (Error Code: 4)");
+                    break;
+          
+                }
+              // WORRY ABOUT THIS LATER
+              
+              // WORRY ABOUT THIS LATER
+              }
+            </script>
+          </nav>
+          
+          <!--The Sign Up Modal-->
+          <div class="modal fade" id="signUpModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Log In</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                  <form method="POST" action="/signup">
+                    <input for="uname" name="email" type="text" placeholder="Email"/>
+                    <input for="pwd" name="pwd" type="password" placeholder="Password"/>
+                    <input for="repeatPwd" name="repeatPwd" type="password" placeholder="Repeat Password"/>
+                    <input for="nickname" name="nickname" type="text" value="" placeholder="Nickname (Optional)"/>
+                    <button type="submit" class="btn btn-primary">SUBMIT</button>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <!--<button type="button" class="btn btn-primary">GO</button>-->
+                </div>
+            </div>
+            </div>
+          </div>
+          
+          
+          <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Log In</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                  <form method="POST" action="/login">
+                    <input for="uname" name="uname" type="text" placeholder="Username"/>
+                    <input for="pwd" name="pwd" type="password" placeholder="Password"/>
+                    <button type="submit" class="btn btn-primary">SUBMIT</button>
+                  </form>
+                  <script src="https://apis.google.com/js/platform.js" async defer></script>
+                 <meta name="google-signin-client_id" content="670268468186-s7jhd7bhkmnpssqe9r3rbsulde7p8a4h.apps.googleusercontent.com">
+                 <form method="POST" action="/gsignin" id="gForm">
+                   <div style="display: none;">
+                     <input id="gUsername" for="gName" name="gName" type="text"/>
+                     <input id="gPwd" for="gPwd" name="gPwd" type="password"/>
+                     <input id="gNick" for="gNick" name="gNick" type="text"/>
+                   </div>
+                   <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                 </form>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <!--<button type="button" class="btn btn-primary">GO</button>-->
+                </div>
+            </div>
+          
+            <script>
+          
+              function removeG(){
+          
+                console.log("REMOVEEEEE");
+                var auth2 = gapi.auth2.getAuthInstance();
+                auth2.disconnect();
+          
+              }
+          
+              function onSignIn(googleUser){
+          
+                var profile = googleUser.getBasicProfile();
+          
+                // The ID token you need to pass to your backend:
+                var id_token = googleUser.getAuthResponse().id_token;
+                console.log("ID Token: " + id_token);
+          
+                document.getElementById("gUsername").value = profile.getEmail();
+                document.getElementById("gNick").value = profile.getGivenName();
+                document.getElementById("gPwd").value = "g";
+                if (name == ""){
+                  document.getElementById("gForm").submit();
+                }
+          
+              }
+          
+              function changeForms(){
+                console.log("CHANGE FORMS ACTIVATED");
+          
+                /*ar forms = document.getElementsByTagName("form");
+                for (form of forms){
+                    console.log("BEFORE: " + form.action);
+                    form.action = "/restaurants/" + restaurantName.toLowerCase() + form.action.slice(form.action.lastIndexOf('/'), form.action.length);
+                    console.log("AFTER: " + form.action);
+                }
+          
+                var pain = document.getElementById("pain")
+                pain.href = "/restaurants/" + restaurantName.toLowerCase() + pain.href.slice(pain.href.lastIndexOf('/'), pain.href.length);*/
+              
+          
+          
+          
+          
+              }
+          
+          
+          
+            </script>
+            </div>
+          </div>
+    </div>
+    <script>
+        $(function() {
+          //$("#navigation").load("pnavbar.html");
+
+          var forms = document.getElementsByTagName("form");
+          for (form of forms){
+              console.log("BEFORE: " + form.action);
+              form.action = "/restaurants/" + restaurantName.toLowerCase() + form.action.slice(form.action.lastIndexOf('/'), form.action.length);
+              console.log("AFTER: " + form.action);
+          }
+
+          /*try{
+              var pain = document.getElementById("pain")
+              pain.href = "/restaurants/" + restaurantName.toLowerCase() + pain.href.slice(pain.href.lastIndexOf('/'), pain.href.length);
+          }
+          catch(e){
+              console.log("ignored error");
+          }*/
+         
+
+        });
+          
+      </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <div class="container px-4">
@@ -215,11 +418,7 @@
 
             </div>
         </main>
-        <script>
-          $(function() {
-            $("#navigation").load("pnavbar.html");
-          });
-        </script>
+       
         <script src="/socket.io/socket.io.js"> </script>
         <script>
         window.onload = function(){
@@ -307,20 +506,32 @@
         });
 
 
-        window.onload = function(){
+        //window.onload = function(){
           console.log("HI");
 
-          var forms = document.getElementsByTagName("form");
-          for (form of forms){
-            form.action = "/restaurants/" + restaurantName.toLowerCase() + form.action.slice(form.action.lastIndexOf('/'), form.action.length);
-            console.log(form.action);
-          }
-
           
-          var pain = document.getElementById("pain")
-          pain.href = "/restaurants/" + restaurantName.toLowerCase() + pain.href.slice(pain.href.lastIndexOf('/'), pain.href.length);
-         
-        }
+        //}
+
+
+        //$("pnavbar.html").ready(function(){
+            var forms = document.getElementsByTagName("form");
+            for (form of forms){
+                console.log("BEFORE: " + form.action);
+                form.action = "/restaurants/" + restaurantName.toLowerCase() + form.action.slice(form.action.lastIndexOf('/'), form.action.length);
+                console.log("AFTER: " + form.action);
+            }
+
+            try{
+                var pain = document.getElementById("pain")
+                pain.href = "/restaurants/" + restaurantName.toLowerCase() + pain.href.slice(pain.href.lastIndexOf('/'), pain.href.length);
+            }
+            catch(e){
+                console.log("ignored error");
+            }
+           
+        //});
+
+
         var app = new function () {
 
             this.submit = function () {

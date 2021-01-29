@@ -4,9 +4,12 @@ body{
     margin: 0;
 }
 
-.img_carousel {
+.carousello{
     position: relative;
     top: 80px;
+}
+.img_carousel {
+    background-color: red;
     display: grid;
     grid-template-columns:auto auto auto auto auto auto auto auto auto auto auto auto;
 
@@ -14,7 +17,7 @@ body{
     padding: 10px;
     grid-auto-flow: column;
     grid-auto-columns: 200px;
-    overflow-y: auto;
+    overflow-x: auto;
 }
 
 div > img {
@@ -32,7 +35,7 @@ div > img {
 }
 
 .nav.anav {
-    position: relative; top: 100px; width: 100%; background-color: #1F6FB3; color: white;
+    position: relative;top: 100px; width: 100%; background-color: #1F6FB3; color: white;
     justify-content: space-evenly;
 }
 
@@ -40,11 +43,17 @@ ul {
     list-style-type: none;
 }
 
-.anav .container > .row > li > a, .anav .container > .row > li { 
-    display: table-cell;
+ .anav .container > .row > li > a {
+    display: inline-block;
     position: relative;
     padding: 15px 0;
     margin-bottom: 0;
+    cursor: pointer;
+}
+
+.anav .container > .row > li {
+    display: table-cell;
+    position: relative;
 }
 a:after {    
     background: none repeat scroll 0 0 transparent;
@@ -68,6 +77,9 @@ a:hover:after {
     position: relative;
     top: 200px;
     margin: 0 auto;
+    float: left;
+    margin-left: 20%;
+
     /* bring your own prefixes */
 
     

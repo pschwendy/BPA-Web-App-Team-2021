@@ -1,9 +1,9 @@
-<nav id="p-nav"class="header-top topnav fixed-top navbar navbar-expand-lg navbar-dark bg-dark">
+<nav onresize="editUser()" id="p-nav"class="header-top topnav fixed-top navbar navbar-expand-lg navbar-dark bg-dark">
   <a class="navbar-brand brand" id="brand" href="/">High Thrills Entertainment Park</a>
   <button class="navbar-toggler float-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <div class="collapse navbar-collapse" id="navbarNav">
+  <div class="collapse navbar-collapse"  id="navbarNav">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
         <a class="nav-link" href="/restaurants">Restaurants</a>
@@ -27,11 +27,18 @@
       const accountnext = '</button> \
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"> \
           <a class="dropdown-item" href="/itinerary">Itinerary</a> \
-          <a onclick="removeG()" id="pain" class="dropdown-item" href="./logout">Log Out</a> \
+          <a onclick="removeG()" onload="changeForms()" id="pain" class="dropdown-item" href="./logout">Log Out</a> \
         </div> \
       </div>';
       name = document.cookie.slice(document.cookie.indexOf("name=") + 5, document.cookie.length);
       $("#account").html(account + name + accountnext);
+      if(document.cookie.indexOf("name") != -1) {
+        if($(document).width() < 992) {
+          $("#user").removeClass("dropleft");
+        } else {
+          $("#user").addClass("dropleft");
+        }
+      }
     }
     else if (document.cookie.indexOf("ERROR=") != -1){
 
@@ -53,15 +60,7 @@
 
       }
     // WORRY ABOUT THIS LATER
-    function editLayout() {
-      if(document.cookie.indexOf("name") != -1) {
-        if($(document).width() < 992) {
-          $("#user").find(".dropdown-menu").style = "";
-        } else {
-          $("#user").find(".dropdown-menu").style = "width:100%";
-        }
-      }
-    }
+    
     // WORRY ABOUT THIS LATER
     }
   </script>
@@ -151,6 +150,25 @@
       if (name == ""){
         document.getElementById("gForm").submit();
       }
+
+    }
+
+    function changeForms(){
+      console.log("CHANGE FORMS ACTIVATED");
+
+      /*ar forms = document.getElementsByTagName("form");
+      for (form of forms){
+          console.log("BEFORE: " + form.action);
+          form.action = "/restaurants/" + restaurantName.toLowerCase() + form.action.slice(form.action.lastIndexOf('/'), form.action.length);
+          console.log("AFTER: " + form.action);
+      }
+
+      var pain = document.getElementById("pain")
+      pain.href = "/restaurants/" + restaurantName.toLowerCase() + pain.href.slice(pain.href.lastIndexOf('/'), pain.href.length);*/
+    
+
+
+
 
     }
 

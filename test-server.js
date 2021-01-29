@@ -206,6 +206,7 @@ app.post("/:whatever?/:whateverTwo?/login", function(req, res) {
   form.parse(req, function(err, fields, files) {
     //cleanse useer of previous errors
     res.clearCookie("ERROR");
+    res.clearCookie("name");
 
     var username = fields.uname;
     var password = fields.pwd;
@@ -215,7 +216,8 @@ app.post("/:whatever?/:whateverTwo?/login", function(req, res) {
 
     querier.login(username, password, function(result) {
       if (result == true) {
-        res.cookie("name", username);
+        console.log("SUPPOSED COOKIE:" + result.email);
+        res.cookie("name", result.email);
         if (req.params.whatever != undefined){
           if (req.params.whateverTwo != undefined){
             res.redirect("/" + req.params.whatever + "/" + req.params.whateverTwo);
@@ -290,7 +292,7 @@ app.post("/:whatever?/:whateverTwo?/signup", function(req, res) {
 
         if (emailWorks && pwdWorks && (dataWorks== true)) {
           console.log("HI");
-          res.cookie("name", email);
+          res.cookie("name", nickname);
         }
 
         if (!emailWorks) {
@@ -354,7 +356,7 @@ app.post("/:whatever?/:whateverTwo?/gsignin", function(req, res){
 
         if (emailWorks && pwdWorks && (dataWorks== true)){
           console.log("HI");
-          res.cookie("name", email)
+          res.cookie("name", nickname)
           if (req.params.whatever != undefined){
             if (req.params.whateverTwo != undefined){
               res.redirect("/" + req.params.whatever + "/" + req.params.whateverTwo);
@@ -403,7 +405,7 @@ app.post("/:whatever?/:whateverTwo?/gsignin", function(req, res){
             querier.login(email, oldPassword, function(result){
 
               if (result == true){
-                res.cookie("name", email);
+                res.cookie("name", nickname);
               }
               else{
                 res.cookie("ERROR", 4);

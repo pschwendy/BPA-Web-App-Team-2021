@@ -206,9 +206,9 @@ class Queries {
     }
 
     getAttractions(callback){
-        let sql = "SELECT * FROM attraction";
-        this.db.all(sql, 
-        (err, rows) => {
+        let sql = "SELECT * FROM attractions WHERE isRestaurant=TRUE";
+        this.db.all(sql
+            , (err, rows) => {
             if(err) {
                 throw(err);
             }

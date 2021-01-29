@@ -14,7 +14,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   <script src="https://kit.fontawesome.com/3aa210e078.js" crossorigin="anonymous"></script>
 </head>
-<body>
+<body onresize="editUser()">
   <div class="head-hero">
     <img src="POV-theme-park_1.jpg" class="hero" alt="Hero">
     <div class="title">Ready. Set. WHOA!</div>
@@ -25,6 +25,17 @@
     $(function() {
       $("#navigation").load("pnavbar.html");
     });
+    function editUser() {
+      if(document.cookie.indexOf("name") != -1) {
+        if($(document).width() < 992) {
+          $("#user").removeClass("dropleft");
+          $("#user").removeClass("dropright");
+        } else {
+          $("#user").removeClass("dropright");
+          $("#user").removeClass("dropleft");
+        }
+      }
+    }
   </script>
   <div class="px-4 py-4 text-center info">
     <div style="margin: auto; border-left:1px solid lightcoral;height:100px"></div>
