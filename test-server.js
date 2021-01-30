@@ -63,15 +63,18 @@ io.on("connection", function(socket) {
   // return tasks for itinerary
   socket.on("getTaskData", function(msg) {
     //!query database for all tasks here and send them; using JSON for now
-    var allTasks = [];
+    var allTasks;
+    var userId;
 
-    for (task of tasks) {
-      if (task.user == msg) {
-        allTasks.push(task);
-      }
-    }
+    querier.getUserId(msg, function(result){
 
-    console.log(allTasks);
+      
+      querier.getTasks(userId, func)
+
+
+    });
+   
+   
     socket.emit("getTaskData", allTasks);
   });
 
@@ -79,6 +82,8 @@ io.on("connection", function(socket) {
   socket.on("addTask", function(msg) {
     //tasks.push({"user": msg[2], "time": msg[1], "task": msg[0], "date": msg[3]});
     let task = msg[0];
+    task = task.replace(/ /g, "-");
+    console.log("This is the task: " + task);
     var time = msg[1];
     let date = msg[3];
     let quantity = msg[4];
@@ -97,37 +102,51 @@ io.on("connection", function(socket) {
     querier.getUserId(msg[2], function(result){
       userId = result;
       querier.getWaitTime(task, function(result){
-
+        console.log("!!!!!!!!!!!!RESULT!!!!!!!!!!!!!!");
+        console.log(result);
+        console.log("!!!!!!!!!!!!RESULT!!!!!!!!!!!!!!");
         waitTime = result[0].average_wait_time;
-        console.log("TIME DATA");
+ 
         console.log(waitTime);
-        var time = new Date(new Date() - (60000 * waitTime))
-        let hours = time.getHours();
-        let min = time.getMinutes();
-        let sec = time.getSeconds();
-        if (hours < 10){
-          hours = "0" + hours;
-        }
-        if (min < 10){
-          min = "0" + min;
-        }
-        if (sec < 10){
-          sec = "0" + sec;
-        }
-        var actual = time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
+        
+
+        var stdDate = date + "T" + time + "Z"
+        time = new Date(stdDate) - 0;
+        var actual = new Date(stdDate) - (60000 * waitTime);
+        //console.log(new Date((date + "T" + time + "Z")));
+
         
         console.log("GETTING CONFLICTS");
         querier.getConflicts(task, date, time, actual, function(result){
-          console.log(result);
+          for(row of result) {
+            if (conflicts != "DONZO"){
+              conflicts += row.numPeople;
+            }
+            if (row.user == userId){
+              conflicts = "DONZO";
+              break;
+            }
+          }
+          console.log("THE RESULT: " + conflicts);
+
+          if (conflicts == "DONZO"){
+            socket.emit("addTask_res", "selfConflict")
+          }
+          if (conflicts + quantity < 50){
+            querier.reserve(task, userId, quantity, time, date);
+            socket.emit("addTask_res", true);
+          }
+          else{
+            socket.emit("addTask_res", "otherConflict");
+          }
+  
+
+
+
         });
 
-        if (conflicts + quantity < 50){
-          querier.reserve(task, userId, quantity, time, date);
-          socket.emit("addTask_res", true);
-        }
-        else{
-          socket.emit("addTask_res", false);
-        }
+        
+
 
       });
     });
@@ -138,11 +157,25 @@ io.on("connection", function(socket) {
 
   // deletes task from itinerary
   socket.on("deleteTask", function(msg) {
-    for (var i = 0; i < tasks.length; i++){
+
+    var user = msg[0];
+    var time = msg[1];
+    var date = msg[2];
+    var task = msg[3];
+
+    /*for (var i = 0; i < tasks.length; i++){
       if (tasks[i].user == msg[0] && tasks[i].time == msg[1] && tasks[i].date == msg[2]){
         tasks.splice(i, 1);
       }
-    }
+    }*/
+    var userId;
+    var stdDate = date + "T" + time + "Z";
+    var realTime = new Date(stdDate) - 0;
+    querier.getUserId(userId, function(result){
+      userId = result;
+      querier.delete_reservation(task, userId, realTime, date);
+    });
+
   });
 
   // returns on requested attractions for * portal page *
@@ -560,3 +593,16 @@ var port = process.env.PORT || 3000;
 server.listen(port, function(){
   console.log("listening on port 3000");
 });
+
+
+function clearOldReservations(){
+
+
+  var upperBound = new Date();
+  var lowerBound = upperBound - (60000 * 2);
+  
+
+
+}
+
+//clearOldReservations();

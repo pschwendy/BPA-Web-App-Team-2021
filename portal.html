@@ -99,11 +99,13 @@
                   continue;
                 }
                 carr.style = "width: 0%;";
+                carr.innerHTML = "";
               }
               if(document.getElementById(current_name).className == "portal fas fa-caret-left fa-10x float-right") {
                 document.getElementById(current_name).className = "portal fas fa-caret-right fa-10x float-right";
                 document.getElementById(current_name).style = "right: 1%;";
                 document.getElementById(current_name_hover).style = "width: 0%;";
+                document.getElementById(current_name_hover).innerHTML = "";
               } else {
                 document.getElementById(current_name).className = "portal fas fa-caret-left fa-10x float-right";
                 document.getElementById(current_name).style = "right: 46%;";

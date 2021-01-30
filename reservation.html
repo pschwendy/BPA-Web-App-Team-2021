@@ -18,6 +18,11 @@
             border-top-left-radius: 30px;
             border-top-right-radius: 30px;
         }
+
+        .card {
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
+        }
     </style>
 
 </head>
@@ -279,10 +284,10 @@
                 <div>
                     <label for="quantity">Time:</label>
                     <select name="time" id = "time">
-                        <option value="8:00:00">8:00 A.M.</option>
-                        <option value="8:30:00">8:30 A.M.</option>
-                        <option value="9:00:00">9:00 A.M.</option>
-                        <option value="9:30:00">9:30 A.M.</option>
+                        <option value="08:00:00">8:00 A.M.</option>
+                        <option value="08:30:00">8:30 A.M.</option>
+                        <option value="09:00:00">9:00 A.M.</option>
+                        <option value="09:30:00">9:30 A.M.</option>
                         <option value="10:00:00">10:00 A.M.</option>
                         <option value="10:30:00">10:30 A.M.</option>
                         <option value="11:00:00">11:00 A.M.</option>
@@ -608,6 +613,7 @@
             document.getElementById("waitTime").innerHTML = "Average Wait Time: " + msg.average_wait_time;
             document.getElementById("description").innerHTML = msg.description;
             restaurantName = msg.name;
+            restaurantName = restaurantName.replace("Diner", "").trim();
             console.log(restaurantName);
 
             /*var forms = document.getElementsByTagName("form");
@@ -631,8 +637,11 @@
             if (msg == true){
                 window.alert("Success, reservation made.");
             }
-            else{
-                window.alert("Sorry, that reservation was not possible. Try a different time or different place.");
+            else if (msg == "selfConflict"){
+                window.alert("Sorry, you already have a reservation too close to that time. Try a different time or delete your existing reservation in your itinerary.");
+            }
+            else if (msg == "otherConflict"){
+                window.alert("Sorry, that time slot for that event is full. Try a different time or choose something else to do.");
             }
         })
 

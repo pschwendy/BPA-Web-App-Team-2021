@@ -100,8 +100,8 @@ class Queries {
     // input: num_people -> number of people in reservation
     // input: res_time -> time of reservation
     // input: res_date -> date of reservation
-    delete_reservation(attraction, account_id, num_people, res_time, res_date) {
-        let sql = "DELETE FROM reservations WHERE attractionName=$attraction AND numPeople=$num_people AND time=$time AND date=$date AND user=$user";
+    delete_reservation(attraction, account_id, res_time, res_date) {
+        let sql = "DELETE FROM reservations WHERE attractionName=$attraction AND time=$time AND date=$date AND user=$user";
         this.db.run(sql, {
             $attraction: attraction,
             $num_people: num_people,
@@ -188,54 +188,47 @@ class Queries {
         if (err){
           throw(err);
         }
-        else{
+        else if (rows != undefined) {
           console.log("ROWS: " + rows.id);
           
-          //return callback(rows.id);
+          return callback(rows.id);
         }
       });
     }
 
     getWaitTime(attraction, callback){
-
       let sql = "SELECT average_wait_time FROM attractions WHERE page_address=$attraction";
       this.db.all(sql, {
           $attraction: attraction,
       }, (err, rows) => {
-
         if (err){
             throw(err);
         }
-        else{
+        else if (rows != undefined){
             console.log("ROWS" + rows);
             return callback(rows);
-        }
-
-        
+        }  
       });
-
     }
 
     getConflicts(attraction, date, startTime, endTime, callback){
     
+      console.log("THE TIME");
+      console.log(startTime);
+      console.log(endTime);
       let sql = "SELECT * FROM reservations WHERE attractionRideName=$attraction AND date=$date AND time BETWEEN $endTime AND $startTime";
       this.db.all(sql,{
-
         $attraction: attraction,
         $date: date,
-        $startTime: startTime,
         $endTime: endTime,
-
-
-      }, (err, rows) =>{
+        $startTime: startTime
+      }, (err, rows) => {
 
         if (err){
-            throw(err);
+            throw (err);
         }
         else{
-            console.log("THE ROWS FOUND");
-            console.log(rows);
-            return callback(rows);
+            callback(rows);
         }
 
 
@@ -253,6 +246,46 @@ class Queries {
             }
             //console.log(rows);
             return callback(rows);
+        });
+    }
+
+    killOldOnes(lowerBound, callback){
+        let sql = "DELETE FROM reservations WHERE (time < $lowerBound)";
+        this.db.run(sql, {
+            $lowerBound: lowerBound
+        }, (err) => {
+            if (err){console.log(err);}
+        });
+    }
+
+    getTasks(userId, callback){
+        let sql = "SELECT * FROM reservations WHERE user=$userId";
+        this.db.all(sql, {
+            $userId: userId
+        }, (err, rows) => {
+            
+            if (err){
+                throw err;
+            }
+            else{
+                callback(rows);
+            }
+            
+        });
+    }
+    
+    addAttraction(name, imageLocation, isRestaurant, averageWaitTime, description, menu = null) {
+        let sql = "INSERT INTO attractions(name, page_address, average_wait_time, imagelocation, description, menu, isRestaurant) VALUES ($name, $page, $waitTime, $description, $description, $menu, $isRestaurant)";
+        this.db.run(sql, {
+            $attraction: attraction,
+            $num_people: num_people,
+            $time: res_time,
+            $date: res_date,
+            $user: account_id,
+        }, (err) => {
+            if(err) {
+                throw(err);
+            }
         });
     }
 

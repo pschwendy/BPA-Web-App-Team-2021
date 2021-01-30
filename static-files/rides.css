@@ -20,7 +20,7 @@ body{
     overflow-x: auto;
 }
 
-div > img {
+.img_carousel  > div > img {
     height: 300px;
     border-radius: 30px 30px 30px 30px;
 }
@@ -75,7 +75,6 @@ a:hover:after {
 .text-pic {
     display: none;
     position: relative;
-    top: 200px;
     margin: 0 auto;
     float: left;
     margin-left: 20%;
@@ -102,4 +101,37 @@ a:hover:after {
 .active > a:after {
     width: 100%;
     left: 0%;
+}
+
+.ride-info{
+    position: relative;
+    top: 120px;
+}
+
+@media only screen and (max-width: 1400px) {
+
+    .img_carousel {
+        height: 200px
+    }
+
+    .img_carousel  > div > img {
+        height: 200px;
+    }
+
+ 
+}
+
+@media only screen and (max-width: 900px) {
+
+    .img_carousel {
+        display: none;
+    }
+    .anav {
+        font-size: 0.8em;
+    }
+
+    .text-pic > .container > .row > .col > img {
+        display: large-block;
+    }
+ 
 }

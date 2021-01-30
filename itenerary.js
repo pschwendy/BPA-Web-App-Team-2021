@@ -103,7 +103,7 @@ var app =  new function() {
     };
 
     this.Delete = function (item) { //deletes element
-        socket.emit("deleteTask", [username, this.times[item], this.dates[item]]);
+        socket.emit("deleteTask", [username, this.times[item], this.dates[item], this.tasks[item]]);
         this.tasks.splice(item, 1);
         this.times.splice(item, 1);
         this.dates.splice(item, 1);
@@ -248,6 +248,17 @@ window.onload = function(){
 
   var cookieData = document.cookie;
   username = cookieData.slice(cookieData.indexOf("name=") + 5, cookieData.length);
+
+  var name = "";
+    if (document.cookie.indexOf(";", document.cookie.indexOf("name=")) ==  -1){
+        name = document.cookie.slice(document.cookie.indexOf("name=") + 5, document.cookie.length);
+    }
+    else{
+        name = document.cookie.slice(document.cookie.indexOf("name=") + 5, document.cookie.indexOf(";", document.cookie.indexOf("name=") + 5));
+    }
+
+    username = name;
+
 
   //change this to user id or whatever else is used to identify users
   socket.emit("getTaskData", username);

@@ -103,7 +103,7 @@ tbody td {
 */
 
 
-@media only screen and (max-width: 1500px) {
+@media only screen and (max-width: 800px) {
 
     table {
         width: 100%;
@@ -119,8 +119,23 @@ tbody td {
         left: -100px;
     }
 
-    .edit-todo, .edit-time, .edit-date {
-        width: 50%;
+    input {
+        width: 90%;
+        position: relative;
+        left: -10px;
+    }
+    td {
+        padding: 10px, 0;
+    }
+    .btn-success {
+        width: 100%;
+        position: relative;
+        left: -50px;
+    }
+    td > a {
+        position: relative;
+        left: -70px;
     }
 
+ 
 }
