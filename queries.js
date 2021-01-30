@@ -101,10 +101,9 @@ class Queries {
     // input: res_time -> time of reservation
     // input: res_date -> date of reservation
     delete_reservation(attraction, account_id, res_time, res_date) {
-        let sql = "DELETE FROM reservations WHERE attractionName=$attraction AND time=$time AND date=$date AND user=$user";
+        let sql = "DELETE FROM reservations WHERE attractionRideName=$attraction AND time=$time AND date=$date AND user=$user";
         this.db.run(sql, {
             $attraction: attraction,
-            $num_people: num_people,
             $time: res_time,
             $date: res_date,
             $user: account_id,
@@ -237,10 +236,12 @@ class Queries {
 
     }
 
-    getAttractions(callback){
-        let sql = "SELECT * FROM attractions WHERE isRestaurant=TRUE";
+    getAttractions(isRestaurant, callback){
+        let sql = "SELECT * FROM attractions WHERE isRestaurant=$isRestaurant";
         this.db.all(sql
-            , (err, rows) => {
+            ,{
+                $isRestaurant:isRestaurant 
+            }, (err, rows) => {
             if(err) {
                 throw(err);
             }
@@ -259,13 +260,17 @@ class Queries {
     }
 
     getTasks(userId, callback){
+        console.log("GOT: " + userId);
         let sql = "SELECT * FROM reservations WHERE user=$userId";
         this.db.all(sql, {
             $userId: userId
         }, (err, rows) => {
             
             if (err){
-                throw err;
+                throw (err);
+            }
+            else if (rows.length == 0){
+                callback("fail");
             }
             else{
                 callback(rows);
@@ -274,14 +279,33 @@ class Queries {
         });
     }
     
+
+    validate(name, callback){
+
+        let sql = "SELECT admin FROM users WHERE username=$name";
+        this.db.get(sql, {
+
+            $name: name
+
+        }, (err, row) => {
+
+            callback(row.admin);
+
+        });
+
+
+
+    }
+
     addAttraction(name, imageLocation, isRestaurant, averageWaitTime, description, menu = null) {
-        let sql = "INSERT INTO attractions(name, page_address, average_wait_time, imagelocation, description, menu, isRestaurant) VALUES ($name, $page, $waitTime, $description, $description, $menu, $isRestaurant)";
+        let sql = "INSERT INTO attractions(name, page_address, average_wait_time, imagelocation, description, menu, isRestaurant) VALUES ($name, $page, $waitTime, $description, $menu, $isRestaurant)";
         this.db.run(sql, {
-            $attraction: attraction,
-            $num_people: num_people,
-            $time: res_time,
-            $date: res_date,
-            $user: account_id,
+            $name: name,
+            $imageLocation: imageLocation,
+            $waitTime: averageWaitTime,
+            $description: description,
+            $menu: menu,
+            $isRestaurant: isRestaurant,
         }, (err) => {
             if(err) {
                 throw(err);

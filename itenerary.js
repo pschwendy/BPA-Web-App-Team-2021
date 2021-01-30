@@ -30,7 +30,7 @@ var app =  new function() {
         document.getElementById('edit-box').style.display = 'none';
         let data = '';
 
-        if (this.times.length > 1) {
+        if (this.times.length > 1 && this.dates.length > 1) {
             this.sortTime();
         }
 
@@ -103,6 +103,8 @@ var app =  new function() {
     };
 
     this.Delete = function (item) { //deletes element
+        console.log("THE INFO");
+        console.log(this.times[item]+ " " + this.dates[item]);
         socket.emit("deleteTask", [username, this.times[item], this.dates[item], this.tasks[item]]);
         this.tasks.splice(item, 1);
         this.times.splice(item, 1);
@@ -269,12 +271,33 @@ window.onload = function(){
 
 socket.on("getTaskData", function(msg){
 
-
-  for (task of msg){
-    app.tasks.push(task.task);
-    app.times.push(task.time);
-    app.dates.push(task.date);
+    //app.times = [];
+    //app.dates = [];
+    console.log(msg);
+  if (msg != null && msg != "fail"){
+    for (task of msg){
+        var attraction = task.attractionRideName;
+        console.log("RAW: " + task.numPeople);
+        if (task.numPeople != 0 && task.numPeople != undefined){
+            attraction = "RESERVATION FOR: " + attraction.replace(/-/g, " ").trim();
+        }
+        else{
+            attraction = attraction.replace(/-/g, " ").trim();
+        }
+        app.tasks.push(attraction);
+        var date = new Date(task.time);
+        let h = date.getHours();
+        let m = date.getMinutes();
+        let s = date.getSeconds();
+        if (h < 10){h = "0" + h;}
+        if (m < 10){m = "0" + m;}
+        if (s < 10){s = "0" + s;}
+        var time = h + ":" + m + ":" + s;
+        app.times.push(time);
+        app.dates.push(task.date);
+    }
   }
+  
 
   app.FetchAll();
 

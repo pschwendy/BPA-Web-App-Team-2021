@@ -13,20 +13,6 @@
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-  <script>
-    $(document).ready(() => {
-        let hash = window.location.hash
-        if (hash) {
-            hash = hash.substr(1)
-            let target = `a[href$="${hash}"]`
-            $(".text-pic").hide();
-            $(".nav-item").removeClass("active");
-            console.log(target);
-            $(target).show();
-            $(target).addClass("active");
-        }
-    })
-  </script>
 </head>
 
 <body onresize="editLayout()">
@@ -54,6 +40,27 @@
       <script src="https://code.jquery.com/jquery-git.js"></script>
       <script>
         var name = "";
+
+        if (document.cookie.indexOf(";", document.cookie.indexOf("name=")) ==  -1){
+            name = document.cookie.slice(document.cookie.indexOf("name=") + 5, document.cookie.length);
+        }
+        else{
+            name = document.cookie.slice(document.cookie.indexOf("name=") + 5, document.cookie.indexOf(";", document.cookie.indexOf("name=") + 5));
+        }
+
+        if (document.cookie.indexOf("nick") == -1){
+            nick = name;
+        }
+        else{
+            if (document.cookie.indexOf(";", document.cookie.indexOf("nick=")) != -1){
+                nick=document.cookie.slice(document.cookie.indexOf("nick=") + 5, document.cookie.indexOf(";", document.cookie.indexOf("nick=") + 5));
+            }
+            else{
+                nick = document.cookie.slice(document.cookie.indexOf("nick=") + 5, document.cookie.length);
+            }
+                
+        }
+
         if(document.cookie.indexOf("name") != -1) {
           $("#account").children().remove();
           const account = '<div id="user" class="dropdown"> \
@@ -64,8 +71,8 @@
               <a onclick="removeG()" onload="changeForms()" id="pain" class="dropdown-item" href="./logout">Log Out</a> \
             </div> \
           </div>';
-          name = document.cookie.slice(document.cookie.indexOf("name=") + 5, document.cookie.length);
-          $("#account").html(account + name + accountnext);
+          //name = document.cookie.slice(document.cookie.indexOf("name=") + 5, document.cookie.length);
+          $("#account").html(account + nick + accountnext);
           if(document.cookie.indexOf("name") != -1) {
             if($(document).width() < 992) {
               $("#user").removeClass("dropleft");
@@ -224,7 +231,7 @@
 
 
 
-<div class="carousello">
+<!--<div class="carousello">
   <div class = "img_carousel">
     <div><img src = "rollercoaster.jpg"></div>
     <div><img src = "rollercoaster.jpg"></div>
@@ -239,8 +246,11 @@
     <div><img src = "rollercoaster.jpg"></div>
     <div><img src = "rollercoaster.jpg"></div>
   </div>
-</div>  
-  
+</div>-->
+  <div class="head-hero">
+    <img src="POV-theme-park_1.jpg" class="hero" alt="Hero">
+    <div class="title">Ready. Set. WHOA!</div>
+  </div>  
   <div class="nav anav">
     <div class="container">
       <ul class="mb-0 row">
@@ -374,37 +384,24 @@
         <main id="main" class="row">
             <div class="col m-2">
                 <div class="row">
-                    <div class = "col">
-                    </div>
-                    <div class = "col">
-                        <select name="rate" class="right">
-                            <option value="rate">Give a Rating</option>
-                            <option value="five-stars">5 - Amazing</option>
-                            <option value="four-stars">4 - Good</option>
-                            <option value="three-stars">3 - Okay</option>
-                            <option value="two-stars">2 - Bad</option>
-                            <option value="one-stars">1 - Abhorrent</option>
-                        </select>
-                    </div>
+                    <div id="article-title" class = "col"></div>
                 </div>
                 <hr id="title-border">
-
-
-
-
-                <div id = "rollercoaster" class = "text-pic" >
+                <div id = "" class = "text-pic" >
                   <div class="container">
                     <div class="row">
                       <div class="col">
-                        <img class = "rollerpic pic" src = "assets/roller-coaster.jpg">
+                        <img id="article-pic" class = "rollerpic pic" src = "assets/roller-coaster.jpg">
                       </div>
                       <div class="col">
-                        <p class = "rollerbio bio"> A scary trip with 360 degree turns. We kick you on a journey you will never forget. Come ride our world-renowned moster roller-coasters that reach insane speeds. Reach high elevations with sudden changes in speed and direction for the greates experience.</p>
+                        <p id="article-bio" class = "rollerbio bio"></p>
                       </div>
                     </div>
                   </div>
                 </div>
-              
+                <script>
+
+                </script>
                 <div id = "ferriswheel" class = "text-pic">
                   <div class="container">
                     <div class="row">
@@ -461,7 +458,7 @@
                   <div class="container">
                     <div class="row">
                       <div class="col">
-                        <img class = "img-fluidrollerpic pic" src = "chickens-r-us.jpg">
+                        <img class = "img-fluid rollerpic pic" src = "chickens-r-us.jpg">
                       </div>
                       <div class="col">
                         <p class = "rollerbio bio"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ornare nunc feugiat, dictum felis at, volutpat diam. Ut non nisi lacus. Vivamus ac auctor felis, quis vestibulum massa. Maecenas et mauris vulputate, sollicitudin ante sit amet, blandit sapien. Morbi rutrum semper sem et pulvinar. Duis non eros ac velit faucibus fermentum. Etiam molestie, quam sit amet convallis rutrum, velit dui rhoncus odio, non elementum ex tellus eget leo. Aenean sit amet imperdiet metus, sed tristique turpis. Fusce lectus nisl, tempus vitae leo sit amet, porttitor porttitor nulla. Curabitur vehicula, ante eget iaculis placerat, lectus elit varius quam, ac faucibus dolor ipsum consectetur diam. Integer auctor lacinia nunc in efficitur. Mauris nisi nunc, pharetra eu maximus et, mattis consectetur nisi.</p>
@@ -547,7 +544,7 @@
                     </div>
                   </div>  
                 </div>
-
+                
 
 
 
@@ -747,7 +744,7 @@
     $("#cageridebutton").addClass("active");
     return false;
    console.log("button pressed");
- })
+ });
 
  $("#hauntedcastleridebutton").on("click", () => {
     $(".text-pic").hide();

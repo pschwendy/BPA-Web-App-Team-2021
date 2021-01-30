@@ -12,49 +12,6 @@ var querier = new queries();
 
 const bcrypt = require("bcryptjs");
 
-//keeping it as JSON for now; will be moved to database once that becomes available
-var restaurantData = [{
-
-  "name":"Dogs to Go",
-  "page":"dogs-to-go",
-  "avgWait":"4 minutes",
-  "image":"/dogs-to-go.jpg",
-  "description":"Eat some dogs! East some dogs! Eat some dogs!"
-
-}, {
-
-  "name":"Easy As Pie Diner",
-  "page":"easy-as-pie",
-  "avgWait":"18 minutes",
-  "image":"/easy-as-pie-diner.jpg",
-  "description": "Enjoy Gordon Ramsay's signature cuisine in this premium dining experience."
-
-},{
-
-  "name":"Forever Cool Ice Cream",
-  "page":"forever-cool-ice-cream",
-  "avgWait":"8 minutes",
-  "image":"/foreveer-cool-ice-cream.jpg",
-  "description":"Enjoy ice cream that is forever cool in a definitely non-ambiguous way."
-
-},{
-
-  "name":"Chickens-R-Us",
-  "page":"chickens-r-us",
-  "avgWait":"10 minutes",
-  "image":"/chickens-r-us.jpg",
-  "description":"CHICKENS ARE US. WE ARE THE CHICKENS."
-
-},{
-
-  "name":"Chuck Wagon",
-  "page":"chuck-wagon",
-  "avgWait": "17 minutes",
-  "image":"/chuck-wagon.jpg",
-  "description":"A classic American diner. If you eat enough, we might even let you ride in Chuck's wagon..."
-
-}];
-
 //storing tasks as json for now, change to db at some point
 var tasks = [];
 var restaurantPage;
@@ -68,14 +25,19 @@ io.on("connection", function(socket) {
 
     querier.getUserId(msg, function(result){
 
-      
-      querier.getTasks(userId, func)
+      userId = result;
+      querier.getTasks(userId, function(results){
+
+        allTasks = results;
+        socket.emit("getTaskData", allTasks);
+
+      });
 
 
     });
    
    
-    socket.emit("getTaskData", allTasks);
+    
   });
 
   // pushes task to list
@@ -105,6 +67,9 @@ io.on("connection", function(socket) {
         console.log("!!!!!!!!!!!!RESULT!!!!!!!!!!!!!!");
         console.log(result);
         console.log("!!!!!!!!!!!!RESULT!!!!!!!!!!!!!!");
+        if (result != "fail" && result != [] && result.length != 0){
+
+        
         waitTime = result[0].average_wait_time;
  
         console.log(waitTime);
@@ -144,6 +109,12 @@ io.on("connection", function(socket) {
 
 
         });
+          
+        }
+        else{
+          querier.reserve(task, userId, 0, time, date);
+        }
+        
 
         
 
@@ -153,6 +124,27 @@ io.on("connection", function(socket) {
     
 
     //querier.reserve()
+  });
+
+
+  socket.on("getAdminStuff", function(msg){
+
+
+    querier.validate(msg, function(result){
+
+      if (result){
+        querier.addAttraction()        
+      }
+      else{
+
+
+
+      }
+
+    });
+
+
+
   });
 
   // deletes task from itinerary
@@ -169,26 +161,24 @@ io.on("connection", function(socket) {
       }
     }*/
     var userId;
-    var stdDate = date + "T" + time + "Z";
-    var realTime = new Date(stdDate) - 0;
-    querier.getUserId(userId, function(result){
+    querier.getUserId(user, function(result){
       userId = result;
-      querier.delete_reservation(task, userId, realTime, date);
+      querier.delete_reservation(task, userId, time, date);
     });
 
   });
 
   // returns on requested attractions for * portal page *
   socket.on("getAttractions", function(msg) {
-    querier.getAttractions((data) => {
-      socket.emit("receiveAttractions", data);
+    querier.getAttractions(msg, function(data) {
+      socket.emit("receiveAttractions", data, msg);
     });
     //socket.emit("receiveAttractions", restaurantData);
   });
 
   socket.on("getAdData", function(page) {
     console.log(page);
-    querier.getAttractions((data) => {
+    querier.getAttractions(true, function(data) {
       for(i = 0; i < data.length; i++) {
         if(data[i].page_address == page) {
           console.log("in this " + page);
@@ -335,16 +325,27 @@ app.post("/:whatever?/:whateverTwo?/login", function(req, res) {
 
 // checkPassword
 // input: password -> password being checked
-function checkPassword(password) {
+function checkPassword(password, rePass) {
   //do all the length, characters, numbers stuff here
-  return true;
+  var charGex = /[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/;
+  var digitGex = /\d/;
+  console.log("CHAR RESULTS:::::::::");
+  console.log(charGex);
+  console.log(digitGex);
+  if (password.length >= 7 && password == rePass){
+    return true;
+  }
+  else{
+    return true;
+  }
 } /* checkPassword */
 
 // checkEmail
 // input: email -> email being checked
 function checkEmail(email) {
   //check if email is actually an email
-  return true;
+  var regex = /\S+@\S+\.\S+/;
+  return regex.test(email);
 } /* checkEmail */
 
 // signup
@@ -360,9 +361,10 @@ app.post("/:whatever?/:whateverTwo?/signup", function(req, res) {
     var email = fields.email;
     var password = fields.pwd;
     var nickname = fields.nickname;
+    var rePass = fields.repeatPwd;
 
     var emailWorks = checkEmail(email);
-    var pwdWorks = checkPassword(password);
+    var pwdWorks = checkPassword(password, rePass);
     var dataWorks = false;
 
     //salt and hash password with ten rounds of salting
@@ -556,6 +558,12 @@ app.get("/rides", function(req, res){
   res.sendFile(__dirname + "/rides.html");
 });
 
+// admin
+// input: req -> http request
+// input: res -> app response
+app.get("/admin", function(req,res) {
+  res.sendFile(__dirname + "/admin.html");
+}); /* admin */
 
 // reservation
 // input: req -> http request
@@ -585,6 +593,7 @@ app.get("/itenerary.js", function(req,res) {
 
 app.get("/:place", function(req, res) {
   //replace directory with actual value of client file
+  res.clearCookie("ERROR");
   res.sendFile(__dirname + "/static-files/" + req.params.place);
 });
 

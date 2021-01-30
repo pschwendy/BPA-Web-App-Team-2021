@@ -6,7 +6,6 @@ body{
 
 .carousello{
     position: relative;
-    top: 80px;
 }
 .img_carousel {
     background-color: red;
@@ -35,7 +34,7 @@ body{
 }
 
 .nav.anav {
-    position: relative;top: 100px; width: 100%; background-color: #1F6FB3; color: white;
+    position: relative; width: 100%; background-color: #1F6FB3; color: white;
     justify-content: space-evenly;
 }
 
@@ -118,7 +117,20 @@ a:hover:after {
         height: 200px;
     }
 
+}
+
+@media only screen and (max-width: 1150px) {
+    .text-pic > .container > .row  {
+        display: grid;
+        grid-template-columns: auto;
  
+        margin: 0 auto;
+    }
+
+    .text-pic {
+        float:left;
+        margin-left: 0%; 
+    }
 }
 
 @media only screen and (max-width: 900px) {
@@ -130,8 +142,20 @@ a:hover:after {
         font-size: 0.8em;
     }
 
-    .text-pic > .container > .row > .col > img {
-        display: large-block;
-    }
  
 }
+
+ 
+/*<div id = "train" class = "text-pic">
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <img class = "img-fluid rollerpic pic" src = "chickens-r-us.jpg">
+    </div>
+    <div class="col">
+      <p class = "rollerbio bio"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ornare nunc feugiat, dictum felis at, volutpat diam. Ut non nisi lacus. Vivamus ac auctor felis, quis vestibulum massa. Maecenas et mauris vulputate, sollicitudin ante sit amet, blandit sapien. Morbi rutrum semper sem et pulvinar. Duis non eros ac velit faucibus fermentum. Etiam molestie, quam sit amet convallis rutrum, velit dui rhoncus odio, non elementum ex tellus eget leo. Aenean sit amet imperdiet metus, sed tristique turpis. Fusce lectus nisl, tempus vitae leo sit amet, porttitor porttitor nulla. Curabitur vehicula, ante eget iaculis placerat, lectus elit varius quam, ac faucibus dolor ipsum consectetur diam. Integer auctor lacinia nunc in efficitur. Mauris nisi nunc, pharetra eu maximus et, mattis consectetur nisi.</p>
+    </div>
+  </div>
+</div>  
+</div>
+*/

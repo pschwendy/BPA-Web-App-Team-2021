@@ -350,181 +350,15 @@
                         <h4 id="res-header">Restaurant</h4>
                     </div>
                     <div class = "col">
-                        <select name="rate" class="right">
-                            <option value="rate">Give a Rating</option>
-                            <option value="five-stars">5 - Amazing</option>
-                            <option value="four-stars">4 - Good</option>
-                            <option value="three-stars">3 - Okay</option>
-                            <option value="two-stars">2 - Bad</option>
-                            <option value="one-stars">1 - Abhorrent</option>
-                        </select>
                     </div>
                 </div>
                 <hr id="title-border">
                 <p id="description">Description</p>
                 <p id="waitTime" style="font-weight: bold;">Average Wait Time</p>
-            </div>
-            <!--
-
-
-            <div class ="col m-2">
-                <div class ="row">
-                    <div class ="col">
-                        <h5 class="res-header">Make a Reservation</h5>
-                    </div>
+                <div id="menu-area" class="mt-1">
+                  <div>Menu</div>
+                  <hr>
                 </div>
-                <form>
-                    <div id="reservations">
-                        <div class="row ml-1 mr-1 group-reserve">
-                            <div class="col reserve">8:00 A.M.</div>
-                            <div class="col reserve">
-                                <button type="button" class="btn btn-primary right res-button" data-toggle="modal" data-target="#exampleModalCenter">
-                                    Reserve
-                                </button>
-                            </div>
-                        </div>
-                        <div class="row ml-1 mr-1 group-reserve">
-                            <div class="col reserve">8:00 A.M.</div>
-                            <div class="col reserve">
-                                <button type="button" class="btn btn-primary right res-button" data-toggle="modal" data-target="#exampleModalCenter">
-                                    Reserve
-                                </button>
-                            </div>
-                        </div>
-                        <div class="row ml-1 mr-1 group-reserve">
-                            <div class="col reserve">8:00 A.M.</div>
-                            <div class="col reserve">
-                                <button type="button" class="btn btn-primary right res-button" data-toggle="modal" data-target="#exampleModalCenter">
-                                    Reserve
-                                </button>
-                            </div>
-                        </div>
-                        <div class="row ml-1 mr-1 group-reserve">
-                            <div class="col reserve">8:00 A.M.</div>
-                            <div class="col reserve">
-                                <button type="button" class="btn btn-primary right res-button" data-toggle="modal" data-target="#exampleModalCenter">
-                                    Reserve
-                                </button>
-                            </div>
-                        </div>
-                        <div class="row ml-1 mr-1 group-reserve">
-                            <div class="col reserve">8:00 A.M.</div>
-                            <div class="col reserve">
-                                <button type="button" class="btn btn-primary right res-button" data-toggle="modal" data-target="#exampleModalCenter">
-                                    Reserve
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    -->
-                    <!--<button type="button" class="btn btn-primary right" data-toggle="modal" data-target="#exampleModalCenter">
-                        Make a Reservation Now!
-                    </button>-->
-                <!--
-                </form>-->
-
-
-                <!--repurposed the reserve modal for login-->
-                <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Log In</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        </div>
-                        <div class="modal-body">
-                          <form class="signForms" method="POST" action="/login">
-                            <input for="uname" name="uname" type="text" placeholder="Username"/>
-                            <input for="pwd" name="pwd" type="password" placeholder="Password"/>
-                            <button type="submit" class="btn btn-primary">SUBMIT</button>
-                          </form>
-                        </div>
-                        <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <!--<button type="button" class="btn btn-primary">GO</button>-->
-                        </div>
-                    </div>
-                    </div>
-                </div>
-                <div class = "gridMenuArea">
-
-                    <!-- Cards go here-->
-
-                    <div class="card" style="width: 18rem;">
-                        <img class="card-img-top" src="rollercoaster.jpg" alt="Card image cap" style = "border-top-left-radius: 30px; border-top-right-radius: 30px;">
-                        <div class="card-body">
-                          <h5 class="card-title">Card title</h5>
-                          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-
-                        </div>
-                      </div>
-
-                      <div class="card" style="width: 18rem;">
-                        <img class="card-img-top" src="rollercoaster.jpg" alt="Card image cap">
-                        <div class="card-body">
-                          <h5 class="card-title">Card title</h5>
-                          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-
-                        </div>
-                      </div>
-
-                      <div class="card" style="width: 18rem;">
-                        <img class="card-img-top" src="rollercoaster.jpg" alt="Card image cap">
-                        <div class="card-body">
-                          <h5 class="card-title">Card title</h5>
-                          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-
-                        </div>
-                      </div>
-
-                      <div class="card" style="width: 18rem;">
-                        <img class="card-img-top" src="rollercoaster.jpg" alt="Card image cap">
-                        <div class="card-body">
-                          <h5 class="card-title">Card title</h5>
-                          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-
-                        </div>
-                      </div>
-
-                      <div class="card" style="width: 18rem;">
-                        <img class="card-img-top" src="rollercoaster.jpg" alt="Card image cap">
-                        <div class="card-body">
-                          <h5 class="card-title">Card title</h5>
-                          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-
-                        </div>
-                      </div>
-
-                      <div class="card" style="width: 18rem;">
-                        <img class="card-img-top" src="rollercoaster.jpg" alt="Card image cap">
-                        <div class="card-body">
-                          <h5 class="card-title">Card title</h5>
-                          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-
-                        </div>
-                      </div>
-
-                      <div class="card" style="width: 18rem;">
-                        <img class="card-img-top" src="rollercoaster.jpg" alt="Card image cap">
-                        <div class="card-body">
-                          <h5 class="card-title">Card title</h5>
-                          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-
-                        </div>
-                      </div>
-
-                      <div class="card" style="width: 18rem;">
-                        <img class="card-img-top" src="rollercoaster.jpg" alt="Card image cap">
-                        <div class="card-body">
-                          <h5 class="card-title">Card title</h5>
-                          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-
-                        </div>
-                      </div>
-                </div>
-
             </div>
         </main>
        
@@ -568,17 +402,6 @@
     </div>
 
     <script>
-        var socket = io();
-        var username = "USER";
-
-        socket.on("receiveMenu", function(msg){
-            console.log('data is: ');
-            console.log(data);
-        });
-
-    </script>
-
-    <script>
 
         var socket = io();
         var username = "USER";
@@ -599,6 +422,7 @@
         restaurantName = window.location.href.slice(window.location.href.lastIndexOf("/") + 1, window.location.href.length);
         console.log("SLICED: "  + restaurantName);
         socket.emit("getAdData", restaurantName);
+        
         socket.on("getAdData", function(msg){
             adData = msg;
             console.log(adData);
@@ -614,24 +438,8 @@
             document.getElementById("description").innerHTML = msg.description;
             restaurantName = msg.name;
             restaurantName = restaurantName.replace("Diner", "").trim();
-            console.log(restaurantName);
-
-            /*var forms = document.getElementsByTagName("form");
-            for (form of forms){
-                form.action = "/restaurants/" + restaurantName.toLowerCase() + form.action.slice(form.action.lastIndexOf('/'), form.action.length);
-                console.log(form.action);
-            }
-
-            var pain = document.getElementById("pain")
-            pain.href = "/restaurants/" + restaurantName.toLowerCase() + pain.href.slice(pain.href.lastIndexOf('/'), pain.href.length);*/
+            socket.emit("getMenu", data.id, null);
         });
-
-
-        //window.onload = function(){
-          console.log("HI");
-
-          
-        //}
 
         socket.on("addTask_res", function(msg){
             if (msg == true){
@@ -643,29 +451,45 @@
             else if (msg == "otherConflict"){
                 window.alert("Sorry, that time slot for that event is full. Try a different time or choose something else to do.");
             }
-        })
+        });
+        
+        socket.on("receiveMenu", function(menu, empty){
+          var menuArea = document.getElementById('menu-area');
+          for(item of menu) {
+            var product = document.createElement("div");
+            product.className = "col";
+            product.innerHTML = item.foodName;
 
-        //$("pnavbar.html").ready(function(){
-            var forms = document.getElementsByClassName("signForms");
-            for (form of forms){
-                console.log("BEFORE: " + form.action);
-                form.action = "/restaurants/" + restaurantName.toLowerCase() + form.action.slice(form.action.lastIndexOf('/'), form.action.length);
-                console.log("AFTER: " + form.action);
-            }
+            var price = document.createElement("div");
+            price.className = "col";
+            price.style = "font-weight: bold;"
+            price.innerHTML = "$" + item.cost;
 
-            try{
-                var pain = document.getElementById("pain")
-                pain.href = "/restaurants/" + restaurantName.toLowerCase() + pain.href.slice(pain.href.lastIndexOf('/'), pain.href.length);
-            }
-            catch(e){
-                console.log("ignored error");
-            }
-           
-        //});
+            var menuItem = document.createElement("div");
+            menuItem.className = "row";
+            menuItem.appendChild(product);
+            menuItem.appendChild(price);
 
+            menuArea.appendChild(menuItem);
+          }
+        });
+
+        var forms = document.getElementsByClassName("signForms");
+        for (form of forms){
+            console.log("BEFORE: " + form.action);
+            form.action = "/restaurants/" + restaurantName.toLowerCase() + form.action.slice(form.action.lastIndexOf('/'), form.action.length);
+            console.log("AFTER: " + form.action);
+        }
+
+        try{
+            var pain = document.getElementById("pain")
+            pain.href = "/restaurants/" + restaurantName.toLowerCase() + pain.href.slice(pain.href.lastIndexOf('/'), pain.href.length);
+        }
+        catch(e){
+            console.log("ignored error");
+        }
 
         var app = new function () {
-
             this.submit = function () {
                 var task = restaurantName.toLowerCase();
                 var time = document.getElementById('time');
@@ -678,28 +502,6 @@
 
                 return false;
             };
-
         }
-
-
-        /*
-        var swapper = window.setInterval(function(){
-
-          var msg;
-          //currentAd += 1;
-          if (currentAd < adData.length){
-            msg = adData[currentAd];
-          }
-          else{
-            currentAd = 0;
-            msg = adData[0];
-          }
-
-          document.getElementById("res-header").innerHTML = msg.name;
-          document.getElementsByClassName("title")[0].innerHTML = msg.name;
-          document.getElementById("res-hero").src = msg.image;
-          document.getElementById("waitTime").innerHTML = "Average Wait Time: " + msg.avgWait;
-          document.getElementById("description").innerHTML = msg.description;
-        }, 8000);*/
     </script>
 </body>

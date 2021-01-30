@@ -46,7 +46,7 @@
     });
     </script>
     <div class="px-4 py-4 text-center">
-        <div class="container">BLURB</div>
+        <div class="container">Did you know we have the some of the best restaurants around the world? One of our restaurant holds 3 michelin stars and has people from around the globe wanting to eat there. Whether you desire a juicy steak, a chilling ice-cream during a summer day, an authentic American meal, a spicy hot dog, or some golden fried chicken, we have everything your hungry heart could desire. Our meals are the definition of perfection, excellence, quality. One cannot possibly decline the meals found at High Thrills. So, come to High Thrills to taste divinity from all five of our restaurants. </div>
     </div>
     <div id="portals">
       <div class="container py-2"></div>
@@ -56,7 +56,13 @@
       var socket = io();
       var adData = [];
       window.onload = function() {
-        socket.emit("getAttractions");
+        var href = window.location.href;
+        var restaurant = false;
+        if (href.indexOf("restaurants") != -1){
+          restaurant = true;
+        }
+
+        socket.emit("getAttractions", restaurant);
       }
       socket.on("receiveAttractions", function(msg){
         console.log(msg);
