@@ -1,6 +1,6 @@
 .head-hero{
     position: relative;
-    
+    user-select: none;
 }
 
 #res-hero{

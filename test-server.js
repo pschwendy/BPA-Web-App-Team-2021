@@ -190,12 +190,30 @@ io.on("connection", function(socket) {
     });
   });
 
+  socket.on("getAdData", function(page, restaurants) {
+    querier.getAttractions(restaurants, function(data) {
+      for(i = 0; i < data.length; i++) {
+        if(data[i].page_address == page) {
+          console.log("in this " + page);
+          socket.emit("receiveAdData", data[i]);
+          //console.log("done!");
+          break;
+        }
+      }
+    });
+  });
+
   socket.on("getMenu", function(id, hover) {
     querier.getMenu(id, (data) => {
       socket.emit("receiveMenu", data, hover);
     });
     //socket.emit("receiveAttractions", restaurantData);
   });
+
+  socket.on("getCookies", function(msg){
+    var cookie = socket.handshake.headers.cookie;
+    console.log("COOKIE: " + cookie);
+  })
 })
 
 // cookies!

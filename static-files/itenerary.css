@@ -30,6 +30,8 @@ input [type = 'submit'], button, [aria-label] {
 
 #edit-box {
     display: none;
+    margin: auto;
+
 }
 
 
@@ -78,6 +80,13 @@ th, td {
     color: #fff;
 
 }
+
+#edit-box td{
+    padding: -10px;
+    background-color: white;
+    border: 10px solid black;
+}
+
 th {
     text-align: left;
 }
@@ -90,6 +99,12 @@ thead th {
 tbody td {
     position: relative;
 }
+
+#edit-todo {
+    width: 50%;
+}
+
+
 /*tbody td:hover:before {
     content: "";
     position: absolute;

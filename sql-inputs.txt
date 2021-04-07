@@ -1,0 +1,12 @@
+UPDATE attractions SET page_address="roller-coaster", isRestaurant=false WHERE name="Roller Coaster";
+UPDATE attractions SET page_address="ferris-wheel", isRestaurant=false WHERE name="Ferris Wheel";
+UPDATE attractions SET page_address="swings", isRestaurant=false WHERE name="Swings";
+UPDATE attractions SET page_address="rocket-ship", isRestaurant=false WHERE name="Rocket Ship";
+UPDATE attractions SET page_address="sling-shot", isRestaurant=false WHERE name="Sling Shot";
+UPDATE attractions SET page_address="train", isRestaurant=false WHERE name="Train";
+UPDATE attractions SET page_address="parachute-drop", isRestaurant=false WHERE name="Parachute Drop";
+UPDATE attractions SET page_address="merry-go-round", isRestaurant=false WHERE name="Merry-Go-Round";
+UPDATE attractions SET page_address="antique-cars", isRestaurant=false WHERE name="Antique Cars";
+UPDATE attractions SET page_address="cage-ride", isRestaurant=false WHERE name="Cage Ride";
+UPDATE attractions SET page_address="haunted-castle-ride", isRestaurant=false WHERE name="Haunted Castle Ride";
+UPDATE attractions SET page_address="boats", isRestaurant=false WHERE name="Boats";

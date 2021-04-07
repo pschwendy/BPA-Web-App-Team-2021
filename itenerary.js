@@ -69,6 +69,7 @@ var app =  new function() {
        //     this.timesOfDays.push(timeOfDay);
             elTask.value = '';
             document.getElementById('add-time').value = '';
+            console.log(time);
             this.FetchAll();
         }
         document.getElementById('output').innerHTML = convertedDate;
@@ -265,7 +266,8 @@ window.onload = function(){
   //change this to user id or whatever else is used to identify users
   socket.emit("getTaskData", username);
 
-
+  //test new cookie stuff
+  socket.emit("getCookies", 0);
 
 }
 
