@@ -197,6 +197,9 @@ io.on("connection", function(socket) {
           console.log("in this " + page);
           socket.emit("receiveAdData", data[i]);
           //console.log("done!");
+          querier.getAverageRating(data[i].id, function(averageRating) {
+            socket.emit("loadRating", averageRating);
+          });
           break;
         }
       }
@@ -213,7 +216,11 @@ io.on("connection", function(socket) {
   socket.on("getCookies", function(msg){
     var cookie = socket.handshake.headers.cookie;
     console.log("COOKIE: " + cookie);
-  })
+  });
+
+  socket.on("submitRating", function(userID, rating, restaurantID){
+    querier.addRating(userID, rating, restaurantID);
+  });
 })
 
 // cookies!

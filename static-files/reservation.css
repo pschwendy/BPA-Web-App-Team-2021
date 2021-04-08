@@ -49,7 +49,9 @@
     overflow-y: scroll;
 }
 
-/*#reservation-card{}*/
+#reservation-card{
+    margin-bottom: 20px;
+}
 
 .text-pic {
     display: none;

@@ -175,6 +175,54 @@ class Queries {
         });
     } /* getMenu */
 
+    // getRatings
+    // returns average rating of a given restaurant
+    // input: restaurantId -> id of attraction for getting menu data
+    // input: callback -> callback function handles rows for asynchronous server
+    getAverageRating(restaurantId, callback) {
+        let sql = "SELECT rating FROM ratings WHERE storeNumber=$restaurantId";
+        this.db.all(sql, {
+            $restaurantId: restaurantId
+        }, (err, rows) => {
+            if(err) {
+                throw(err);
+            }
+            var sum = 0;
+            for (rating of rows) {
+                sum += rating;
+            }
+            var numRows = rows.length;
+            if(numRows == 0) {
+                numRows++;
+            }
+            const averageRating = sum/numRows;
+            return callback(averageRating);
+        });
+    } // getRatings()
+
+    // adds user rating
+    addRating(restaurantId, userID, rating) {
+        let update = "UPDATE ratings SET rating=$rating WHERE user=$userID, storeNumber=$restaurantId";
+        this.db.run(update, function(err) {
+            // returns if update is successful
+            if(!err) {
+                return;
+            }
+            // if not, insert into table
+            let sql = "INSERT INTO ratings (storeNumber, user, rating) VALUES ($restaurantId, $userID, $rating)";
+            this.db.run(sql, {
+                $restaurantId: restaurantId,
+                $userID: userID,
+                $rating: rating,
+            }, (err) => {
+                if(err) {
+                    throw(err);
+                }
+            });
+        });
+        
+    } // addRating()
+
     //TONY CODE
     getUserId(username, callback){
 

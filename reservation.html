@@ -219,15 +219,7 @@
           
                 var pain = document.getElementById("pain")
                 pain.href = "/restaurants/" + restaurantName.toLowerCase() + pain.href.slice(pain.href.lastIndexOf('/'), pain.href.length);*/
-              
-          
-          
-          
-          
               }
-          
-          
-          
             </script>
             </div>
           </div>
@@ -264,19 +256,23 @@
               <h5 class="card-title">Make a Reservation</h5>
               <hr>
               <form onsubmit= "app.submit()" action = "javascript:void(0);" method = "POST">
-                <label for="quantity" id = "quantity">Attending:</label>
-                <select name="quantity" id="realQuantity">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                    <option value="10">10</option>
-                </select>
+                <div style="width:100%; position: relative; display:block;">
+                  <div style="cursor:pointer; padding-left: 4px; pointer-events: none; position: absolute; -webkit-box-align: center; display: flex;"></div>
+                  <label for="quantity">For:</label>
+                  <select style="width:50%;" name="quantity" tabindex="0" id="realQuantity">
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                      <option value="7">7</option>
+                      <option value="8">8</option>
+                      <option value="9">9</option>
+                      <option value="10">10</option>
+                  </select>
+                </div>
+                
                 <div>
                     <label for="date">Date:</label>
                     <input id="date" name="date" type="date">
@@ -350,10 +346,13 @@
                         <h4 id="res-header">Restaurant</h4>
                     </div>
                     <div class = "col">
+                      <button class="nav-item float-right btn btn-outline-primary mr-2" data-toggle="modal" data-target="#ratingModal">Rate</button>
+                      
                     </div>
                 </div>
                 <hr id="title-border">
                 <p id="description">Description</p>
+                <p id="rating" style="font-weight: bold;" class="float-right"></p>
                 <p id="waitTime" style="font-weight: bold;">Average Wait Time</p>
                 <div id="menu-area" class="mt-1">
                   <div>Menu</div>
@@ -361,7 +360,32 @@
                 </div>
             </div>
         </main>
-       
+        <!--Rating Modal-->
+        <div class="modal fade" id="ratingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+              <h5 class="modal-title" id="rating-title"></h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+              </div>
+              <div class="modal-body">
+                <form onsubmit="app.rate" id="rate-res"></form>
+                  <select name="rate" id="set-rating">
+                      <option value="rate">Give a Rating</option>
+                      <option value="5">5 - Amazing</option>
+                      <option value="4">4 - Good</option>
+                      <option value="3">3 - Okay</option>
+                      <option value="2">2 - Bad</option>
+                      <option value="1">1 - Abhorrent</option>
+                  </select>
+                  <button onclick="app.rate()" type="submit" class="btn btn-primary">Submit</button>
+                </form>
+              </div>
+          </div>
+          </div>
+        </div>
         <script src="/socket.io/socket.io.js"> </script>
         <script>
         window.onload = function(){
@@ -383,6 +407,8 @@
                 $('#reservation-card').addClass('float-right');
                 $('#reservation-card').css("width", "auto");
             }
+            
+            // Edits layout on resize
             function editLayout() {
                 if($(document).width() < maxWidth) {
                     $('#reservation-card').insertAfter('#title-border');
@@ -397,7 +423,7 @@
                     $('#reservation-card').addClass('float-right');
                     $('#reservation-card').css("width", "auto");
                 }
-            }
+            } // editLayout()
         </script>
     </div>
 
@@ -408,7 +434,7 @@
         var restaurantName;
         var currentAd = 0;
         var adData = [];
-
+        var restaurantID;
 
         //window.onload=function(){
 
@@ -436,8 +462,10 @@
             document.getElementById("res-hero").src = msg.imagelocation;
             document.getElementById("waitTime").innerHTML = "Average Wait Time: " + msg.average_wait_time;
             document.getElementById("description").innerHTML = msg.description;
+            document.getElementById("rating-title").innerHTML = "Rate " + msg.name;
             restaurantName = msg.name;
             restaurantName = restaurantName.replace("Diner", "").trim();
+            restaurantID = data.id;
             socket.emit("getMenu", data.id, null);
         });
 
@@ -474,6 +502,11 @@
           }
         });
 
+        socket.on("loadRating", function(averageRating) {
+          console.log(averageRating);
+          $("#rating").text("Rating: " + averageRating);
+        });
+
         var forms = document.getElementsByClassName("signForms");
         for (form of forms){
             console.log("BEFORE: " + form.action);
@@ -502,6 +535,25 @@
 
                 return false;
             };
+            // send rating to server
+            this.rate = () => {
+              rating = document.getElementById("set-rating").value;
+              socket.emit("submitRating", restaurantID, 1, rating);
+            } // rate()
         }
+
+        document.getElementById("rate-res").onsubmit = () => {
+          rating = document.getElementById("set-rating").value;
+          console.log(rating);
+          console.log("SUBMITTED");
+        }
+        console.log(document.getElementById("rate-res"));
+        console.log(document.getElementById("set-rating"));
+        // send rating to server
+        function rate() {
+          console.log("SUBMITTED");
+          rating = document.getElementById("set-rating").value;
+          console.log(rating);
+        } // rate()
     </script>
 </body>
