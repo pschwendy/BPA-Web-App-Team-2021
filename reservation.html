@@ -380,7 +380,7 @@
                       <option value="2">2 - Bad</option>
                       <option value="1">1 - Abhorrent</option>
                   </select>
-                  <button onclick="app.rate()" type="submit" class="btn btn-primary">Submit</button>
+                  <button onclick="app.rate()" type="submit" class="btn btn-primary" data-dismiss="modal">Submit</button>
                 </form>
               </div>
           </div>
@@ -538,7 +538,11 @@
             // send rating to server
             this.rate = () => {
               rating = document.getElementById("set-rating").value;
-              socket.emit("submitRating", restaurantID, 1, rating);
+              if (document.cookie.indexOf(";", document.cookie.indexOf("id=")) !=  -1){
+                  const userIDString = document.cookie.slice(document.cookie.indexOf("id=") + 3, document.cookie.indexOf(";", document.cookie.indexOf("id=")));
+                  const userID = Number(userIDString);
+                  socket.emit("submitRating", restaurantID, userID, rating);
+              }
             } // rate()
         }
 

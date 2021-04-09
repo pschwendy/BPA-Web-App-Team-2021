@@ -188,9 +188,10 @@ class Queries {
                 throw(err);
             }
             var sum = 0;
-            for (rating of rows) {
-                sum += rating;
+            for (var rating of rows) {
+                sum += rating.rating;
             }
+            console.log(rows.length);
             var numRows = rows.length;
             if(numRows == 0) {
                 numRows++;
@@ -201,16 +202,35 @@ class Queries {
     } // getRatings()
 
     // adds user rating
-    addRating(restaurantId, userID, rating) {
-        let update = "UPDATE ratings SET rating=$rating WHERE user=$userID, storeNumber=$restaurantId";
-        this.db.run(update, function(err) {
-            // returns if update is successful
-            if(!err) {
-                return;
+    addRating(restaurantId, userID, rating, callback) {
+        let select = "SELECT rating FROM ratings WHERE user=$userID AND storeNumber=$restaurantId";
+        this.db.all(select, {
+            $restaurantId: restaurantId,
+            $userID: userID
+        }, (err, rows) => {
+            if(err) {
+                throw(err);
             }
+
+            // if rows are found, update them
+            if(rows.length != 0) {
+                let update = "UPDATE ratings SET rating=$rating WHERE user=$userID AND storeNumber=$restaurantId";
+                this.db.all(update, {
+                    $restaurantId: restaurantId,
+                    $userID: userID,
+                    $rating: rating,
+                }, (err) => {
+                    if(err) {
+                        throw(err);
+                    }
+                });
+                callback();
+                return; // exit early
+            }
+
             // if not, insert into table
-            let sql = "INSERT INTO ratings (storeNumber, user, rating) VALUES ($restaurantId, $userID, $rating)";
-            this.db.run(sql, {
+            let insert = "INSERT INTO ratings (storeNumber, user, rating) VALUES ($restaurantId, $userID, $rating)";
+            this.db.run(insert, {
                 $restaurantId: restaurantId,
                 $userID: userID,
                 $rating: rating,
@@ -220,12 +240,11 @@ class Queries {
                 }
             });
         });
-        
+        callback();
     } // addRating()
 
     //TONY CODE
-    getUserId(username, callback){
-
+    getUserId(username, callback) {
       let sql = "SELECT id FROM users WHERE username=$username";
       username = username.replace("%40", "@");
       this.db.get(sql, {

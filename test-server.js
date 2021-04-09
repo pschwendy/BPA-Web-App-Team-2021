@@ -218,8 +218,12 @@ io.on("connection", function(socket) {
     console.log("COOKIE: " + cookie);
   });
 
-  socket.on("submitRating", function(userID, rating, restaurantID){
-    querier.addRating(userID, rating, restaurantID);
+  socket.on("submitRating", function(restaurantID, userID, rating){
+    querier.addRating(restaurantID, userID, rating, function() {
+      querier.getAverageRating(restaurantID, function(averageRating) {
+        socket.emit("loadRating", averageRating);
+      });
+    });
   });
 })
 
@@ -236,6 +240,10 @@ app.use('/rides', express.static(path.join(__dirname, 'static-files')));
 // input: req -> http request
 // input: res -> app response
 app.get("/", function(req, res){
+  res.cookie("name", "__");
+  res.cookie("nick", "bobby");
+  res.cookie("id", 2);
+
   //replace directory with actual value of client file
   /*res.sendFile(__dirname + "/reservation.html");
   io.on("connection", function(socket){
@@ -274,9 +282,6 @@ app.get("/:whatever?/:whateverTwo?/logout", function(req, res) {
   else{
     res.redirect('/');
   }
-
-
-
 }); /* logout */
 
 // login
@@ -317,6 +322,7 @@ app.post("/:whatever?/:whateverTwo?/login", function(req, res) {
         console.log("SUPPOSED COOKIE:" + result.email);
         res.cookie("name", result.email);
         res.cookie("nick", result.nickname);
+        res.cookie("id", result.id);
         if (req.params.whatever != undefined){
           if (req.params.whateverTwo != undefined){
             res.redirect("/" + req.params.whatever + "/" + req.params.whateverTwo);
