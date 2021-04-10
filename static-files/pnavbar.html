@@ -1,3 +1,27 @@
+<script src="https://apis.google.com/js/api:client.js"></script>
+<script>
+  var googleUser = {};
+  var startApp = function() {
+    gapi.load('auth2', function(){
+      // Retrieve the singleton for the GoogleAuth library and set up the client.
+      auth2 = gapi.auth2.init({
+        client_id: '670268468186-s7jhd7bhkmnpssqe9r3rbsulde7p8a4h.apps.googleusercontent.com',
+        cookiepolicy: 'single_host_origin',
+        // Request scopes in addition to 'profile' and 'email'
+        //scope: 'additional_scope'
+      });
+      attachSignin(document.getElementById('customBtn'));
+    });
+  };
+
+  function attachSignin(element) {
+    console.log(element.id);
+    auth2.attachClickHandler(element, {}, function(googleUser){
+      onSignIn(googleUser);
+    });
+    return false;
+  }
+</script>
 <nav onresize="editUser()" id="p-nav"class="header-top topnav fixed-top navbar navbar-expand-lg navbar-dark bg-dark">
   <a class="navbar-brand brand" id="brand" href="/">High Thrills Entertainment Park</a>
   <button class="navbar-toggler float-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -24,10 +48,10 @@
     var nick = "";
 
 
-    if (document.cookie.indexOf(";", document.cookie.indexOf("name=")) ==  -1){
+    if (document.cookie.indexOf(";", document.cookie.indexOf("name=")) ==  -1 && document.cookie.indexOf("name=") != -1){
         name = document.cookie.slice(document.cookie.indexOf("name=") + 5, document.cookie.length);
     }
-    else{
+    else if (document.cookie.indexOf("name=") != -1){
         name = document.cookie.slice(document.cookie.indexOf("name=") + 5, document.cookie.indexOf(";", document.cookie.indexOf("name=") + 5));
     }
 
@@ -101,18 +125,28 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
   <div class="modal-content">
       <div class="modal-header">
-      <h5 class="modal-title" id="exampleModalLongTitle">Log In</h5>
+      <h5 class="modal-title" id="exampleModalLongTitle">Sign Up</h5>
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
       </button>
       </div>
       <div class="modal-body">
         <form method="POST" action="/signup">
-          <input for="uname" name="email" type="text" placeholder="Email"/>
-          <input for="pwd" name="pwd" type="password" placeholder="Password"/>
-          <input for="repeatPwd" name="repeatPwd" type="password" placeholder="Repeat Password"/>
-          <input for="nickname" name="nickname" type="text" value="" placeholder="Nickname (Optional)"/>
-          <button type="submit" class="btn btn-primary">SUBMIT</button>
+          <p class="mb-0" style="font-size: small;" aria-autocomplete="none">Email</p>
+          <input class="modal-form" for="uname" name="email" type="text" placeholder="Email"/>
+          <p class="mb-0" style="font-size: small;">Password</p>
+          <input class="modal-form" for="pwd" name="pwd" type="password" placeholder="Password"/>
+          <p class="mb-0" style="font-size: small;">Confirm Password</p>
+          <input class="modal-form" for="repeatPwd" name="repeatPwd" type="password" placeholder="Repeat Password"/>
+          <p class="mb-0" style="font-size: small;">Nickname (Optional)</p>
+          <input class="modal-form" for="nickname" name="nickname" type="text" value="" placeholder="Nickname (Optional)"/>
+          <button style="margin-top: 10px; width: 100%; border-radius: 9999px;" class="btn btn-primary" type="submit">Sign Up</button>
+          <div style="display: inline-flex; position: relative; text-align: center; width: 100%;">
+            <div style="left: 0; margin-left: 5%; width: 40%; position: absolute; top: 50%; border: 1px solid black;"></div>
+            <div style="position: absolute; top: 50%; left:50%; transform: translate(-50%, -50%);">Or</div>
+            <div style="margin-right: 5%; right:0; width: 40%; position: absolute; top: 50%; border: 1px solid black;"></div>
+          </div>
+          <button id="customBtn" data-onsuccess="onSignIn" onclick="return false;" style="margin-top: 10px; width: 100%; border-radius: 9999px;" class="customGPlusSignIn btn btn-success">Sign Up with Google</button>
         </form>
       </div>
       <div class="modal-footer">
@@ -134,10 +168,22 @@
       </button>
       </div>
       <div class="modal-body">
-        <form method="POST" action="/login">
+        <!--<form method="POST" action="/login">
           <input for="uname" name="uname" type="text" placeholder="Username"/>
           <input for="pwd" name="pwd" type="password" placeholder="Password"/>
           <button type="submit" class="btn btn-primary">SUBMIT</button>
+        </form>-->
+        <form method="POST" action="/signup">
+          <p class="mb-0" style="font-size: small;" aria-autocomplete="none">Email</p>
+          <input class="modal-form" for="uname" name="uname" type="text" placeholder="Username"/>
+          <p class="mb-0" style="font-size: small;">Password</p>
+          <input class="modal-form" for="pwd" name="pwd" type="password" placeholder="Password"/>
+          <button style="margin-top: 10px; width: 100%; border-radius: 9999px;" class="btn btn-primary" type="submit">Log In</button>
+          <div style="display: inline-flex; position: relative; text-align: center; width: 100%;">
+            <div style="left: 0; margin-left: 5%; width: 40%; position: absolute; top: 50%; border: 1px solid black;"></div>
+            <div style="position: absolute; top: 50%; left:50%; transform: translate(-50%, -50%);">Or</div>
+            <div style="margin-right: 5%; right:0; width: 40%; position: absolute; top: 50%; border: 1px solid black;"></div>
+          </div>
         </form>
         <script src="https://apis.google.com/js/platform.js" async defer></script>
        <meta name="google-signin-client_id" content="670268468186-s7jhd7bhkmnpssqe9r3rbsulde7p8a4h.apps.googleusercontent.com">
@@ -147,7 +193,8 @@
            <input id="gPwd" for="gPwd" name="gPwd" type="password"/>
            <input id="gNick" for="gNick" name="gNick" type="text"/>
          </div>
-         <div class="g-signin2" data-onsuccess="onSignIn"></div>
+         <!--<div class="g-signin2" data-onsuccess="onSignIn"></div>-->
+          <button id="customBtn" data-onsuccess="onSignIn" onclick="return false;" style="margin-top: 10px; width: 100%; border-radius: 9999px;" class="customGPlusSignIn btn btn-success">Log In with Google</button>
        </form>
       </div>
       <div class="modal-footer">
@@ -156,7 +203,10 @@
       </div>
   </div>
 
+  <script src="/socket.io/socket.io.js"></script>
   <script>
+    startApp();
+    var socket = io();
 
     function removeG(){
 
@@ -172,7 +222,6 @@
 
       // The ID token you need to pass to your backend:
       var id_token = googleUser.getAuthResponse().id_token;
-      console.log("ID Token: " + id_token);
 
       document.getElementById("gUsername").value = profile.getEmail();
       document.getElementById("gNick").value = profile.getGivenName();
@@ -181,8 +230,14 @@
         document.getElementById("gForm").submit();
       }
 
-    }
+      /*var gUname = profile.getEmail();
+      var gNickname = profile.getGivenName();
+      var gPwd = "g";
+      if (name == ""){
+        socket.emit("gsignin", [gUname, gPwd, gNickname]);        
+      }*/
 
+    }
     function changeForms(){
       console.log("CHANGE FORMS ACTIVATED");
 
@@ -196,6 +251,11 @@
       var pain = document.getElementById("pain")
       pain.href = "/restaurants/" + restaurantName.toLowerCase() + pain.href.slice(pain.href.lastIndexOf('/'), pain.href.length);*/
     }
+
+    socket.on("reload", function(msg){
+      console.log("GOT ITTTT");
+      window.location.reload();
+    });
   </script>
   </div>
 </div>

@@ -18,6 +18,19 @@
   left: 0; 
 }
 
+.modal-form {
+    width: 100%; 
+    margin-bottom: 10px;
+}
+  span.icon {
+    background: url('./btn_google_light_normal_ios.svg') transparent 5px 50% no-repeat;
+    display: inline-block;
+    vertical-align: middle;
+    width: 42px;
+    height: 42px;
+    left: 5%;
+  }
+
 @media only screen and (min-width : 992px) {
     .navbar-brand{
         text-align: center;

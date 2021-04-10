@@ -65,12 +65,13 @@
                     <a onclick="removeG()" onload="changeForms()" id="pain" class="dropdown-item" href="./logout">Log Out</a> \
                   </div> \
                 </div>';
-                if (document.cookie.indexOf(";", document.cookie.indexOf("name=")) ==  -1){
-                    name = document.cookie.slice(document.cookie.indexOf("name=") + 5, document.cookie.length);
+                if (document.cookie.indexOf(";", document.cookie.indexOf("name=")) ==  -1 && document.cookie.indexOf("name=") != -1){
+                  name = document.cookie.slice(document.cookie.indexOf("name=") + 5, document.cookie.length);
                 }
-                else{
-                    name = document.cookie.slice(document.cookie.indexOf("name=") + 5, document.cookie.indexOf(";", document.cookie.indexOf("name=") + 5));
+                else if (document.cookie.indexOf("name=") != -1){
+                  name = document.cookie.slice(document.cookie.indexOf("name=") + 5, document.cookie.indexOf(";", document.cookie.indexOf("name=") + 5));
                 }
+
 
                 if (document.cookie.indexOf("nick") == -1){
                     nick = name;

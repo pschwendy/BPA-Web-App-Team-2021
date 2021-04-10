@@ -218,6 +218,73 @@ io.on("connection", function(socket) {
     console.log("COOKIE: " + cookie);
   });
 
+  socket.on("gsignin", function(msg){
+
+    function setCookie(name, value){
+      
+    }
+    
+    //Assumptions
+    var email = msg[0];
+    var password = msg[1];
+    var nickname = msg[2];
+
+    var oldPassword = msg[1];
+
+    console.log(email +" " + password + " " + nickname);
+
+
+    var emailWorks = true;
+    var pwdWorks = true;
+    var dataWorks = false;
+
+    //salt and hash password with ten rounds of salting
+    bcrypt.hash(password, 10, function(err, hash){
+
+      password = hash;
+
+      querier.signup(email, password, nickname, function(result){
+
+        dataWorks = result;
+        console.log(dataWorks);
+
+        if (emailWorks && pwdWorks && (dataWorks== true)){
+          res.cookie("name", email);
+          res.cookie("nick", nickname);
+        }
+        else{
+          if (!emailWorks){
+            res.cookie("ERROR", 1);
+          }
+          else if (!pwdWorks){
+            res.cookie("ERROR", 2);
+          }
+          else if (!dataWorks){
+            querier.login(email, oldPassword, function(result){
+
+              if (result != false){
+                res.cookie("name", email);
+                res.cookie("nick", nickname);
+              }
+              else{
+                res.cookie("ERROR", 4);
+              }
+
+            });
+          }
+
+        }
+
+      });
+
+
+    });
+
+    console.log("************DONE WITH SOCKET VERSION***********");
+    socket.emit("reloadOrder", 0);
+   
+  });
+
   socket.on("submitRating", function(restaurantID, userID, rating){
     querier.addRating(restaurantID, userID, rating, function() {
       querier.getAverageRating(restaurantID, function(averageRating) {
@@ -240,10 +307,6 @@ app.use('/rides', express.static(path.join(__dirname, 'static-files')));
 // input: req -> http request
 // input: res -> app response
 app.get("/", function(req, res){
-  res.cookie("name", "__");
-  res.cookie("nick", "bobby");
-  res.cookie("id", 2);
-
   //replace directory with actual value of client file
   /*res.sendFile(__dirname + "/reservation.html");
   io.on("connection", function(socket){
@@ -476,7 +539,7 @@ app.post("/:whatever?/:whateverTwo?/gsignin", function(req, res){
           console.log("HI");
           res.cookie("name", email);
           res.cookie("nick", nickname);
-          if (req.params.whatever != undefined){
+          /*if (req.params.whatever != undefined){
             if (req.params.whateverTwo != undefined){
               res.redirect("/" + req.params.whatever + "/" + req.params.whateverTwo);
             }
@@ -487,12 +550,13 @@ app.post("/:whatever?/:whateverTwo?/gsignin", function(req, res){
           }
           else{
             res.redirect('/');
-          }
+          }*/
+          res.redirect('back');
         }
         else{
           if (!emailWorks){
             res.cookie("ERROR", 1);
-            if (req.params.whatever != undefined){
+            /*if (req.params.whatever != undefined){
               if (req.params.whateverTwo != undefined){
                 res.redirect("/" + req.params.whatever + "/" + req.params.whateverTwo);
               }
@@ -503,11 +567,12 @@ app.post("/:whatever?/:whateverTwo?/gsignin", function(req, res){
             }
             else{
               res.redirect('/');
-            }
+            }*/
+            res.redirect('back');
           }
           else if (!pwdWorks){
             res.cookie("ERROR", 2);
-            if (req.params.whatever != undefined){
+            /*if (req.params.whatever != undefined){
               if (req.params.whateverTwo != undefined){
                 res.redirect("/" + req.params.whatever + "/" + req.params.whateverTwo);
               }
@@ -518,7 +583,8 @@ app.post("/:whatever?/:whateverTwo?/gsignin", function(req, res){
             }
             else{
               res.redirect('/');
-            }
+            }*/
+            res.redirect('back');
           }
           else if (!dataWorks){
             querier.login(email, oldPassword, function(result){
@@ -531,7 +597,7 @@ app.post("/:whatever?/:whateverTwo?/gsignin", function(req, res){
                 res.cookie("ERROR", 4);
               }
 
-              if (req.params.whatever != undefined){
+              /*if (req.params.whatever != undefined){
                 if (req.params.whateverTwo != undefined){
                   res.redirect("/" + req.params.whatever + "/" + req.params.whateverTwo);
                 }
@@ -542,9 +608,8 @@ app.post("/:whatever?/:whateverTwo?/gsignin", function(req, res){
               }
               else{
                 res.redirect('/');
-              }
-
-
+              }*/
+              res.redirect('back');
             });
           }
 
