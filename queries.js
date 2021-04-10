@@ -112,6 +112,7 @@ class Queries {
                 throw(err);
             }
         });
+        console.log("*****************RAN DELETE FUNCTION****************");
     } /* delete_reservation */
 
     // reservation function

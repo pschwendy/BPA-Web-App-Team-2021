@@ -9,16 +9,9 @@ var app =  new function() {
     this.times = [];
     this.dates = [];
     this.combinedArray = [];
+    this.rawDates = [];
 
-    this.rowData = '';
-    this.rowData += '<tr>';
-    this.rowData += '<form action = "javascript:void(0);" method = "POST" id = "save-edit">';
-    this.rowData += '<td ><input  type = "text" id = "edit-todo"></td>';
-    this.rowData += '<td><input type = "time" id = "edit-time" placeholder="time" ></td>';
-    this.rowData += '<td><input type = "date" id = "edit-date" ></td>';
-    this.rowData += '<td><input type = "submit" value = "save" class = "btn btn-success" onclick = "(new app.Edit()).saveIt();"></td> <td><a onclick = "CloseInput()" aria-label = "Close">&#10006;</a> </td>';
-    this.rowData += '</form>';
-    this.rowData += '</tr>';
+    
 
     //S();
 
@@ -57,7 +50,7 @@ var app =  new function() {
                 data += '<td>' + this.combinedArray[i].theTime + '</td>';
                 data += '<td>' + this.combinedArray[i].theDate +'</td>';
                 data += '<td> <button onclick = "app.Edit('+i+')" class = "btn btn-warning" > Edit </button>  <button onclick = "app.Delete('+i+')" class = "btn btn-danger"> Delete </button></td>'; // adds edit button
-                data += '</tr>'
+                data += '</tr>';
             }
         }
 
@@ -70,18 +63,42 @@ var app =  new function() {
         let data = '';
             for (i = 0; i < this.tasks.length; i++) {
                 if (i === rowNum+1) {
-                    data += this.rowData;
+                    /* row data */
+                    rowData = '';
+                    rowData += '<tr>';
+                    rowData += '<form action = "javascript:void(0);" method = "POST" id = "save-edit">';
+                    rowData += '<td ><input  type = "text" id = "edit-todo"></td>';
+                    rowData += '<td><input type = "time" id = "edit-time" placeholder="time" ></td>';
+                    rowData += '<td><input type = "date" id = "edit-date" ></td>';
+                    rowData += '<td><input type = "submit" value = "save" class = "btn btn-success" onclick = "app.saveEdit('+i+');" </td> <td> <a onclick = "CloseInput()" aria-label = "Close">&#10006;</a> </td>';
+                    rowData += '</form>';
+                    rowData += '</tr>';
+                    /* row data */
+                    data += rowData;
                     editAdded = true;
                 }
-                    data += '<tr>'; //adds table row
-                    data += '<td>' + (i+1) + '. ' + '</td>'; //adds table cell so it says the task number then the task info i.e 3. Eat lunch
+                    data += '<tr>'; // adds table row
+                    data += '<td>' + (i+1) + '. ' + '</td>'; // adds table cell so it says the task number then the task info i.e 3. Eat lunch
                     data += '<td>' + this.combinedArray[i].theTask + '</td>';
                     data += '<td>' + this.combinedArray[i].theTime + '</td>';
                     data += '<td>' + this.combinedArray[i].theDate +'</td>';
                     data += '<td> <button onclick = "app.Edit('+i+')" class = "btn btn-warning" > Edit </button>  <button onclick = "app.Delete('+i+')" class = "btn btn-danger"> Delete </button></td>'; // adds edit button
                     data += '</tr>'
             }
-            if (!editAdded) {data += this.rowData;}
+            if (!editAdded) {
+                /* row data */
+                rowData = ''
+                rowData += '<tr>';
+                rowData += '<form action = "javascript:void(0);" method = "POST" id = "save-edit">';
+                rowData += '<td ><input  type = "text" id = "edit-todo"></td>';
+                rowData += '<td><input type = "time" id = "edit-time" placeholder="time" ></td>';
+                rowData += '<td><input type = "date" id = "edit-date" ></td>';
+                rowData += '<td><input type = "submit" value = "save" class = "btn btn-success" onclick = "app.saveEdit('+0+');" </td> <td> <a onclick = "CloseInput()" aria-label = "Close">&#10006;</a> </td>';
+                rowData += '</form>';
+                rowData += '</tr>';
+                /* row data */
+                data += rowData;
+            }
 
     return this.el.innerHTML = data;
         
@@ -118,31 +135,14 @@ var app =  new function() {
         var elTime = document.getElementById('edit-time');
         var elDate = document.getElementById('edit-date');
 
-        elTask.value = this.tasks[item];
+        /*elTask.value = this.tasks[item];
         elTime.value = this.times[item];
-        elDate.value = convertBack(this.dates[item]);
+        elDate.value = convertBack(this.dates[item]);*/
         this.FetchEdit(item);
         console.log("Fetch Edit");
         //document.getElementById('edit-box').style.display = 'block'; //defaults to close, displays it
-        self = this;
-        
-        function saveIt() {
-            console.log('saved edit, kinda garbo tho');
-            var task = elTask.value;
-            var time = elTime.value;
-            var date = elDate.value;
-
-            if (task && time && checkTime(time)) {
-                self.tasks.splice(item, 1, task.trim());
-                self.times.splice(item, 1, time);
-                var convertedDate = convertDate(date);
-                self.dates.splice(item, 1, convertedDate);
-                self.FetchAll();
-                CloseInput();
-            }
-        }
     
-        document.getElementById('save-edit').onsubmit = function() {
+        /*document.getElementById('save-edit').onsubmit = function() {
             console.log('saved edit, kinda garbo tho');
             var task = elTask.value;
             var time = elTime.value;
@@ -156,13 +156,37 @@ var app =  new function() {
                 self.FetchAll();
                 CloseInput();
             }
-        }
+        }*/
     };
+    
+    this.saveEdit = function(item) { 
+        self = this;
+        var elTask = document.getElementById('edit-todo');
+        var elTime = document.getElementById('edit-time');
+        var elDate = document.getElementById('edit-date');
+       
+        console.log('saved edit, kinda garbo tho');
+        var task = elTask.value;
+        var time = elTime.value;
+        var date = elDate.value;
+
+        if (task && time && checkTime(time)) {
+            self.tasks.splice(item, 1, task.trim());
+            self.times.splice(item, 1, time);
+            var convertedDate = convertDate(date);
+            self.dates.splice(item, 1, convertedDate);
+            self.FetchAll();
+            CloseInput();
+        }
+    }
 
     this.Delete = function (item) { //deletes element
+        console.log("THE BIG Q: " + item);
         console.log("THE INFO");
-        console.log(this.times[item]+ " " + this.dates[item]);
-        socket.emit("deleteTask", [username, this.times[item], this.dates[item], this.tasks[item]]);
+        var betterV = this.tasks[item].replace("RESERVATION FOR: ", "").trim();
+        //1611907200000
+        console.log(this.rawDates[item]);
+        socket.emit("deleteTask", [username, this.rawDates[item], this.dates[item], betterV]);
         this.tasks.splice(item, 1);
         this.times.splice(item, 1);
         this.dates.splice(item, 1);
@@ -298,10 +322,6 @@ function isDigit(charr) {
     return false;
 }
 
-
-
-
-
 window.onload = function(){
 
 
@@ -342,6 +362,8 @@ socket.on("getTaskData", function(msg){
         else{
             attraction = attraction.replace(/-/g, " ").trim();
         }
+
+        app.rawDates.push(task.time);
         app.tasks.push(attraction);
         var date = new Date(task.time);
         let h = date.getHours();
@@ -353,6 +375,7 @@ socket.on("getTaskData", function(msg){
         var time = h + ":" + m + ":" + s;
         app.times.push(time);
         app.dates.push(task.date);
+        
     }
   }
   
