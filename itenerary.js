@@ -10,6 +10,15 @@ var app =  new function() {
     this.dates = [];
     this.combinedArray = [];
 
+    this.rowData = '';
+    this.rowData += '<tr>';
+    this.rowData += '<form action = "javascript:void(0);" method = "POST" id = "save-edit">';
+    this.rowData += '<td ><input  type = "text" id = "edit-todo"></td>';
+    this.rowData += '<td><input type = "time" id = "edit-time" placeholder="time" ></td>';
+    this.rowData += '<td><input type = "date" id = "edit-date" ></td>';
+    this.rowData += '<td><input type = "submit" value = "save" class = "btn btn-success" onclick = "(new app.Edit()).saveIt();"></td> <td><a onclick = "CloseInput()" aria-label = "Close">&#10006;</a> </td>';
+    this.rowData += '</form>';
+    this.rowData += '</tr>';
 
     //S();
 
@@ -27,7 +36,13 @@ var app =  new function() {
         console.log("dates: ");
         console.log(this.dates);
 
-        document.getElementById('edit-box').style.display = 'none';
+        /*document.getElementById('edit-box').style.display = 'none';*/  /*<tr>
+        <form action = "javascript:void(0);" method = "POST" id = "save-edit">
+            <td ><input  type = "text" id = "edit-todo"></td><!-- style = "width: 30px;" -->
+            <td><input type = "time" id = "edit-time" placeholder="time" ></td> <!-- size = "1" -->
+            <td><input type = "date" id = "edit-date" ></td> <!-- size = "1" -->
+           <td><input type = "submit" value = "save" class = "btn btn-success"></td> <td><a onclick = "CloseInput()" aria-label = "Close">&#10006;</a> </td>
+        </form> */
         let data = '';
 
         if (this.times.length > 1 && this.dates.length > 1) {
@@ -48,6 +63,28 @@ var app =  new function() {
 
         this.Count(this.tasks.length);
         return this.el.innerHTML = data;
+    };
+
+    this.FetchEdit = function (rowNum) {
+        var editAdded = false;
+        let data = '';
+            for (i = 0; i < this.tasks.length; i++) {
+                if (i === rowNum+1) {
+                    data += this.rowData;
+                    editAdded = true;
+                }
+                    data += '<tr>'; //adds table row
+                    data += '<td>' + (i+1) + '. ' + '</td>'; //adds table cell so it says the task number then the task info i.e 3. Eat lunch
+                    data += '<td>' + this.combinedArray[i].theTask + '</td>';
+                    data += '<td>' + this.combinedArray[i].theTime + '</td>';
+                    data += '<td>' + this.combinedArray[i].theDate +'</td>';
+                    data += '<td> <button onclick = "app.Edit('+i+')" class = "btn btn-warning" > Edit </button>  <button onclick = "app.Delete('+i+')" class = "btn btn-danger"> Delete </button></td>'; // adds edit button
+                    data += '</tr>'
+            }
+            if (!editAdded) {data += this.rowData;}
+
+    return this.el.innerHTML = data;
+        
     };
 
     this.Add = function () { //adds a task
@@ -76,6 +113,7 @@ var app =  new function() {
     };
 
     this.Edit = function(item) {  //edits task
+        console.log(item);
         var elTask = document.getElementById('edit-todo');
         var elTime = document.getElementById('edit-time');
         var elDate = document.getElementById('edit-date');
@@ -83,11 +121,29 @@ var app =  new function() {
         elTask.value = this.tasks[item];
         elTime.value = this.times[item];
         elDate.value = convertBack(this.dates[item]);
-        document.getElementById('edit-box').style.display = 'block'; //defaults to close, displays it.
+        this.FetchEdit(item);
+        console.log("Fetch Edit");
+        //document.getElementById('edit-box').style.display = 'block'; //defaults to close, displays it
         self = this;
         
+        function saveIt() {
+            console.log('saved edit, kinda garbo tho');
+            var task = elTask.value;
+            var time = elTime.value;
+            var date = elDate.value;
 
+            if (task && time && checkTime(time)) {
+                self.tasks.splice(item, 1, task.trim());
+                self.times.splice(item, 1, time);
+                var convertedDate = convertDate(date);
+                self.dates.splice(item, 1, convertedDate);
+                self.FetchAll();
+                CloseInput();
+            }
+        }
+    
         document.getElementById('save-edit').onsubmit = function() {
+            console.log('saved edit, kinda garbo tho');
             var task = elTask.value;
             var time = elTime.value;
             var date = elDate.value;
@@ -213,7 +269,7 @@ function convertBack(date) {
 app.FetchAll(); //fetches all by default
 
 function CloseInput() { //closes edit box
-    document.getElementById('edit-box').style.display = 'none';
+    app.FetchAll();
 }
 
 function checkTime(time) {

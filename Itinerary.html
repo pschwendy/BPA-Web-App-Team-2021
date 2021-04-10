@@ -112,13 +112,13 @@
             </thead>
             <tbody id = "tasks"></tbody>
         </table>
-    <div id = "edit-box" role = "aria-hidden">
+        <div id = "edit-box" role = "aria-hidden">
              <table style = "margin: 0 auto" class = "edit-table">
             <tbody>
                 <tr>
-            <form action = "javascript:void(0);" method = "POST" id = "save-edit">
+            <form action = "javascript:void(0);" method = "POST">
                 <td ><input  type = "text" id = "edit-todo"></td><!-- style = "width: 30px;" -->
-                <td><input type = "time" id = "edit-time" placeholder="time" ></td> <!-- size = "1" -->
+                <td><input type = "time" id = "edit-time" placeholder="time" ></td> <!----> size = "1" -->
                 <td><input type = "date" id = "edit-date" ></td> <!-- size = "1" -->
                <td><input type = "submit" value = "save" class = "btn btn-success"></td> <td><a onclick = "CloseInput()" aria-label = "Close">&#10006;</a> </td>
             </form>
@@ -126,7 +126,7 @@
         </tbody>
     </table> 
 
-    </div>
+    </div> 
 
   <script src="/socket.io/socket.io.js"></script>
   <script src="/itenerary.js"></script>
