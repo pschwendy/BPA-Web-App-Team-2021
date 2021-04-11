@@ -353,7 +353,7 @@
                 </div>
                 <hr id="title-border">
                 <p id="description">Description</p>
-                <p id="rating" style="font-weight: bold;" class="float-right"></p>
+                <p id="rating" style="font-weight: bold;"></p>
                 <p id="waitTime" style="font-weight: bold;">Average Wait Time</p>
                 <div id="menu-area" class="mt-1">
                   <div>Menu</div>
@@ -504,8 +504,12 @@
         });
 
         socket.on("loadRating", function(averageRating) {
-          console.log(averageRating);
-          $("#rating").text("Rating: " + averageRating);
+          averageRating = Math.round(averageRating);
+          var stars = "";
+          for (var i = 0; i < averageRating; i++) {
+            stars += " ⭐ ";
+          }
+          $("#rating").text("Rating: " + stars);
         });
 
         var forms = document.getElementsByClassName("signForms");
@@ -538,12 +542,9 @@
             };
             // send rating to server
             this.rate = () => {
+              console.log(name);
               rating = document.getElementById("set-rating").value;
-              if (document.cookie.indexOf(";", document.cookie.indexOf("id=")) !=  -1){
-                  const userIDString = document.cookie.slice(document.cookie.indexOf("id=") + 3, document.cookie.indexOf(";", document.cookie.indexOf("id=")));
-                  const userID = Number(userIDString);
-                  socket.emit("submitRating", restaurantID, userID, rating);
-              }
+              socket.emit("submitRating", restaurantID, name, rating);
             } // rate()
         }
 

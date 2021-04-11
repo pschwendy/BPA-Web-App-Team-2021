@@ -64,13 +64,14 @@ var app =  new function() {
             for (i = 0; i < this.tasks.length; i++) {
                 if (i === rowNum+1) {
                     /* row data */
-                    rowData = '';
-                    rowData += '<tr>';
+                    rowData = ''
+                    rowData += '<tr class = "edit-row">';
                     rowData += '<form action = "javascript:void(0);" method = "POST" id = "save-edit">';
-                    rowData += '<td ><input  type = "text" id = "edit-todo"></td>';
+                    rowData += '<td ></td>';
+                    rowData += '<td > <input  type = "text" id = "edit-todo"></td>';
                     rowData += '<td><input type = "time" id = "edit-time" placeholder="time" ></td>';
                     rowData += '<td><input type = "date" id = "edit-date" ></td>';
-                    rowData += '<td><input type = "submit" value = "save" class = "btn btn-success" onclick = "app.saveEdit('+i+');" </td> <td> <a onclick = "CloseInput()" aria-label = "Close">&#10006;</a> </td>';
+                    rowData += '<td><input type = "submit" value = "save" class = "btn btn-success" onclick = "app.saveEdit('+i+');"> <a onclick = "CloseInput()" class = "close-button" aria-label = "Close">&#10006;</a> <button onclick = "CloseInput()" class = "btn btn-secondary"> Close </button> </td>';
                     rowData += '</form>';
                     rowData += '</tr>';
                     /* row data */
@@ -82,18 +83,19 @@ var app =  new function() {
                     data += '<td>' + this.combinedArray[i].theTask + '</td>';
                     data += '<td>' + this.combinedArray[i].theTime + '</td>';
                     data += '<td>' + this.combinedArray[i].theDate +'</td>';
-                    data += '<td> <button onclick = "app.Edit('+i+')" class = "btn btn-warning" > Edit </button>  <button onclick = "app.Delete('+i+')" class = "btn btn-danger"> Delete </button></td>'; // adds edit button
+                    data += '<td> <button onclick = "app.Edit('+i+')" class = "btn btn-warning edit-button" > Edit </button>  <button onclick = "app.Delete('+i+')" class = "btn btn-danger"> Delete </button></td>'; // adds edit button
                     data += '</tr>'
             }
             if (!editAdded) {
                 /* row data */
                 rowData = ''
-                rowData += '<tr>';
+                rowData += '<tr class = "edit-row">';
                 rowData += '<form action = "javascript:void(0);" method = "POST" id = "save-edit">';
-                rowData += '<td ><input  type = "text" id = "edit-todo"></td>';
+                rowData += '<td ></td>';
+                rowData += '<td > <input  type = "text" id = "edit-todo"></td>';
                 rowData += '<td><input type = "time" id = "edit-time" placeholder="time" ></td>';
                 rowData += '<td><input type = "date" id = "edit-date" ></td>';
-                rowData += '<td><input type = "submit" value = "save" class = "btn btn-success" onclick = "app.saveEdit('+0+');" </td> <td> <a onclick = "CloseInput()" aria-label = "Close">&#10006;</a> </td>';
+                rowData += '<td><input type = "submit" value = "save" class = "btn btn-success" onclick = "app.saveEdit('+0+');"> <a class = "close-button" onclick = "CloseInput()" aria-label = "Close"> &#10006;</a> <button onclick = "CloseInput()"class = "btn btn-secondary"> Close </button> </td>';
                 rowData += '</form>';
                 rowData += '</tr>';
                 /* row data */
@@ -119,6 +121,7 @@ var app =  new function() {
             var convertedDate = convertDate(date);
             this.dates.push(convertedDate);
             console.log(this.times);
+            
             socket.emit("addTask", [task, time, username, date]);
        //     this.timesOfDays.push(timeOfDay);
             elTask.value = '';

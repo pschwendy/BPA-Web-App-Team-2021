@@ -203,20 +203,45 @@ class Queries {
     } // getRatings()
 
     // adds user rating
-    addRating(restaurantId, userID, rating, callback) {
-        let select = "SELECT rating FROM ratings WHERE user=$userID AND storeNumber=$restaurantId";
-        this.db.all(select, {
-            $restaurantId: restaurantId,
-            $userID: userID
-        }, (err, rows) => {
+    addRating(restaurantId, username, rating, callback) {
+        let getUserId = "SELECT * FROM users WHERE username=$username";
+        this.db.all(getUserId, {
+            $username: username
+        }, (err, ids) => {
             if(err) {
                 throw(err);
             }
+            console.log(ids[0].id);
+            const userID = ids[0].id;
+            console.log("ID: " + userID);
+            let select = "SELECT rating FROM ratings WHERE user=$userID AND storeNumber=$restaurantId";
+            this.db.all(select, {
+                $restaurantId: restaurantId,
+                $userID: userID
+            }, (err, rows) => {
+                if(err) {
+                    throw(err);
+                }
 
-            // if rows are found, update them
-            if(rows.length != 0) {
-                let update = "UPDATE ratings SET rating=$rating WHERE user=$userID AND storeNumber=$restaurantId";
-                this.db.all(update, {
+                // if rows are found, update them
+                if(rows.length != 0) {
+                    let update = "UPDATE ratings SET rating=$rating WHERE user=$userID AND storeNumber=$restaurantId";
+                    this.db.all(update, {
+                        $restaurantId: restaurantId,
+                        $userID: userID,
+                        $rating: rating,
+                    }, (err) => {
+                        if(err) {
+                            throw(err);
+                        }
+                    });
+                    callback();
+                    return; // exit early
+                }
+
+                // if not, insert into table
+                let insert = "INSERT INTO ratings (storeNumber, user, rating) VALUES ($restaurantId, $userID, $rating)";
+                this.db.run(insert, {
                     $restaurantId: restaurantId,
                     $userID: userID,
                     $rating: rating,
@@ -225,22 +250,9 @@ class Queries {
                         throw(err);
                     }
                 });
-                callback();
-                return; // exit early
-            }
-
-            // if not, insert into table
-            let insert = "INSERT INTO ratings (storeNumber, user, rating) VALUES ($restaurantId, $userID, $rating)";
-            this.db.run(insert, {
-                $restaurantId: restaurantId,
-                $userID: userID,
-                $rating: rating,
-            }, (err) => {
-                if(err) {
-                    throw(err);
-                }
             });
         });
+        
         callback();
     } // addRating()
 
@@ -284,7 +296,7 @@ class Queries {
       console.log(startTime);
       console.log(endTime);
       let sql = "SELECT * FROM reservations WHERE attractionRideName=$attraction AND date=$date AND time BETWEEN $endTime AND $startTime";
-      this.db.all(sql,{
+      this.db.all(sql, {
         $attraction: attraction,
         $date: date,
         $endTime: endTime,
@@ -349,30 +361,22 @@ class Queries {
     
 
     validate(name, callback){
-
         let sql = "SELECT admin FROM users WHERE username=$name";
         this.db.get(sql, {
-
             $name: name
-
         }, (err, row) => {
-
             callback(row.admin);
-
         });
-
-
-
     }
 
-    addAttraction(name, imageLocation, isRestaurant, averageWaitTime, description, menu = null) {
-        let sql = "INSERT INTO attractions(name, page_address, average_wait_time, imagelocation, description, menu, isRestaurant) VALUES ($name, $page, $waitTime, $description, $menu, $isRestaurant)";
+    addAttraction(name, page, imageLocation, isRestaurant, averageWaitTime, description) {
+        let sql = "INSERT INTO attractions(name, page_address, average_wait_time, imagelocation, description, isRestaurant) VALUES ($name, $page, $waitTime, $imagelocation, $description, $isRestaurant)";
         this.db.run(sql, {
             $name: name,
-            $imageLocation: imageLocation,
+            $page: page,
+            $imagelocation: imageLocation,
             $waitTime: averageWaitTime,
             $description: description,
-            $menu: menu,
             $isRestaurant: isRestaurant,
         }, (err) => {
             if(err) {

@@ -11,6 +11,7 @@ var queries = require("./queries.js");
 var querier = new queries();
 
 const bcrypt = require("bcryptjs");
+var fs = require('fs');
 
 //storing tasks as json for now, change to db at some point
 var tasks = [];
@@ -285,8 +286,11 @@ io.on("connection", function(socket) {
    
   });
 
-  socket.on("submitRating", function(restaurantID, userID, rating){
-    querier.addRating(restaurantID, userID, rating, function() {
+  socket.on("submitRating", function(restaurantID, name, rating){
+    console.log("NAME: " + name);
+    name = name.replace(/%40/g, "@");
+    console.log(name);
+    querier.addRating(restaurantID, name, rating, function() {
       querier.getAverageRating(restaurantID, function(averageRating) {
         socket.emit("loadRating", averageRating);
       });
@@ -416,6 +420,8 @@ app.post("/:whatever?/:whateverTwo?/login", function(req, res) {
     });
   });
 }); /* login */
+
+
 
 // checkPassword
 // input: password -> password being checked
@@ -661,6 +667,32 @@ app.get("/admin", function(req,res) {
   res.sendFile(__dirname + "/admin.html");
 }); /* admin */
 
+app.post('/admin', function(req, res){
+  var form = new formidable.IncomingForm();
+  form.parse(req, function(err, fields, files) {
+    if (err){
+      throw(err);
+    }
+    console.log("FILES");
+    console.log(files);
+    const attractionName = fields.name,
+          description = fields.description,
+          waitTime = fields.wait,
+          isRestaurant = (fields.type == "restaurant") ? true : false,
+          imageLocation = '/' + files.attrImage.name,
+          page = attractionName.replace(/ /g,"-").toLowerCase();
+
+    console.log(imageLocation);
+    var oldpath = files.attrImage.path;
+    var newpath = __dirname + "/static-files" + imageLocation;
+    fs.rename(oldpath, newpath, function(err){
+      if (err) throw err;
+      res.redirect('back');
+    });
+    
+    querier.addAttraction(attractionName, page, imageLocation, isRestaurant, waitTime, description);
+  });
+});
 // reservation
 // input: req -> http request
 // input: res -> app response

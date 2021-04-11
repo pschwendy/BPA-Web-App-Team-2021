@@ -60,17 +60,16 @@
       <div class="tab-content card-body">
         <h5 class="card-title">Create an Attraction</h5>
         <div class="tab-pane active fade show" id="restaurant">
-          <form>
+          <form id="restaurant-form" enctype="multipart/form-data" method="POST">
+            <input name="type" style="display: none;" value="restaurant">
             <p class="mb-0">Name</p>
-            <input aria-label="Name" type="text" style="width:100%;">
+            <input name="name" aria-label="Name" type="text" style="width:100%;">
             <p class="mt-2 mb-0">Description</p>
-            <textarea rows="5" style="width:100%;"></textarea>
+            <textarea name="description" rows="5" style="width:100%;"></textarea>
             <p class="mb-0">Average Wait Time</p>
-            <input type="text" style="width:100%;">
+            <input name="wait" type="text" style="width:100%;">
             <p class="mt-1 mb-0">Hero Image</p>
-            <input type="file" id="myFile" accept="image/*" name="filename">
-            <p class="mt-1 mb-0">Portal Image</p>
-            <input type="file" id="myFile" accept="image/*" name="filename">
+            <input name="attrImage" type="file" id="myFile" accept="image/*">
             <div class="row">
               <div class="col reserve">
                 <button type="submit" class="btn btn-primary right res-button" data-toggle="modal" data-target="#exampleModalCenter" id = "submit-button" >
@@ -79,9 +78,16 @@
               </div>
             </div>
           </form>
+          <script>
+            function logInfo() {
+              console.log(document.getElementById('myFile').value);
+              return false;
+            }
+          </script>
         </div>
         <div class="tab-pane fade show" id="rides">
           <form>
+            <input name="type" style="display: none;" value="ride">
             <p id="rideName" class="mb-0">Name</p>
             <input aria-label="Name" type="text" style="width:100%;">
             <p id="descrip" class="mt-2 mb-0">Description</p>
@@ -89,7 +95,7 @@
             <p id="avgWait" class="mb-0">Average Wait Time</p>
             <input type="text" style="width:100%;">
             <p id="img" class="mt-1 mb-0">Article Image</p>
-            <input type="file" id="myFile" accept="image/*" name="filename">
+            <input type="file" id="myFile" accept="image/*" name="image">
             <div class="row">
               <div class="col reserve">
                 <button type="submit" class="btn btn-primary right res-button" data-toggle="modal" data-target="#exampleModalCenter" id = "submit-button" >

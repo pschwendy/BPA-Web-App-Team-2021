@@ -28,12 +28,12 @@ input [type = 'submit'], button, [aria-label] {
     margin-top: 10px;
 } */
 
-#edit-box {
+/*#edit-box {
     display: none;
     margin: auto;
 
 }
-
+*/
 
 /* td {
     padding: 20px 10px;
@@ -86,11 +86,12 @@ th, td {
 
 }
 
-#edit-box td{
+/* #edit-box td{
     padding: -10px;
     background-color: white;
     border: 10px solid black;
 }
+*/
 
 th {
     text-align: left;
@@ -102,11 +103,12 @@ thead th {
     background-color: rgba(255,255,255,0.3);
 } */
 tbody td {
-    position: relative;
+position: relative;
 }
 
 #edit-todo {
-    width: 50%;
+    width: 75%;
+    margin-right: -100px;
 }
 
 
@@ -122,6 +124,23 @@ tbody td {
 }
 */
 
+
+
+@media only screen and (min-width: 800px) {
+
+    .btn-secondary {
+        display: none !important;
+        margin-right: 20px;
+    }
+    .btn-success {
+        margin-right: 20px;
+    }
+
+}
+
+.edit-row {
+    background-color: rgba(78, 140, 216, 0.359) !important ;
+}
 
 @media only screen and (max-width: 800px) {
 
@@ -148,14 +167,34 @@ tbody td {
         padding: 10px, 0;
     }
     .btn-success {
-        width: 100%;
-        position: relative;
-        left: -50px;
+        width: 85%;
+        position: relative !important;
+        left: 0px;
+         
     }
+    .btn-secondary {
+        width: 85%;
+        position: relative !important;
+        right: 0px !important;
+        display: block;
+    }
+
+    .close-button {
+        display: none;
+    } 
+
+ 
+
     td > a {
         position: relative;
         left: -70px;
     }
 
+    .btn-warning, .btn-danger {
+        width: 85%;
+        font-size: 80% !important;
+        
+    }
+   
  
 }
