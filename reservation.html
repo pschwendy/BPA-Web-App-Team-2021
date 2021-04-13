@@ -450,11 +450,11 @@
         console.log("SLICED: "  + restaurantName);
         socket.emit("getAdData", restaurantName, true);
         
-        socket.on("getAdData", function(msg){
+        /*socket.on("getAdData", function(msg){
             adData = msg;
             console.log(adData);
             console.log(adData[1].name)
-        });
+        });*/
         socket.on("receiveAdData", function(data){
             console.log("Got a message");
             var msg = data;
@@ -467,7 +467,7 @@
             restaurantName = msg.name;
             restaurantName = restaurantName.replace("Diner", "").trim();
             restaurantID = data.id;
-            socket.emit("getMenu", data.id, null);
+            socket.emit("getMenu", restaurantID, null);
         });
 
         socket.on("addTask_res", function(msg){
@@ -483,6 +483,7 @@
         });
         
         socket.on("receiveMenu", function(menu, empty){
+          console.log("RECEIVED THE MENU!");
           var menuArea = document.getElementById('menu-area');
           for(item of menu) {
             var product = document.createElement("div");
@@ -529,7 +530,7 @@
 
         var app = new function () {
             this.submit = function () {
-                var task = restaurantName.toLowerCase();
+                var task = restaurantName;
                 var time = document.getElementById('time');
                 var date = document.getElementById('date');
                 var quantity = document.getElementById('realQuantity');

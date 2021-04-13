@@ -321,14 +321,12 @@ class Queries {
 
     getAttractions(isRestaurant, callback){
         let sql = "SELECT * FROM attractions WHERE isRestaurant=$isRestaurant";
-        this.db.all(sql
-            ,{
-                $isRestaurant:isRestaurant 
+        this.db.all(sql, {
+                $isRestaurant:isRestaurant
             }, (err, rows) => {
             if(err) {
                 throw(err);
             }
-            //console.log(rows);
             return callback(rows);
         });
     }

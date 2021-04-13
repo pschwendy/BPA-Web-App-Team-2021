@@ -30,6 +30,9 @@ io.on("connection", function(socket) {
       querier.getTasks(userId, function(results){
 
         allTasks = results;
+        for (task of allTasks){
+          console.log("TASK TIME: " + task.time);
+        }
         socket.emit("getTaskData", allTasks);
 
       });
@@ -45,10 +48,14 @@ io.on("connection", function(socket) {
   socket.on("addTask", function(msg) {
     //tasks.push({"user": msg[2], "time": msg[1], "task": msg[0], "date": msg[3]});
     let task = msg[0];
-    task = task.replace(/ /g, "-");
-    console.log("This is the task: " + task);
+    //task = task.replace(/ /g, "-");
+    
     var time = msg[1];
     let date = msg[3];
+    var actualTime = new Date(date + "T" + time);
+    const timestamp = actualTime.getTime();
+    console.log("TIMESTAMP: " + timestamp);
+    console.log("TIME: " + actualTime.toTimeString());
     let quantity = msg[4];
     var userId;
     var waitTime;
@@ -99,7 +106,7 @@ io.on("connection", function(socket) {
             socket.emit("addTask_res", "selfConflict")
           }
           if (conflicts + quantity < 50){
-            querier.reserve(task, userId, quantity, time, date);
+            querier.reserve(task, userId, quantity, timestamp, date);
             socket.emit("addTask_res", true);
           }
           else{
@@ -108,7 +115,7 @@ io.on("connection", function(socket) {
         });  
         }
         else{
-          querier.reserve(task, userId, 0, time, date);
+          querier.reserve(task, userId, 0, timestamp, date);
         }
       });
     });
@@ -130,7 +137,7 @@ io.on("connection", function(socket) {
     const user = msg[0].replace(/%40/g, "@");
     const time = msg[1];
     const date = msg[2];
-    const task = msg[3].replace(/ /g, "-");
+    const task = msg[3];//.replace(/ /g, "-");
 
     /*for (var i = 0; i < tasks.length; i++){
       if (tasks[i].user == msg[0] && tasks[i].time == msg[1] && tasks[i].date == msg[2]){
@@ -151,28 +158,15 @@ io.on("connection", function(socket) {
     //socket.emit("receiveAttractions", restaurantData);
   });
 
-  socket.on("getAdData", function(page) {
-    console.log(page);
-    querier.getAttractions(true, function(data) {
-      for(i = 0; i < data.length; i++) {
-        if(data[i].page_address == page) {
+  socket.on("getAdData", function(page, isRestaurant) {
+    querier.getAttractions(isRestaurant, function(data) {
+      for(info of data) {
+        console.log(info.page_address);
+        if(info.page_address == page) {
           console.log("in this " + page);
-          socket.emit("receiveAdData", data[i]);
+          socket.emit("receiveAdData", info);
           //console.log("done!");
-          break;
-        }
-      }
-    });
-  });
-
-  socket.on("getAdData", function(page, restaurants) {
-    querier.getAttractions(restaurants, function(data) {
-      for(i = 0; i < data.length; i++) {
-        if(data[i].page_address == page) {
-          console.log("in this " + page);
-          socket.emit("receiveAdData", data[i]);
-          //console.log("done!");
-          querier.getAverageRating(data[i].id, function(averageRating) {
+          querier.getAverageRating(info.id, function(averageRating) {
             socket.emit("loadRating", averageRating);
           });
           break;

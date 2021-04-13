@@ -1,6 +1,1 @@
-UPDATE users SET admin="true" WHERE username="peterschwende@gmail.com";
-UPDATE users SET admin="true" WHERE username="anthonyvarkey@gmail.com";
-UPDATE users SET admin="true" WHERE username="2023varkeyanthonyj@aaps.k12.mi.us";
-UPDATE users SET admin="true" WHERE username="2023schwendemanpeter@aaps.k12.mi.us";
-
-SELECT * FROM reservations WHERE attractionRideName=1 AND time=1611965402242 AND date="2021-01-29" AND user=18;
+SELECT * FROM reservations;
