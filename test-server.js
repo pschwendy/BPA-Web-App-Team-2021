@@ -175,6 +175,12 @@ io.on("connection", function(socket) {
     });
   });
 
+  socket.on("getRides", function() {
+    querier.getAttractions(false, function(data) {
+      socket.emit("loadRides", data);
+    });
+  });
+
   socket.on("getMenu", function(id, hover) {
     querier.getMenu(id, (data) => {
       socket.emit("receiveMenu", data, hover);
@@ -262,6 +268,14 @@ io.on("connection", function(socket) {
       querier.getAverageRating(restaurantID, function(averageRating) {
         socket.emit("loadRating", averageRating);
       });
+    });
+  });
+
+  socket.on("getCurrentRating", function(restaurantID, name){
+    console.log("NAME: " + name);
+    name = name.replace(/%40/g, "@");
+    querier.selectRating(restaurantID, name, function(rating) {
+      socket.emit("userRating", rating);
     });
   });
 })

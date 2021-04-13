@@ -251,8 +251,8 @@
     <div class="title">Ready. Set. WHOA!</div>
   </div>  
   <div class="nav anav">
-    <div class="container">
-      <ul class="mb-0 row">
+    <div id="ride-nav" class="container">
+      <!--<ul class="mb-0 row">
         <li class="ride col nav-item" id = "roller-coaster">
           <a class="nav-link" id = "rando">Roller Coaster</a>
         </li>
@@ -291,7 +291,7 @@
         <li class="ride col nav-item" id = "boats">
           <a class="nav-link">Boats</a>
         </li>
-      </ul>
+      </ul>-->
     </div>
   </div>
   <div class="container ride-info px-4 color-black" style="font-size: 10pt;">
@@ -383,10 +383,12 @@
         <main id="main" class="row">
             <div class="col m-2">
               <div class="row">
-                  <div id="article-title" class = "col"></div>
+                  <div id="article-title" class = "col">
+                    <h4 id="res-header"></h4>
+                  </div>
               </div>
               <hr id="title-border">
-              <div class = "" >
+              <div class = "">
                 <div class="container">
                   <div class="row">
                     <div class="col">
@@ -406,8 +408,47 @@
         window.onload = function(){
           console.log(window.location.href);
         }
-
             var socket = io();
+            socket.emit("getRides");
+            socket.on("loadRides", function(data) {
+              console.log("loading rides..." + data.length);
+              var counter = 0;
+              for(var i = 0; counter + i < data.length; i = 0) {
+                console.log("counting: " + counter);
+                var row = document.createElement("ul");
+                row.className = "mb-0 row";
+
+                while(i < 6) {
+                  var li = document.createElement("li");
+                  li.className = "ride col nav-item";
+                  li.id = data[counter + i].page_address;
+                  const currentID = data[counter + i].page_address;
+                  li.onclick = () => {
+                    socket.emit("getAdData", currentID, false);
+                    console.log("clicked");
+                  };
+                  var a = document.createElement("a");
+                  a.className = "nav-link";
+                  a.text = data[counter + i].name;
+
+                  li.appendChild(a);
+                  row.appendChild(li);
+                  ++i;
+                }
+
+                document.getElementById("ride-nav").appendChild(row);
+                
+                counter += 6;
+              }
+              /*for (var ridebutton of document.getElementsByClassName('ride')) {
+                const currentID = ridebutton.id;
+                ridebutton.onclick = () => {
+                  socket.emit("getAdData", currentID, false);
+                  console.log("clicked");
+                };
+              }*/
+            });
+
             var maxWidth = 912;
             if($(document).width() < maxWidth) {
                 $('#reservation-card').parent('#main');
@@ -437,15 +478,10 @@
                     $('#reservation-card').css("width", "auto");
                 }
             }
-            for (var ridebutton of document.getElementsByClassName('ride')) {
-              const currentID = ridebutton.id;
-              ridebutton.onclick = () => {
-                socket.emit("getAdData", currentID, false);
-                console.log("clicked");
-              };
-            }
+            
             socket.on("receiveAdData", function(data) {
               $("#article-bio").text(data.description);
+              $("#res-header").text(data.name);
               console.log("received");
             });
         </script>

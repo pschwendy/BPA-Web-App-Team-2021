@@ -157,18 +157,12 @@
           
   }
 
-
-  function sendSocket(){
-
+  function sendSocket() {
     var rideName = document.getElementById("rideName").value;
     var description = document.getElementById("descrip").value;
     var avgwait = document.getElementById("avgWait").value;
     //var img = document.getElementById("img").value;
     socket.emit("getAdminStuff", [rideName, description, avgWait]);
-
-
-
-
   }
 
 
@@ -178,7 +172,6 @@
     this.el = document.getElementById('task');
 
     this.FetchAll = function () { // Takes all of our tasks and displays them
-
         let data = '';
 
         if (this.items.length > 0) {
@@ -191,7 +184,6 @@
                 data += '</tr>'
             }
         }
-
 
         return this.el.innerHTML = data;
     };

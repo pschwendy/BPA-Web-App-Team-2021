@@ -261,6 +261,34 @@ class Queries {
         
         callback();
     } // addRating()
+    
+    // selects user rating
+    selectRating(restaurantId, username, callback) {
+        let getUserId = "SELECT * FROM users WHERE username=$username";
+        this.db.all(getUserId, {
+            $username: username
+        }, (err, ids) => {
+            if(err) {
+                throw(err);
+            }
+            console.log(ids[0].id);
+            const userID = ids[0].id;
+            console.log("ID: " + userID);
+            let select = "SELECT rating FROM ratings WHERE user=$userID AND storeNumber=$restaurantId";
+            this.db.all(select, {
+                $restaurantId: restaurantId,
+                $userID: userID
+            }, (err, rows) => {
+                if(err) {
+                    throw(err);
+                }
+                // if rows are found, update them
+                if(rows.length != 0) {
+                    return callback(rows[0].rating);
+                }
+            });
+        });
+    } // selectRating()
 
     //TONY CODE
     getUserId(username, callback) {

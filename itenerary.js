@@ -21,7 +21,8 @@ var app =  new function() {
             var taskTime = {
                 theTask: this.tasks[i],
                 theTime: this.times[i],
-                theDate: this.dates[i]
+                theDate: this.dates[i],
+                theOg: i
             }
 
             this.combinedArray.push(taskTime);
@@ -43,15 +44,19 @@ var app =  new function() {
         }
 
         if (this.tasks.length > 0) {
+            console.log("ABOUT TO MAKE THE THING:");
+            console.log(this.tasks);
             for (i = 0; i < this.tasks.length; i++) {
                 data += '<tr>'; //adds table row
                 data += '<td>' + (i+1) + '. ' + '</td>'; //adds table cell so it says the task number then the task info i.e 3. Eat lunch
                 data += '<td>' + this.combinedArray[i].theTask + '</td>';
                 data += '<td>' + this.combinedArray[i].theTime + '</td>';
                 data += '<td>' + this.combinedArray[i].theDate +'</td>';
-                data += '<td> <button onclick = "app.Edit('+i+')" class = "btn btn-warning" > Edit </button>  <button onclick = "app.Delete('+i+')" class = "btn btn-danger"> Delete </button></td>'; // adds edit button
+                data += '<td> <button onclick = "app.Edit('+this.combinedArray[i].theOg+')" class = "btn btn-warning" > Edit </button>  <button onclick = "app.Delete('+this.combinedArray[i].theOg+')" class = "btn btn-danger"> Delete </button></td>'; // adds edit button
                 data += '</tr>';
             }
+            console.log("OUT:");
+            console.log(data);
         }
 
         this.Count(this.tasks.length);
@@ -162,7 +167,7 @@ var app =  new function() {
         }*/
     };
     
-    this.saveEdit = function(item) { 
+    this.saveEdit = function(item){ 
         self = this;
         var elTask = document.getElementById('edit-todo');
         var elTime = document.getElementById('edit-time');
@@ -172,6 +177,10 @@ var app =  new function() {
         var task = elTask.value;
         var time = elTime.value;
         var date = elDate.value;
+
+        var betterV = this.tasks[item].replace("RESERVATION FOR: ", "").trim();
+        socket.emit("deleteTask", [username, self.rawDates[item], self.dates[item], betterV]);
+        socket.emit("addTask", [task, time, username, date]);
 
         if (task && time && checkTime(time)) {
             self.tasks.splice(item, 1, task.trim());
@@ -185,14 +194,20 @@ var app =  new function() {
 
     this.Delete = function (item) { //deletes element
         console.log("THE BIG Q: " + item);
-        console.log("THE INFO");
+        console.log("BEFORE DELETE:");
+        console.log(this.tasks);
+        console.log(this.times);
+        console.log(this.dates);
         var betterV = this.tasks[item].replace("RESERVATION FOR: ", "").trim();
         //1611907200000
-        console.log("BETTER V: " + betterV);
         socket.emit("deleteTask", [username, this.rawDates[item], this.dates[item], betterV]);
         this.tasks.splice(item, 1);
         this.times.splice(item, 1);
         this.dates.splice(item, 1);
+        console.log("AFTER DELETE: ");
+        console.log(this.tasks);
+        console.log(this.times);
+        console.log(this.dates);
         this.FetchAll();
     };
 
