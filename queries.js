@@ -359,15 +359,17 @@ class Queries {
         });
     }
     
-
+    // Validates if user is admin or not
+    // Input: name -> username
+    // Input: callback -> callback function handles rows for asynchronous server
     validate(name, callback){
         let sql = "SELECT admin FROM users WHERE username=$name";
-        this.db.get(sql, {
+        this.db.all(sql, {
             $name: name
-        }, (err, row) => {
-            callback(row.admin);
+        }, (err, rows) => {
+            return callback(rows[0].admin);
         });
-    }
+    } // validate()
 
     addAttraction(name, page, imageLocation, isRestaurant, averageWaitTime, description) {
         let sql = "INSERT INTO attractions(name, page_address, average_wait_time, imagelocation, description, isRestaurant) VALUES ($name, $page, $waitTime, $imagelocation, $description, $isRestaurant)";

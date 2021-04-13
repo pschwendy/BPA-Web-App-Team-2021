@@ -105,47 +105,23 @@ io.on("connection", function(socket) {
           else{
             socket.emit("addTask_res", "otherConflict");
           }
-  
-
-
-
-        });
-          
+        });  
         }
         else{
           querier.reserve(task, userId, 0, time, date);
         }
-        
-
-        
-
-
       });
     });
-    
-
     //querier.reserve()
   });
 
-
-  socket.on("getAdminStuff", function(msg){
-
-
-    querier.validate(msg, function(result){
-
-      if (result){
-        querier.addAttraction()        
+  socket.on("validate", function(username) {
+    username = username.replace(/%40/g, "@");
+    querier.validate(username, function(result){
+      if (result) {
+        socket.emit("isAdmin");
       }
-      else{
-
-
-
-      }
-
     });
-
-
-
   });
 
   // deletes task from itinerary
@@ -508,8 +484,8 @@ app.post("/:whatever?/:whateverTwo?/signup", function(req, res) {
   });
 }); /* signup */
 
+// Google Sign In
 app.post("/:whatever?/:whateverTwo?/gsignin", function(req, res){
-
   //console.log("RECEIVED SOMETHING");
   console.log(req.path);
   var form = new formidable.IncomingForm();
@@ -618,27 +594,11 @@ app.post("/:whatever?/:whateverTwo?/gsignin", function(req, res){
               res.redirect('back');
             });
           }
-
         }
-
       });
-
-
     });
-
-
-
   });
-
-});
-
-
-
-
-
-
-
-
+}); // gsignin
 
 
 // for my own testing purposes
@@ -663,8 +623,17 @@ app.get("/rides", function(req, res){
 // admin
 // input: req -> http request
 // input: res -> app response
-app.get("/admin", function(req,res) {
-  res.sendFile(__dirname + "/admin.html");
+app.get("/admin", function(req, res) {
+  const username = req.cookies.name;
+  querier.validate(username, function(result){
+    if (result){
+      res.sendFile(__dirname + "/admin.html");
+    }
+    else{ 
+      /* Some sort of error or error html file */
+    }
+  });
+  
 }); /* admin */
 
 app.post('/admin', function(req, res){
