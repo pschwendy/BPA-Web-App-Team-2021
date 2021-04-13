@@ -188,7 +188,7 @@ var app =  new function() {
         console.log("THE INFO");
         var betterV = this.tasks[item].replace("RESERVATION FOR: ", "").trim();
         //1611907200000
-        console.log(this.rawDates[item]);
+        console.log("BETTER V: " + betterV);
         socket.emit("deleteTask", [username, this.rawDates[item], this.dates[item], betterV]);
         this.tasks.splice(item, 1);
         this.times.splice(item, 1);

@@ -102,6 +102,12 @@ class Queries {
     // input: res_date -> date of reservation
     delete_reservation(attraction, account_id, res_time, res_date) {
         let sql = "DELETE FROM reservations WHERE attractionRideName=$attraction AND time=$time AND date=$date AND user=$user";
+        console.log("----GOT THIS DATA----");
+        console.log("USER: " + account_id);
+        console.log("ATTRACTION: " + attraction);
+        console.log("TIME: " + res_time);
+        console.log("DATE: " + res_date);
+        console.log("---------DONE--------");
         this.db.run(sql, {
             $attraction: attraction,
             $time: res_time,
@@ -263,13 +269,10 @@ class Queries {
       this.db.get(sql, {
         $username: username
       }, (err, rows) => {
-        console.log("FULL: " + rows);
         if (err){
           throw(err);
         }
         else if (rows != undefined) {
-          console.log("ROWS: " + rows.id);
-          
           return callback(rows.id);
         }
       });
@@ -367,6 +370,9 @@ class Queries {
         this.db.all(sql, {
             $name: name
         }, (err, rows) => {
+            if(err) {
+                throw(err);
+            }
             return callback(rows[0].admin);
         });
     } // validate()
@@ -384,6 +390,20 @@ class Queries {
             if(err) {
                 throw(err);
             }
+        });
+    }
+
+    // Gets attraction where page is = to the input page
+    getAttractionByPage(page, callback) {
+        let sql = "SELECT id FROM attractions WHERE page_address=$page";
+        this.db.get(sql, {
+            $page: page
+        }, (err, row) => {
+            if(err) {
+                throw(err);
+            }
+            console.log("ATTRACTION ID: " + row.id);
+            return callback(row.id);
         });
     }
 

@@ -126,23 +126,21 @@ io.on("connection", function(socket) {
 
   // deletes task from itinerary
   socket.on("deleteTask", function(msg) {
-
-    var user = msg[0];
-    var time = msg[1];
-    var date = msg[2];
-    var task = msg[3];
+    console.log("RECEIVED");
+    const user = msg[0].replace(/%40/g, "@");
+    const time = msg[1];
+    const date = msg[2];
+    const task = msg[3].replace(/ /g, "-");
 
     /*for (var i = 0; i < tasks.length; i++){
       if (tasks[i].user == msg[0] && tasks[i].time == msg[1] && tasks[i].date == msg[2]){
         tasks.splice(i, 1);
       }
     }*/
-    var userId;
-    querier.getUserId(user, function(result){
-      userId = result;
+    querier.getUserId(user, function(result) {
+      const userId = result;
       querier.delete_reservation(task, userId, time, date);
     });
-
   });
 
   // returns on requested attractions for * portal page *
