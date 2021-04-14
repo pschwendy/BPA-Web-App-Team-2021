@@ -102,12 +102,6 @@ class Queries {
     // input: res_date -> date of reservation
     delete_reservation(attraction, account_id, res_time, res_date) {
         let sql = "DELETE FROM reservations WHERE attractionRideName=$attraction AND time=$time AND date=$date AND user=$user";
-        console.log("----GOT THIS DATA----");
-        console.log("USER: " + account_id);
-        console.log("ATTRACTION: " + attraction);
-        console.log("TIME: " + res_time);
-        console.log("DATE: " + res_date);
-        console.log("---------DONE--------");
         this.db.run(sql, {
             $attraction: attraction,
             $time: res_time,
@@ -177,7 +171,9 @@ class Queries {
             if(err) {
                 throw(err);
             }
-            return callback(rows);
+            if(rows != undefined) {
+                return callback(rows);
+            }
         });
     } /* getMenu */
 
@@ -270,7 +266,7 @@ class Queries {
             if(err) {
                 throw(err);
             }
-            if(ids.length == 0) {
+            if(ids != undefined) {
                 return;
             }
             const userID = ids[0].id;
@@ -284,7 +280,7 @@ class Queries {
                     throw(err);
                 }
                 // if rows are found, update them
-                if(rows.length != 0) {
+                if(rows != undefined) {
                     return callback(rows[0].rating);
                 }
             });
@@ -323,7 +319,6 @@ class Queries {
     }
 
     getConflicts(attraction, date, startTime, endTime, callback){
-    
       console.log("THE TIME");
       console.log(startTime);
       console.log(endTime);
@@ -339,13 +334,11 @@ class Queries {
             throw (err);
         }
         else{
-            callback(rows);
+            if(row.length != 0) {
+                return callback(rows);
+            }
         }
-
-
       });
-
-
     }
 
     getAttractions(isRestaurant, callback){
@@ -400,7 +393,9 @@ class Queries {
             if(err) {
                 throw(err);
             }
-            return callback(rows[0].admin);
+            if(rows.length != 0) {
+                return callback(rows[0].admin);
+            }
         });
     } // validate()
 
