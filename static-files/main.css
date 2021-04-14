@@ -81,18 +81,18 @@ footer > .head-hero > img {
     width: 76vw;
     object-fit: cover;
 }
-
-.carousel-image{
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    filter: brightness(45%);
-    overflow: hidden;
-    height: auto;
-    max-height: 93vh;
-    object-fit: cover;
-  }
-  
+@media only screen and (min-width: 768px) {
+    .carousel-image{
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        filter: brightness(45%);
+        overflow: hidden;
+        height: 93vh !important;
+        max-height: 93vh;
+        object-fit: cover;
+    }
+}
   .r-carousel-image{
     background-repeat: no-repeat;
     background-position: center;
@@ -131,7 +131,7 @@ footer > .head-hero > img {
         background-size: cover;
         filter: brightness(45%);
         overflow: hidden;
-        height: 50vh;
+        height: 50vh !important;
         width: 100%;
         object-fit: cover;
     }
