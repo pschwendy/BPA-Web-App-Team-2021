@@ -270,6 +270,9 @@ class Queries {
             if(err) {
                 throw(err);
             }
+            if(ids.length == 0) {
+                return;
+            }
             const userID = ids[0].id;
             console.log("ID: " + userID);
             let select = "SELECT rating FROM ratings WHERE user=$userID AND storeNumber=$restaurantId";
