@@ -131,15 +131,14 @@ class Queries {
     // input: new_num_people -> updated number of people in reservation
     // input: new_time -> updated time of reservation
     // input: new_date -> updated date of reservation
-    update_reservation(attraction, account_id, old_num_people, old_time, old_date, new_num_people, new_time, new_date) {
-        let sql = "UPDATE reservations SET numPeople=$new_new_people, time=$new_time, date=$new_date WHERE attractionName=$attraction AND numPeople=$old_num_people AND time=$old_time AND date=$old_date AND user=$user";
+    update_reservation(account_id, attraction, old_time, old_date, new_attraction, new_time, new_date) {
+        let sql = "UPDATE reservations SET attractionRideName=$new_attraction, time=$new_time, date=$new_date WHERE attractionRideName=$attraction AND time=$old_time AND date=$old_date AND user=$user";
         this.db.run(sql, {
             $attraction: attraction,
-            $old_num_people: old_num_people,
+            $new_attraction: new_attraction,
             $old_time: old_time,
             $old_date: old_date,
             $user: account_id,
-            $new_num_people: new_num_people,
             $new_time: new_time,
             $new_date: new_date,
         }, (err) => {

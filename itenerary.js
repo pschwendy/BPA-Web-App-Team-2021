@@ -60,7 +60,13 @@ var app =  new function() {
         }
 
         this.Count(this.tasks.length);
+        console.log(this.tasks);
+
+        console.log("Aarnav Here are the dates");
+        console.log(this.dates);
         return this.el.innerHTML = data;
+
+        
     };
 
     this.FetchEdit = function (rowNum) {
@@ -107,6 +113,8 @@ var app =  new function() {
                 data += rowData;
             }
 
+            console.log(this.tasks);
+    
     return this.el.innerHTML = data;
         
     };
@@ -120,8 +128,7 @@ var app =  new function() {
         time += ":00";
         var date = elDate.value;
 
-
-        if (task && time) {
+        if (task && time && elDate.value) {
             this.tasks.push(task.trim());
             this.times.push(time);
             var rawTime = new Date(date + "T" + time).getTime();
@@ -143,16 +150,20 @@ var app =  new function() {
 
     this.Edit = function(item) {  //edits task
         console.log(item);
+        console.log(item);
+        console.log(this.tasks[item]);
+        
         var elTask = document.getElementById('edit-todo');
         var elTime = document.getElementById('edit-time');
         var elDate = document.getElementById('edit-date');
 
-
-
-        /*elTask.value = this.tasks[item];
-        elTime.value = this.times[item];
-        elDate.value = convertBack(this.dates[item]);*/
         this.FetchEdit(item);
+
+      
+
+  /*      elTask.value = this.tasks[item];
+        elTime.value = this.times[item]; */
+
         console.log("Fetch Edit");
         //document.getElementById('edit-box').style.display = 'block'; //defaults to close, displays it
     
@@ -175,27 +186,30 @@ var app =  new function() {
     
     this.saveEdit = function(item){ 
         self = this;
+
         var elTask = document.getElementById('edit-todo');
         var elTime = document.getElementById('edit-time');
         var elDate = document.getElementById('edit-date');
        
-        
+       
 
         console.log('saved edit, kinda garbo tho');
         var task = elTask.value;
         var time = elTime.value;
         var date = elDate.value;
-
+        console.log("Aarnav look here");
+        console.log(date);
         var betterV = this.tasks[item].replace("RESERVATION FOR: ", "").trim();
         console.log("INFO FOR REMOVAL: " + username + " " + self.rawDates[item] + " " + self.dates[item] + " " + betterV);
-        socket.emit("deleteTask", [username, self.rawDates[item], self.dates[item], betterV]);
-        socket.emit("addTask", [task, time, username, date]);
-
+        /*socket.emit("deleteTask", [username, self.rawDates[item], self.dates[item], betterV]);
+        socket.emit("addTask", [task, time, username, date]);*/
+        console.log("USERNAME: " + username);
+        socket.emit("updateTask", [username, betterV, self.rawDates[item], self.dates[item], task, time, date])
         if (task && time && checkTime(time)) {
-            self.tasks.splice(item, 1, task.trim());
-            self.times.splice(item, 1, time);
-            var convertedDate = convertDate(date);
-            self.dates.splice(item, 1, convertedDate);
+            self.tasks.splice(item-1, 1, task.trim());
+            self.times.splice(item-1, 1, time);
+ 
+            self.dates.splice(item-1, 1, date);
             self.FetchAll();
             CloseInput();
         }
@@ -246,8 +260,14 @@ var app =  new function() {
 
         this.combinedArray.sort(function(el1, el2) {
 
-            date1 = el1.theDate;
-            date2 = el2.theDate;
+            date1 = convertDate(el1.theDate);
+            date2 = convertDate(el2.theDate);
+
+            console.log("sortDates");
+            console.log(date1);
+            console.log(date2);
+            
+            
 
             date1Obj = {
                 year: date1[6] + date1[7] + date1[8] + date1[9],
@@ -355,27 +375,38 @@ function checkTime(time) {
 }
 
 function convertToTwelveHr(time) {
-    var isAM = false
-    var is2Dig
-    var convertedTime
-    var first2Dig
-    if (time[1] === ':') { //if one digit
+    var isAM = false;
+    var convertedTime;
+    var first2Dig;
+    if (time[1] === ':' || time[0] === '0') { //if one digit
         isAM = true;
     }
-    else if(time[1] === "0" || time[1] === "1") {
+    else if(time[0] === '1' && (time[1] === "0" || time[1] === "1")) {
       isAM = true;
     }
     else {isAm = false; is2Dig = true;}
 
  
     if (isAM) {
-      convertedTime = time + " am";
-      return convertedTime;
+      if (time[0] != '0') {
+        convertedTime = time + " am";
+        return convertedTime;
+      }
+      else {
+        if (time[0] === '0' && time[1]==='0'){
+          convertedTime = '12' + time.substr(2) + "am";
+          return convertedTime;
+        }
+        convertedTime = time.substr(1) + "am";
+        return convertedTime;
+      }
     }
 
     else { // if pm
       first2Dig = time.substr(0,2);
-      first2Dig -= 12;
+      if (first2Dig!=12){
+        first2Dig -= 12;
+      }
       convertedTime = first2Dig + time.substr(2) + " pm";
     }
     return convertedTime;

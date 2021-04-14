@@ -30,12 +30,12 @@ nav {
 
 .featured-card {
     object-fit: cover;
-    filter: brightness(60%);
-    height: 400px;
+    filter: brightness(40%);
+    height: 300px;
 }
 
 .carousel-inner > .carousel-item > img {
-    max-height: 92vh;
+    max-height: 91vh;
     object-fit: cover;
 }
 
@@ -121,12 +121,15 @@ footer > .head-hero > img {
         height: 50vh;
         width: 100%;
         object-fit: cover;
-      }
-      #carousel-title{
+    }
+    #carousel-title{
         font-size: 2.5em;
         color: white;
         margin: 0 0 8px;
-      }
+    }
+    .featured-card {
+        max-height: 150px;
+    }
 }
 /*
 body {

@@ -150,6 +150,34 @@ io.on("connection", function(socket) {
     });
   });
 
+  socket.on("updateTask", function(msg){
+    const user = msg[0].replace(/%40/g, "@");
+    const oldTask = msg[1];//.replace(/ /g, "-");
+    const oldTime = msg[2];
+    const oldDate = msg[3];
+    const newTask = msg[4];
+    const newTime = msg[5];
+    const newDate = msg[6];
+//.replace(/ /g, "-");
+    var actualTime = new Date(newDate + "T" + newTime);
+    const timestamp = actualTime.getTime();
+
+    console.log("-------DATA-------");
+    console.log("USER: " + user);
+    console.log("OLD TASK: " + oldTask);
+    console.log("OLD TIME: " + oldTime);
+    console.log("OLD DATE: " + oldDate);
+    console.log("NEW TASK: " + newTask);
+    console.log("NEW TIME: " + timestamp);
+    console.log("NEW DATE: " + newDate);
+    console.log("-------DATA-------");
+
+    querier.getUserId(user, function(result) {
+      const userId = result;
+      querier.update_reservation(userId, oldTask, oldTime, oldDate, newTask, timestamp, newDate);
+    });
+  });
+
   // returns on requested attractions for * portal page *
   socket.on("getAttractions", function(msg) {
     querier.getAttractions(msg, function(data) {
