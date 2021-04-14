@@ -35,6 +35,31 @@
 
 <body onresize="editLayout()">
   <div id="navigation">
+    <script src="https://apis.google.com/js/api:client.js"></script>
+    <script>
+      var googleUser = {};
+      var startApp = function() {
+        gapi.load('auth2', function(){
+          // Retrieve the singleton for the GoogleAuth library and set up the client.
+          auth2 = gapi.auth2.init({
+            client_id: '670268468186-s7jhd7bhkmnpssqe9r3rbsulde7p8a4h.apps.googleusercontent.com',
+            cookiepolicy: 'single_host_origin',
+            // Request scopes in addition to 'profile' and 'email'
+            //scope: 'additional_scope'
+          });
+          attachSignin(document.getElementById('customBtn'));
+          attachSignin(document.getElementById('customBtn2'));
+        });
+      };
+
+      function attachSignin(element) {
+        //console.log(element.id);
+        auth2.attachClickHandler(element, {}, function(googleUser){
+          onSignIn(googleUser);
+        });
+        return false;
+      }
+    </script>
     <nav onresize="editUser()" id="p-nav"class="header-top topnav fixed-top navbar navbar-expand-lg navbar-dark bg-dark">
       <a class="navbar-brand brand" id="brand" href="/">High Thrills Entertainment Park</a>
       <button class="navbar-toggler float-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -57,12 +82,14 @@
       <script src="https://code.jquery.com/jquery-git.js"></script>
       <script>
         var name = "";
-        var restaurantName =  window.location.href.slice(window.location.href.lastIndexOf("/") + 1, window.location.href.length);
 
-        if (document.cookie.indexOf(";", document.cookie.indexOf("name=")) ==  -1){
+        var nick = "";
+
+
+        if (document.cookie.indexOf(";", document.cookie.indexOf("name=")) ==  -1 && document.cookie.indexOf("name=") != -1){
             name = document.cookie.slice(document.cookie.indexOf("name=") + 5, document.cookie.length);
         }
-        else{
+        else if (document.cookie.indexOf("name=") != -1){
             name = document.cookie.slice(document.cookie.indexOf("name=") + 5, document.cookie.indexOf(";", document.cookie.indexOf("name=") + 5));
         }
 
@@ -84,7 +111,7 @@
           const account = '<div id="user" class="dropdown"> \
             <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
           const accountnext = '</button> \
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"> \
+            <div id="user-menu" class="dropdown-menu" aria-labelledby="dropdownMenuButton"> \
               <a class="dropdown-item" href="/itinerary">Itinerary</a> \
               <a onclick="removeG()" onload="changeForms()" id="pain" class="dropdown-item" href="./logout">Log Out</a> \
             </div> \
@@ -100,15 +127,15 @@
           }
         }
         else if (document.cookie.indexOf("ERROR=") != -1){
-    
+
           var errorCode = document.cookie.slice(document.cookie.indexOf("ERROR=") + 6, document.cookie.length);
           switch (errorCode){
-    
+
             case "1":
               window.alert("Sign Up Failed: Invalid email address (Error code: 1)");
               break;
             case "2":
-              window.alert("Sign Up Failed: Password does not meet requirements (Error Code: 2)");
+              window.alert("Sign Up Failed: Password does not meet requirements (Must have at least 7 letters, a number, and a special character) (Error Code: 2)");
               break;
             case "3":
               window.alert("Sign Up Failed: Email already linked with existing account (Error Code: 3)");
@@ -116,7 +143,7 @@
             case "4":
               window.alert("Sign In Failed: Invalid email or password (Error Code: 4)");
               break;
-    
+
           }
         // WORRY ABOUT THIS LATER
         
@@ -124,24 +151,34 @@
         }
       </script>
     </nav>
-    
+
     <!--The Sign Up Modal-->
     <div class="modal fade" id="signUpModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
           <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Log In</h5>
+          <h5 class="modal-title" id="exampleModalLongTitle">Sign Up</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
           </button>
           </div>
           <div class="modal-body">
             <form method="POST" action="/signup">
-              <input for="uname" name="email" type="text" placeholder="Email"/>
-              <input for="pwd" name="pwd" type="password" placeholder="Password"/>
-              <input for="repeatPwd" name="repeatPwd" type="password" placeholder="Repeat Password"/>
-              <input for="nickname" name="nickname" type="text" value="" placeholder="Nickname (Optional)"/>
-              <button type="submit" class="btn btn-primary">SUBMIT</button>
+              <p class="mb-0" style="font-size: small;" aria-autocomplete="none">Email</p>
+              <input class="modal-form" for="uname" name="email" type="text" placeholder="Email"/>
+              <p class="mb-0" style="font-size: small;">Password</p>
+              <input class="modal-form" for="pwd" name="pwd" type="password" placeholder="Password"/>
+              <p class="mb-0" style="font-size: small;">Confirm Password</p>
+              <input class="modal-form" for="repeatPwd" name="repeatPwd" type="password" placeholder="Repeat Password"/>
+              <p class="mb-0" style="font-size: small;">Nickname (Optional)</p>
+              <input class="modal-form" for="nickname" name="nickname" type="text" value="" placeholder="Nickname (Optional)"/>
+              <button style="margin-top: 10px; width: 100%; border-radius: 9999px;" class="btn btn-primary" type="submit">Sign Up</button>
+              <div style="display: inline-flex; position: relative; text-align: center; width: 100%;">
+                <div style="left: 0; margin-left: 5%; width: 40%; position: absolute; top: 50%; border: 1px solid black;"></div>
+                <div style="position: absolute; top: 50%; left:50%; transform: translate(-50%, -50%);">Or</div>
+                <div style="margin-right: 5%; right:0; width: 40%; position: absolute; top: 50%; border: 1px solid black;"></div>
+              </div>
+              <button id="customBtn" data-onsuccess="onSignIn" onclick="return false;" style="margin-top: 10px; width: 100%; border-radius: 9999px;" class="customGPlusSignIn btn btn-success">Sign Up with Google</button>
             </form>
           </div>
           <div class="modal-footer">
@@ -151,8 +188,8 @@
       </div>
       </div>
     </div>
-    
-    
+
+
     <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
@@ -163,69 +200,98 @@
           </button>
           </div>
           <div class="modal-body">
-            <form method="POST" action="/login">
+            <!--<form method="POST" action="/login">
               <input for="uname" name="uname" type="text" placeholder="Username"/>
               <input for="pwd" name="pwd" type="password" placeholder="Password"/>
               <button type="submit" class="btn btn-primary">SUBMIT</button>
+            </form>-->
+            <form method="POST" action="/signup">
+              <p class="mb-0" style="font-size: small;" aria-autocomplete="none">Email</p>
+              <input class="modal-form" for="uname" name="uname" type="text" placeholder="Username"/>
+              <p class="mb-0" style="font-size: small;">Password</p>
+              <input class="modal-form" for="pwd" name="pwd" type="password" placeholder="Password"/>
+              <button style="margin-top: 10px; width: 100%; border-radius: 9999px;" class="btn btn-primary" type="submit">Log In</button>
+              <div style="display: inline-flex; position: relative; text-align: center; width: 100%;">
+                <div style="left: 0; margin-left: 5%; width: 40%; position: absolute; top: 50%; border: 1px solid black;"></div>
+                <div style="position: absolute; top: 50%; left:50%; transform: translate(-50%, -50%);">Or</div>
+                <div style="margin-right: 5%; right:0; width: 40%; position: absolute; top: 50%; border: 1px solid black;"></div>
+              </div>
             </form>
             <script src="https://apis.google.com/js/platform.js" async defer></script>
-           <meta name="google-signin-client_id" content="670268468186-s7jhd7bhkmnpssqe9r3rbsulde7p8a4h.apps.googleusercontent.com">
-           <form method="POST" action="/gsignin" id="gForm">
-             <div style="display: none;">
-               <input id="gUsername" for="gName" name="gName" type="text"/>
-               <input id="gPwd" for="gPwd" name="gPwd" type="password"/>
-               <input id="gNick" for="gNick" name="gNick" type="text"/>
-             </div>
-             <div class="g-signin2" data-onsuccess="onSignIn"></div>
-           </form>
+          <meta name="google-signin-client_id" content="670268468186-s7jhd7bhkmnpssqe9r3rbsulde7p8a4h.apps.googleusercontent.com">
+          <form method="POST" action="/gsignin" id="gForm">
+            <div style="display: none;">
+              <input id="gUsername" for="gName" name="gName" type="text"/>
+              <input id="gPwd" for="gPwd" name="gPwd" type="password"/>
+              <input id="gNick" for="gNick" name="gNick" type="text"/>
+            </div>
+            <!--<div class="g-signin2" data-onsuccess="onSignIn"></div>-->
+              <button id="customBtn2" data-onsuccess="onSignIn" onclick="return false;" style="margin-top: 10px; width: 100%; border-radius: 9999px;" class="customGPlusSignIn btn btn-success">Log In with Google</button>
+          </form>
           </div>
           <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           <!--<button type="button" class="btn btn-primary">GO</button>-->
           </div>
       </div>
-    
+
+      <script src="/socket.io/socket.io.js"></script>
       <script>
-    
+        startApp();
+        var socket = io();
+        if(name != "") {
+          socket.emit("validate", name);
+        }
+
         function removeG(){
-    
-          //console.log("REMOVEEEEE");
           var auth2 = gapi.auth2.getAuthInstance();
           auth2.disconnect();
-    
         }
-    
+
         function onSignIn(googleUser){
-    
           var profile = googleUser.getBasicProfile();
-    
+          document.getElementById("brand").text = "signing in...";
           // The ID token you need to pass to your backend:
           var id_token = googleUser.getAuthResponse().id_token;
-          //console.log("ID Token: " + id_token);
-    
+
           document.getElementById("gUsername").value = profile.getEmail();
           document.getElementById("gNick").value = profile.getGivenName();
           document.getElementById("gPwd").value = "g";
           if (name == ""){
             document.getElementById("gForm").submit();
           }
-    
+          document.getElementById("gForm").submit();
         }
-    
+
         function changeForms(){
           //console.log("CHANGE FORMS ACTIVATED");
-    
+
           /*ar forms = document.getElementsByTagName("form");
           for (form of forms){
               //console.log("BEFORE: " + form.action);
               form.action = "/restaurants/" + restaurantName.toLowerCase() + form.action.slice(form.action.lastIndexOf('/'), form.action.length);
               //console.log("AFTER: " + form.action);
           }
-    
+
           var pain = document.getElementById("pain")
-          pain.href = "/restaurants/" + restaurantName.toLowerCase() + pain.href.slice(pain.href.lastIndexOf('/'), pain.href.length);*/  
+          pain.href = "/restaurants/" + restaurantName.toLowerCase() + pain.href.slice(pain.href.lastIndexOf('/'), pain.href.length);*/
         }
- 
+
+        // Edit navbar if user is admin
+        socket.on("isAdmin", function() {
+          var adminLink = document.createElement("a");
+          adminLink.href = "/admin";
+          adminLink.className = "dropdown-item";
+          adminLink.text = "Admin";
+
+          document.getElementById("user-menu").insertBefore(adminLink, document.getElementById("pain"));
+        });
+        
+        // Reload page after login
+        socket.on("reload", function(msg){
+          //console.log("GOT ITTTT");
+          window.location.reload();
+        });
       </script>
       </div>
     </div>
@@ -510,7 +576,7 @@
           socket.on("receiveAdData", function(data) {
             $("#article-bio").text(data.description);
             $("#res-header").text(data.name);
-            $("#wait-time").text("Average Wait Time: " + data.average_wait_time);
+            $("#wait-time").text("Average Wait Time: " + data.average_wait_time + " minutes");
             document.getElementById("rating-title").innerHTML = "Rate " + data.name;
             document.getElementById("article-pic").src = data.imagelocation;
             //console.log("received");
