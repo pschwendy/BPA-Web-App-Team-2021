@@ -130,7 +130,11 @@ a:hover:after {
 
 @media only screen and (max-width: 900px) {
     .anav {
-        font-size: 0.8em;
+        font-size: 0.6em;
+    }
+    .img_carousel  > div > img {
+        height: 150px;
+        border-radius: 30px 30px 30px 30px;
     }
 }
 
