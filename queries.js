@@ -205,6 +205,9 @@ class Queries {
 
     // adds user rating
     addRating(restaurantId, username, rating, callback) {
+        if(username == "") {
+            return;
+        }
         let getUserId = "SELECT * FROM users WHERE username=$username";
         this.db.all(getUserId, {
             $username: username
@@ -212,7 +215,7 @@ class Queries {
             if(err) {
                 throw(err);
             }
-            if(ids == undefined) {
+            if(ids.length == 0) {
                 return;
             }
             //console.log("THE ID: " + ids[0].id);
@@ -261,6 +264,9 @@ class Queries {
     
     // selects user rating
     selectRating(restaurantId, username, callback) {
+        if(username == "") {
+            return;
+        }
         let getUserId = "SELECT * FROM users WHERE username=$username";
         this.db.all(getUserId, {
             $username: username
@@ -268,7 +274,7 @@ class Queries {
             if(err) {
                 throw(err);
             }
-            if(ids == undefined) {
+            if(ids.length == 0) {
                 return;
             }
             const userID = ids[0].id;

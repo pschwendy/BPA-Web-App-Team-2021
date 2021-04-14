@@ -511,6 +511,7 @@
             $("#article-bio").text(data.description);
             $("#res-header").text(data.name);
             $("#wait-time").text("Average Wait Time: " + data.average_wait_time);
+            document.getElementById("rating-title").innerHTML = "Rate " + data.name;
             document.getElementById("article-pic").src = data.imagelocation;
             //console.log("received");
             rideID = data.id;
