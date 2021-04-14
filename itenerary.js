@@ -52,7 +52,9 @@ var app =  new function() {
                 data += '<td>' + this.combinedArray[i].theTask + '</td>';
                 data += '<td>' + convertToTwelveHr(trimTime(this.combinedArray[i].theTime)) + '</td>';
                 data += '<td>' + convertDate(this.combinedArray[i].theDate) +'</td>';
-                data += '<td> <button onclick = "app.Edit('+this.combinedArray[i].theOg+')" class = "btn btn-warning" > Edit </button>  <button onclick = "app.Delete('+this.combinedArray[i].theOg+')" class = "btn btn-danger"> Delete </button></td>'; // adds edit button
+                console.log("The Task: " + this.combinedArray[i].theTask);
+                console.log("TheOg: " + this.combinedArray[i].theOg);
+                data += '<td> <button onclick = "app.Edit('+i+')" class = "btn btn-warning" > Edit </button>  <button onclick = "app.Delete('+this.combinedArray[i].theOg+')" class = "btn btn-danger"> Delete </button></td>'; // adds edit button
                 data += '</tr>';
             }
             console.log("OUT:");
@@ -72,32 +74,19 @@ var app =  new function() {
     this.FetchEdit = function (rowNum) {
         var editAdded = false;
         let data = '';
-            for (i = 0; i < this.tasks.length; i++) {
-                if (i === rowNum+1) {
-                    /* row data */
-                    rowData = ''
-                    rowData += '<tr class = "edit-row">';
-                    rowData += '<form action = "javascript:void(0);" method = "POST" id = "save-edit">';
-                    rowData += '<td ></td>';
-                    rowData += '<td > <input  type = "text" id = "edit-todo"></td>';
-                    rowData += '<td><input type = "time" id = "edit-time" placeholder="time" ></td>';
-                    rowData += '<td><input type = "date" id = "edit-date" ></td>';
-                    rowData += '<td><input type = "submit" value = "save" class = "btn btn-success" onclick = "app.saveEdit('+i+');"> <a onclick = "CloseInput()" class = "close-button" aria-label = "Close">&#10006;</a> <button onclick = "CloseInput()" class = "btn btn-secondary"> Close </button> </td>';
-                    rowData += '</form>';
-                    rowData += '</tr>';
-                    /* row data */
-                    data += rowData;
-                    editAdded = true;
-                }
-                    data += '<tr>'; // adds table row
-                    data += '<td>' + (i+1) + '. ' + '</td>'; // adds table cell so it says the task number then the task info i.e 3. Eat lunch
-                    data += '<td>' + this.combinedArray[i].theTask + '</td>';
-                    data += '<td>' + convertToTwelveHr(trimTime(this.combinedArray[i].theTime)) + '</td>';
-                    data += '<td>' + convertDate(this.combinedArray[i].theDate) +'</td>';
-                    data += '<td> <button onclick = "app.Edit('+i+')" class = "btn btn-warning edit-button" > Edit </button>  <button onclick = "app.Delete('+i+')" class = "btn btn-danger"> Delete </button></td>'; // adds edit button
-                    data += '</tr>'
-            }
-            if (!editAdded) {
+        for (i = 0; i < this.tasks.length; i++) {
+            data += '<tr>'; // adds table row
+            data += '<td>' + (i+1) + '. ' + '</td>'; // adds table cell so it says the task number then the task info i.e 3. Eat lunch
+            data += '<td>' + this.combinedArray[i].theTask + '</td>';
+            data += '<td>' + convertToTwelveHr(trimTime(this.combinedArray[i].theTime)) + '</td>';
+            data += '<td>' + convertDate(this.combinedArray[i].theDate) +'</td>';
+            data += '<td> <button onclick = "app.Edit('+this.combinedArray[i].theOg+')" class = "btn btn-warning edit-button" > Edit </button>  <button onclick = "app.Delete('+i+')" class = "btn btn-danger"> Delete </button></td>'; // adds edit button
+            data += '</tr>';
+            if (i === rowNum) {
+                var betterV = this.tasks[i].replace("RESERVATION FOR: ", "").trim();
+                console.log("INFO FOR EDIT: " + username + " " + this.rawDates[i] + " " + this.dates[i] + " " + betterV);
+                const currentOg = this.combinedArray[i].theOg;
+                console.log("PASSING THIS: " + currentOg);
                 /* row data */
                 rowData = ''
                 rowData += '<tr class = "edit-row">';
@@ -106,14 +95,32 @@ var app =  new function() {
                 rowData += '<td > <input  type = "text" id = "edit-todo"></td>';
                 rowData += '<td><input type = "time" id = "edit-time" placeholder="time" ></td>';
                 rowData += '<td><input type = "date" id = "edit-date" ></td>';
-                rowData += '<td><input type = "submit" value = "save" class = "btn btn-success" onclick = "app.saveEdit('+0+');"> <a class = "close-button" onclick = "CloseInput()" aria-label = "Close"> &#10006;</a> <button onclick = "CloseInput()"class = "btn btn-secondary"> Close </button> </td>';
+                rowData += '<td><input type = "submit" value = "save" class = "btn btn-success" onclick = "app.saveEdit('+currentOg+');"> <a onclick = "CloseInput()" class = "close-button" aria-label = "Close">&#10006;</a> <button onclick = "CloseInput()" class = "btn btn-secondary"> Close </button> </td>';
                 rowData += '</form>';
                 rowData += '</tr>';
                 /* row data */
                 data += rowData;
+                editAdded = true;
             }
+            
+        }
+        if (!editAdded) {
+            /* row data */
+            rowData = ''
+            rowData += '<tr class = "edit-row">';
+            rowData += '<form action = "javascript:void(0);" method = "POST" id = "save-edit">';
+            rowData += '<td ></td>';
+            rowData += '<td > <input  type = "text" id = "edit-todo"></td>';
+            rowData += '<td><input type = "time" id = "edit-time" placeholder="time" ></td>';
+            rowData += '<td><input type = "date" id = "edit-date" ></td>';
+            rowData += '<td><input type = "submit" value = "save" class = "btn btn-success" onclick = "app.saveEdit('+0+');"> <a class = "close-button" onclick = "CloseInput()" aria-label = "Close"> &#10006;</a> <button onclick = "CloseInput()"class = "btn btn-secondary"> Close </button> </td>';
+            rowData += '</form>';
+            rowData += '</tr>';
+            /* row data */
+            data += rowData;
+        }
 
-            console.log(this.tasks);
+        console.log(this.tasks);
     
     return this.el.innerHTML = data;
         
@@ -149,9 +156,11 @@ var app =  new function() {
     };
 
     this.Edit = function(item) {  //edits task
+        /*console.log(item);
         console.log(item);
-        console.log(item);
-        console.log(this.tasks[item]);
+        console.log(this.tasks[item]);*/
+        console.log("this.tasks");
+        console.log("EDITING: " + item);
         
         var elTask = document.getElementById('edit-todo');
         var elTime = document.getElementById('edit-time');
@@ -185,6 +194,7 @@ var app =  new function() {
     };
     
     this.saveEdit = function(item){ 
+        console.log("Saving this: " + item);
         self = this;
 
         var elTask = document.getElementById('edit-todo');
@@ -206,13 +216,21 @@ var app =  new function() {
         console.log("USERNAME: " + username);
         socket.emit("updateTask", [username, betterV, self.rawDates[item], self.dates[item], task, time, date])
         if (task && time && checkTime(time)) {
-            self.tasks.splice(item-1, 1, task.trim());
-            self.times.splice(item-1, 1, time);
+            self.tasks[item] = task;
+            self.dates[item] = date;
+            self.times[item] = time;
+            var actualTime = new Date(date + "T" + time);
+            const timestamp = actualTime.getTime();
+            self.rawDates[item] = timestamp;
+            //self.tasks.splice(item-1, 1, task.trim());
+            //self.times.splice(item-1, 1, time);
  
-            self.dates.splice(item-1, 1, date);
+            //self.dates.splice(item-1, 1, date);
             self.FetchAll();
             CloseInput();
         }
+        console.log("edit saved");
+        console.log(this.tasks);
 
 
     }
@@ -235,6 +253,7 @@ var app =  new function() {
         console.log(this.times);
         console.log(this.dates);
         this.FetchAll();
+        
     };
 
     this.Count = function(data) { //counts and displays elemetnts
@@ -257,6 +276,36 @@ var app =  new function() {
 
 
     this.sortTime = function () {
+
+        
+
+        this.combinedArray.sort(function(el1, el2) {
+
+            var time1 = el1.theTime;
+            var time2 = el2.theTime;
+
+            if (time1.length === 4) {
+            var x = time1[0] + time1[2] + time1[3];
+            }
+            else {
+            var x = time1[0] + time1[1] + time1[3] + time1[4];
+            }
+
+            if (time2.length === 4) {
+            var y = time2[0] + time2[2] + time2[3];
+            }
+            else {
+            var y = time2[0] + time2[1] + time2[3] + time2[4];
+            }
+
+            e = parseInt(x, 10);
+            f = parseInt(y, 10);
+
+            if (e>f) {return 1;}
+            if (f>e) {return -1;}
+            return 0
+
+        });
 
         this.combinedArray.sort(function(el1, el2) {
 
@@ -297,34 +346,6 @@ var app =  new function() {
 
         });
 
-
-        this.combinedArray.sort(function(el1, el2) {
-
-            var time1 = el1.theTime;
-            var time2 = el2.theTime;
-
-            if (time1.length === 4) {
-            var x = time1[0] + time1[2] + time1[3];
-            }
-            else {
-            var x = time1[0] + time1[1] + time1[3] + time1[4];
-            }
-
-            if (time2.length === 4) {
-            var y = time2[0] + time2[2] + time2[3];
-            }
-            else {
-            var y = time2[0] + time2[1] + time2[3] + time2[4];
-            }
-
-            e = parseInt(x, 10);
-            f = parseInt(y, 10);
-
-            if (e>f) {return 1;}
-            if (f>e) {return -1;}
-            return 0
-
-        });
 
 
     }
