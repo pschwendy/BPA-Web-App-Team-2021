@@ -29,6 +29,10 @@
                 <div class="carousel-item">
                 <img class="d-block w-100" src="POV-theme-park_1.jpg" alt="Second slide">
                 </div>
+                <div class="carousel-item">
+                  <img class="d-block w-100" src="Who-Designs-Amusement-Park-Rides.jpeg" alt="Third slide">
+                </div>
+                
             </div>
             <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -118,7 +122,7 @@
               } else {
                 document.getElementById(current_name).className = "portal fas fa-caret-left fa-10x float-right";
                 document.getElementById(current_name).style = "right: 46%;";
-                document.getElementById(current_name_hover).style = "width: 45%;";
+                document.getElementById(current_name_hover).style = "width: 45%; overflow-y: scroll";
                 socket.emit("getMenu", current_id, current_name_hover);
               }
             };
@@ -132,6 +136,7 @@
             portal.href = msg[i].page_address;
             portal.appendChild(cardImg);
             portal.appendChild(cardImgOverlay);
+            
 
             var card = document.createElement("div");
             card.className = "card my-3 border-0 text-white";
@@ -151,17 +156,12 @@
           //menuItem.innerHTML = item.cost;
           menu.appendChild(menuItem);
         }
-
+        
         document.getElementById(current_name_hover).appendChild(menu);
       });
       
     </script>
     <footer>
-        <div class="head-hero">
-          <img class="footer-img" style="width:100%; height: 200px;" src="https://www.worldatlas.com/r/w1200-h630-c1200x630/upload/0e/f9/19/theme-parks.jpg">
-          <div id="footer-buttons">
-          </div>
-        </div>
         <div id="footer"></div>
         <script>
             $(function() {

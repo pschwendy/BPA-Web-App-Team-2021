@@ -525,7 +525,11 @@ app.post("/:whatever?/:whateverTwo?/signup", function(req, res) {
 
 // Google Sign In
 app.post("/:whatever?/:whateverTwo?/gsignin", function(req, res){
-  //console.log("RECEIVED SOMETHING");
+  console.log("RECEIVED SIGN IN");
+  console.log("RECEIVED SIGN IN");
+  console.log("RECEIVED SIGN IN");
+  console.log("RECEIVED SIGN IN");
+  console.log("RECEIVED SIGN IN");
   console.log(req.path);
   var form = new formidable.IncomingForm();
   form.parse(req, function(err, fields, files){
