@@ -31,7 +31,7 @@ io.on("connection", function(socket) {
 
         allTasks = results;
         for (task of allTasks){
-          console.log("TASK TIME: " + task.time);
+          //console.log("TASK TIME: " + task.time);
         }
         socket.emit("getTaskData", allTasks);
 
@@ -54,8 +54,8 @@ io.on("connection", function(socket) {
     let date = msg[3];
     var actualTime = new Date(date + "T" + time);
     const timestamp = actualTime.getTime();
-    console.log("TIMESTAMP: " + timestamp);
-    console.log("TIME: " + actualTime.toTimeString());
+    //console.log("TIMESTAMP: " + timestamp);
+    //console.log("TIME: " + actualTime.toTimeString());
     let quantity = msg[4];
     var userId;
     var waitTime;
@@ -65,31 +65,31 @@ io.on("connection", function(socket) {
 
     //querier.
 
-    console.log("NEWWWWWWW");
+    //console.log("NEWWWWWWW");
 
-    console.log("WORKING");
-    console.log(task);
+    //console.log("WORKING");
+    //console.log(task);
     querier.getUserId(msg[2], function(result){
       userId = result;
       querier.getWaitTime(task, function(result){
-        console.log("!!!!!!!!!!!!RESULT!!!!!!!!!!!!!!");
-        console.log(result);
-        console.log("!!!!!!!!!!!!RESULT!!!!!!!!!!!!!!");
+        //console.log("!!!!!!!!!!!!RESULT!!!!!!!!!!!!!!");
+        //console.log(result);
+        //console.log("!!!!!!!!!!!!RESULT!!!!!!!!!!!!!!");
         if (result != "fail" && result != [] && result.length != 0){
 
         
         waitTime = result[0].average_wait_time;
  
-        console.log(waitTime);
+        //console.log(waitTime);
         
 
         var stdDate = date + "T" + time + "Z"
         time = new Date(stdDate) - 0;
         var actual = new Date(stdDate) - (60000 * waitTime);
-        //console.log(new Date((date + "T" + time + "Z")));
+        ////console.log(new Date((date + "T" + time + "Z")));
 
         
-        console.log("GETTING CONFLICTS");
+        //console.log("GETTING CONFLICTS");
         querier.getConflicts(task, date, time, actual, function(result){
           for(row of result) {
             if (conflicts != "DONZO"){
@@ -100,7 +100,7 @@ io.on("connection", function(socket) {
               break;
             }
           }
-          console.log("THE RESULT: " + conflicts);
+          //console.log("THE RESULT: " + conflicts);
 
           if (conflicts == "DONZO"){
             socket.emit("addTask_res", "selfConflict")
@@ -133,7 +133,7 @@ io.on("connection", function(socket) {
 
   // deletes task from itinerary
   socket.on("deleteTask", function(msg) {
-    console.log("RECEIVED");
+    //console.log("RECEIVED");
     const user = msg[0].replace(/%40/g, "@");
     const time = msg[1];
     const date = msg[2];
@@ -162,15 +162,15 @@ io.on("connection", function(socket) {
     var actualTime = new Date(newDate + "T" + newTime);
     const timestamp = actualTime.getTime();
 
-    console.log("-------DATA-------");
-    console.log("USER: " + user);
-    console.log("OLD TASK: " + oldTask);
-    console.log("OLD TIME: " + oldTime);
-    console.log("OLD DATE: " + oldDate);
-    console.log("NEW TASK: " + newTask);
-    console.log("NEW TIME: " + timestamp);
-    console.log("NEW DATE: " + newDate);
-    console.log("-------DATA-------");
+    //console.log("-------DATA-------");
+    //console.log("USER: " + user);
+    //console.log("OLD TASK: " + oldTask);
+    //console.log("OLD TIME: " + oldTime);
+    //console.log("OLD DATE: " + oldDate);
+    //console.log("NEW TASK: " + newTask);
+    //console.log("NEW TIME: " + timestamp);
+    //console.log("NEW DATE: " + newDate);
+    //console.log("-------DATA-------");
 
     querier.getUserId(user, function(result) {
       const userId = result;
@@ -189,11 +189,11 @@ io.on("connection", function(socket) {
   socket.on("getAdData", function(page, isRestaurant) {
     querier.getAttractions(isRestaurant, function(data) {
       for(info of data) {
-        console.log(info.page_address);
+        //console.log(info.page_address);
         if(info.page_address == page) {
-          console.log("in this " + page);
+          //console.log("in this " + page);
           socket.emit("receiveAdData", info);
-          //console.log("done!");
+          ////console.log("done!");
           querier.getAverageRating(info.id, function(averageRating) {
             socket.emit("loadRating", averageRating);
           });
@@ -218,7 +218,7 @@ io.on("connection", function(socket) {
 
   socket.on("getCookies", function(msg){
     var cookie = socket.handshake.headers.cookie;
-    console.log("COOKIE: " + cookie);
+    //console.log("COOKIE: " + cookie);
   });
 
   socket.on("gsignin", function(msg){
@@ -234,7 +234,7 @@ io.on("connection", function(socket) {
 
     var oldPassword = msg[1];
 
-    console.log(email +" " + password + " " + nickname);
+    //console.log(email +" " + password + " " + nickname);
 
 
     var emailWorks = true;
@@ -249,7 +249,7 @@ io.on("connection", function(socket) {
       querier.signup(email, password, nickname, function(result){
 
         dataWorks = result;
-        console.log(dataWorks);
+        //console.log(dataWorks);
 
         if (emailWorks && pwdWorks && (dataWorks== true)){
           res.cookie("name", email);
@@ -283,16 +283,17 @@ io.on("connection", function(socket) {
 
     });
 
-    console.log("************DONE WITH SOCKET VERSION***********");
+    //console.log("************DONE WITH SOCKET VERSION***********");
     socket.emit("reloadOrder", 0);
    
   });
 
   socket.on("submitRating", function(restaurantID, name, rating){
-    console.log("NAME: " + name);
+    //console.log("SUBMIT RATING NAME: " + name);
     name = name.replace(/%40/g, "@");
-    console.log(name);
+    //console.log(name);
     querier.addRating(restaurantID, name, rating, function() {
+      //console.log("HII!");
       querier.getAverageRating(restaurantID, function(averageRating) {
         socket.emit("loadRating", averageRating);
       });
@@ -300,10 +301,11 @@ io.on("connection", function(socket) {
   });
 
   socket.on("getCurrentRating", function(restaurantID, name){
-    console.log("NAME: " + name);
+    //console.log("NAME: " + name);
     name = name.replace(/%40/g, "@");
     var ratingExists = false;
     querier.selectRating(restaurantID, name, function(rating) {
+      //console.log("SENDING USER RATING");
       socket.emit("userRating", rating);
       ratingExists = true;
     });
@@ -348,7 +350,7 @@ app.get("/d/socket.io", function(req, res) {
 // input: req -> http request
 // input: res -> app response
 app.get("/:whatever?/:whateverTwo?/logout", function(req, res) {
-  console.log(req.path);
+  //console.log(req.path);
   res.clearCookie("ERROR");
   res.clearCookie("name");
   res.clearCookie("nick");
@@ -386,7 +388,7 @@ app.post("/:whatever/gsignin", function(req, res){
 app.post("/:whatever?/:whateverTwo?/login", function(req, res) {
   //should also validate log in once database is ready
   //for now, it just creates a cookie based on the username
-  console.log(req.path);
+  //console.log(req.path);
   var form = new formidable.IncomingForm();
   form.parse(req, function(err, fields, files) {
     //cleanse useer of previous errors
@@ -396,12 +398,12 @@ app.post("/:whatever?/:whateverTwo?/login", function(req, res) {
     var username = fields.uname;
     var password = fields.pwd;
 
-    console.log(username);
-    console.log(password);
+    //console.log(username);
+    //console.log(password);
 
     querier.login(username, password, function(result) {
       if (result != false) {
-        console.log("SUPPOSED COOKIE:" + result.email);
+        //console.log("SUPPOSED COOKIE:" + result.email);
         res.cookie("name", result.email);
         res.cookie("nick", result.nickname);
         res.cookie("id", result.id);
@@ -444,9 +446,9 @@ function checkPassword(password, rePass) {
   //do all the length, characters, numbers stuff here
   var charGex = /[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/;
   var digitGex = /\d/;
-  console.log("CHAR RESULTS:::::::::");
-  console.log(charGex);
-  console.log(digitGex);
+  //console.log("CHAR RESULTS:::::::::");
+  //console.log(charGex);
+  //console.log(digitGex);
   if (password.length >= 7 && password == rePass){
     return true;
   }
@@ -467,7 +469,7 @@ function checkEmail(email) {
 // input: req -> http request
 // input: res -> app response
 app.post("/:whatever?/:whateverTwo?/signup", function(req, res) {
-  console.log(req.path);
+  //console.log(req.path);
   var form = new formidable.IncomingForm();
   form.parse(req, function(err, fields, files) {
     //cleanse user of lingering mishap cookie
@@ -484,15 +486,15 @@ app.post("/:whatever?/:whateverTwo?/signup", function(req, res) {
 
     //salt and hash password with ten rounds of salting
     bcrypt.hash(password, 10, function(err, hash){
-      console.log(password + " => " + hash);
+      //console.log(password + " => " + hash);
       password = hash;
 
       querier.signup(email, password, nickname, function(result){
         dataWorks = result;
-        //console.log(dataWorks);
+        ////console.log(dataWorks);
 
         if (emailWorks && pwdWorks && (dataWorks== true)) {
-          console.log("HI");
+          //console.log("HI");
           res.cookie("name", email);
           res.cookie("nick", nickname);
         }
@@ -525,12 +527,12 @@ app.post("/:whatever?/:whateverTwo?/signup", function(req, res) {
 
 // Google Sign In
 app.post("/:whatever?/:whateverTwo?/gsignin", function(req, res){
-  console.log("RECEIVED SIGN IN");
-  console.log("RECEIVED SIGN IN");
-  console.log("RECEIVED SIGN IN");
-  console.log("RECEIVED SIGN IN");
-  console.log("RECEIVED SIGN IN");
-  console.log(req.path);
+  //console.log("RECEIVED SIGN IN");
+  //console.log("RECEIVED SIGN IN");
+  //console.log("RECEIVED SIGN IN");
+  //console.log("RECEIVED SIGN IN");
+  //console.log("RECEIVED SIGN IN");
+  //console.log(req.path);
   var form = new formidable.IncomingForm();
   form.parse(req, function(err, fields, files){
 
@@ -543,7 +545,7 @@ app.post("/:whatever?/:whateverTwo?/gsignin", function(req, res){
 
     var oldPassword = fields.gPwd;
 
-    console.log(email +" " + password + " " + nickname);
+    //console.log(email +" " + password + " " + nickname);
 
 
     var emailWorks = true;
@@ -558,10 +560,10 @@ app.post("/:whatever?/:whateverTwo?/gsignin", function(req, res){
       querier.signup(email, password, nickname, function(result){
 
         dataWorks = result;
-        console.log(dataWorks);
+        //console.log(dataWorks);
 
         if (emailWorks && pwdWorks && (dataWorks== true)){
-          console.log("HI");
+          //console.log("HI");
           res.cookie("name", email);
           res.cookie("nick", nickname);
           /*if (req.params.whatever != undefined){
@@ -685,8 +687,8 @@ app.post('/admin', function(req, res){
     if (err){
       throw(err);
     }
-    console.log("FILES");
-    console.log(files);
+    //console.log("FILES");
+    //console.log(files);
     const attractionName = fields.name,
           description = fields.description,
           waitTime = fields.wait,
@@ -694,7 +696,7 @@ app.post('/admin', function(req, res){
           imageLocation = '/' + files.attrImage.name,
           page = attractionName.replace(/ /g,"-").toLowerCase();
 
-    console.log(imageLocation);
+    //console.log(imageLocation);
     var oldpath = files.attrImage.path;
     var newpath = __dirname + "/static-files" + imageLocation;
     fs.rename(oldpath, newpath, function(err){
@@ -713,11 +715,11 @@ app.get("/restaurants/:restaurantPage", function(req, res) {
   
 	//io.on("connection", function(socket) {
     /*socket.on("getAdData", function(){
-      console.log("in!");
+      //console.log("in!");
       for(i = 0; i < restaurantData.length; i++) {
         if(restaurantData[i].page == req.params.restaurantPage) {
           socket.emit("receiveAdData", restaurantData, i);
-          console.log("done!");
+          //console.log("done!");
           break;
         }
       }
@@ -740,7 +742,7 @@ app.get("/:place", function(req, res) {
 // listen to server port
 var port = process.env.PORT || 3000;
 server.listen(port, function(){
-  console.log("listening on port 3000");
+  //console.log("listening on port 3000");
 });
 
 

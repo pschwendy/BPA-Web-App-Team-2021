@@ -16,7 +16,7 @@
   };
 
   function attachSignin(element) {
-    console.log(element.id);
+    //console.log(element.id);
     auth2.attachClickHandler(element, {}, function(googleUser){
       onSignIn(googleUser);
     });
@@ -227,13 +227,13 @@
     }
 
     function changeForms(){
-      console.log("CHANGE FORMS ACTIVATED");
+      //console.log("CHANGE FORMS ACTIVATED");
 
       /*ar forms = document.getElementsByTagName("form");
       for (form of forms){
-          console.log("BEFORE: " + form.action);
+          //console.log("BEFORE: " + form.action);
           form.action = "/restaurants/" + restaurantName.toLowerCase() + form.action.slice(form.action.lastIndexOf('/'), form.action.length);
-          console.log("AFTER: " + form.action);
+          //console.log("AFTER: " + form.action);
       }
 
       var pain = document.getElementById("pain")
@@ -252,7 +252,7 @@
     
     // Reload page after login
     socket.on("reload", function(msg){
-      console.log("GOT ITTTT");
+      //console.log("GOT ITTTT");
       window.location.reload();
     });
   </script>

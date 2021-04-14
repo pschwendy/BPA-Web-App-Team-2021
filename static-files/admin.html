@@ -123,7 +123,7 @@
     };
 
     this.Add = function() {
-      console.log('adding');
+      //console.log('adding');
       var elNameDish = document.getElementById('dish_name');
       var elNamePrice = document.getElementById('dish_price');
       var elRestaurant = document.getElementById('restaurant');
@@ -132,9 +132,9 @@
       price = nameDish.value;
       restaurant = elRestaurant.value;
 
-      console.log('nameDish');
-      console.log('price');
-      console.log('restaurant');
+      //console.log('nameDish');
+      //console.log('price');
+      //console.log('restaurant');
 
       let thisItem = {
         name_of_dish: nameDish,
@@ -143,8 +143,8 @@
       };
       if (nameDish && price) {
         this.items.push(thisItem);
-        console.log("items");
-        console.log(this.items);
+        //console.log("items");
+        //console.log(this.items);
         this.FetchAll();
 
       }

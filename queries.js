@@ -14,19 +14,19 @@ class Queries {
             $username: username
         },
         (err, rows) => {
-            console.log(rows);
+            //console.log(rows);
             // there should not be an error or more than one user found
             if(err) {
                 throw(err);
             } else if (!rows) {
-              console.log("HUH");
+              //console.log("HUH");
               return callback(false);
             } else if (rows.length > 1) {
                 return callback(false);
             }
             // logins in if password is correct
             bcrypt.compare(password, rows.password, function(err, result){
-              console.log("RES: " + result);
+              //console.log("RES: " + result);
               return callback(rows);
             });
         });
@@ -60,10 +60,10 @@ class Queries {
                     }
                 });
                 // logs in if conditions are met
-                console.log("gave true");
+                //console.log("gave true");
                 callback(true);
             } else {
-                console.log(rows);
+                //console.log(rows);
                 callback(false);
             }
 
@@ -78,7 +78,7 @@ class Queries {
     // input: res_time -> time of reservation
     // input: res_date -> date of reservation
     reserve(attraction, account_id, num_people, res_time, res_date) {
-        console.log("NUMBER HERE: " + num_people);
+        //console.log("NUMBER HERE: " + num_people);
         let sql = "INSERT INTO reservations(attractionRideName, numPeople, time, date, user) VALUES ($attraction, $num_people, $time, $date, $user)";
         this.db.run(sql, {
             $attraction: attraction,
@@ -112,7 +112,7 @@ class Queries {
                 throw(err);
             }
         });
-        console.log("*****************RAN DELETE FUNCTION****************");
+        //console.log("*****************RAN DELETE FUNCTION****************");
     } /* delete_reservation */
 
     // reservation function
@@ -171,7 +171,7 @@ class Queries {
             if(err) {
                 throw(err);
             }
-            if(rows != undefined) {
+            if(rows.length != 0) {
                 return callback(rows);
             }
         });
@@ -193,7 +193,7 @@ class Queries {
             for (var rating of rows) {
                 sum += rating.rating;
             }
-            console.log(rows.length);
+            //console.log(rows.length);
             var numRows = rows.length;
             if(numRows == 0) {
                 numRows++;
@@ -212,9 +212,12 @@ class Queries {
             if(err) {
                 throw(err);
             }
-            console.log(ids[0].id);
+            if(ids == undefined) {
+                return;
+            }
+            //console.log("THE ID: " + ids[0].id);
             const userID = ids[0].id;
-            console.log("ID: " + userID);
+            //console.log("ID: " + userID);
             let select = "SELECT rating FROM ratings WHERE user=$userID AND storeNumber=$restaurantId";
             this.db.all(select, {
                 $restaurantId: restaurantId,
@@ -223,7 +226,7 @@ class Queries {
                 if(err) {
                     throw(err);
                 }
-
+                //console.log("Does rows == undefined? " + (rows==undefined));
                 // if rows are found, update them
                 if(rows.length != 0) {
                     let update = "UPDATE ratings SET rating=$rating WHERE user=$userID AND storeNumber=$restaurantId";
@@ -236,8 +239,7 @@ class Queries {
                             throw(err);
                         }
                     });
-                    callback();
-                    return; // exit early
+                    return callback(); // exit early
                 }
 
                 // if not, insert into table
@@ -254,7 +256,7 @@ class Queries {
             });
         });
         
-        callback();
+        return callback();
     } // addRating()
     
     // selects user rating
@@ -266,11 +268,11 @@ class Queries {
             if(err) {
                 throw(err);
             }
-            if(ids != undefined) {
+            if(ids == undefined) {
                 return;
             }
             const userID = ids[0].id;
-            console.log("ID: " + userID);
+            //console.log("ID: " + userID);
             let select = "SELECT rating FROM ratings WHERE user=$userID AND storeNumber=$restaurantId";
             this.db.all(select, {
                 $restaurantId: restaurantId,
@@ -279,8 +281,9 @@ class Queries {
                 if(err) {
                     throw(err);
                 }
+                //console.log("FETCHING ROWS:" + rows);
                 // if rows are found, update them
-                if(rows != undefined) {
+                if(rows.length != 0) {
                     return callback(rows[0].rating);
                 }
             });
@@ -311,17 +314,17 @@ class Queries {
         if (err){
             throw(err);
         }
-        else if (rows != undefined){
-            console.log("ROWS" + rows);
+        else if (rows.length != 0){
+            //console.log("ROWS" + rows);
             return callback(rows);
         }  
       });
     }
 
     getConflicts(attraction, date, startTime, endTime, callback){
-      console.log("THE TIME");
-      console.log(startTime);
-      console.log(endTime);
+      //console.log("THE TIME");
+      //console.log(startTime);
+      //console.log(endTime);
       let sql = "SELECT * FROM reservations WHERE attractionRideName=$attraction AND date=$date AND time BETWEEN $endTime AND $startTime";
       this.db.all(sql, {
         $attraction: attraction,
@@ -358,12 +361,15 @@ class Queries {
         this.db.run(sql, {
             $lowerBound: lowerBound
         }, (err) => {
-            if (err){console.log(err);}
+            if (err) {
+                throw(err);
+                //console.log(err);
+            }
         });
     }
 
     getTasks(userId, callback){
-        console.log("GOT: " + userId);
+        //console.log("GOT: " + userId);
         let sql = "SELECT * FROM reservations WHERE user=$userId";
         this.db.all(sql, {
             $userId: userId
@@ -424,7 +430,7 @@ class Queries {
             if(err) {
                 throw(err);
             }
-            console.log("ATTRACTION ID: " + row.id);
+            //console.log("ATTRACTION ID: " + row.id);
             return callback(row.id);
         });
     }

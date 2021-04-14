@@ -80,7 +80,7 @@
         socket.emit("getAttractions", restaurant);
       }
       socket.on("receiveAttractions", function(msg){
-        console.log(msg);
+        //console.log(msg);
         var element = $('#portals').find('.container');
         element[0].innerHTML = '';
         // construct cards through DOM

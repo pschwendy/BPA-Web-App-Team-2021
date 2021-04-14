@@ -190,7 +190,7 @@
           
               function removeG(){
           
-                console.log("REMOVEEEEE");
+                //console.log("REMOVEEEEE");
                 var auth2 = gapi.auth2.getAuthInstance();
                 auth2.disconnect();
           
@@ -202,7 +202,7 @@
           
                 // The ID token you need to pass to your backend:
                 var id_token = googleUser.getAuthResponse().id_token;
-                console.log("ID Token: " + id_token);
+                //console.log("ID Token: " + id_token);
           
                 document.getElementById("gUsername").value = profile.getEmail();
                 document.getElementById("gNick").value = profile.getGivenName();
@@ -214,13 +214,13 @@
               }
           
               function changeForms(){
-                console.log("CHANGE FORMS ACTIVATED");
+                //console.log("CHANGE FORMS ACTIVATED");
           
                 /*ar forms = document.getElementsByTagName("form");
                 for (form of forms){
-                    console.log("BEFORE: " + form.action);
+                    //console.log("BEFORE: " + form.action);
                     form.action = "/restaurants/" + restaurantName.toLowerCase() + form.action.slice(form.action.lastIndexOf('/'), form.action.length);
-                    console.log("AFTER: " + form.action);
+                    //console.log("AFTER: " + form.action);
                 }
           
                 var pain = document.getElementById("pain")
@@ -236,9 +236,9 @@
 
           var forms = document.getElementsByClassName("signForms");
           for (form of forms){
-              console.log("BEFORE: " + form.action);
+              //console.log("BEFORE: " + form.action);
               form.action = "/restaurants/" + restaurantName.toLowerCase() + form.action.slice(form.action.lastIndexOf('/'), form.action.length);
-              console.log("AFTER: " + form.action);
+              //console.log("AFTER: " + form.action);
           }
 
           /*try{
@@ -246,7 +246,7 @@
               pain.href = "/restaurants/" + restaurantName.toLowerCase() + pain.href.slice(pain.href.lastIndexOf('/'), pain.href.length);
           }
           catch(e){
-              console.log("ignored error");
+              //console.log("ignored error");
           }*/
          
 
@@ -394,7 +394,7 @@
         <script src="/socket.io/socket.io.js"> </script>
         <script>
             window.onload = function(){
-              console.log(window.location.href);
+              //console.log(window.location.href);
             }
 
             var socket = io();
@@ -404,7 +404,7 @@
                 $('#reservation-card').insertAfter('#title-border');
                 $('#reservation-card').removeClass('float-right');
                 $('#reservation-card').css("width", "100%");
-                console.log("HI");
+                //console.log("HI");
             }
             else {
                 $('#reservation-card').parent('.container');
@@ -445,23 +445,23 @@
         //window.onload=function(){
 
             /*restaurantName = window.location.href.slice(window.location.href.lastIndexOf("/") + 1, window.location.href.length);
-            console.log("SLICED: "  + restaurantName);
+            //console.log("SLICED: "  + restaurantName);
             socket.emit("getAdData", restaurantName);*/
 
         //}
 
         //socket.emit("getAdData");
         restaurantName = window.location.href.slice(window.location.href.lastIndexOf("/") + 1, window.location.href.length);
-        console.log("SLICED: "  + restaurantName);
+        //console.log("SLICED: "  + restaurantName);
         socket.emit("getAdData", restaurantName, true);
         
         /*socket.on("getAdData", function(msg){
             adData = msg;
-            console.log(adData);
-            console.log(adData[1].name)
+            //console.log(adData);
+            //console.log(adData[1].name)
         });*/
         socket.on("receiveAdData", function(data){
-            console.log("Got a message");
+            //console.log("Got a message");
             var msg = data;
             document.getElementById("res-header").innerHTML = msg.name;
             document.getElementsByClassName("title")[0].innerHTML = msg.name;
@@ -490,7 +490,7 @@
         });
         
         socket.on("receiveMenu", function(menu, empty){
-          console.log("RECEIVED THE MENU!");
+          //console.log("RECEIVED THE MENU!");
           var menuArea = document.getElementById('menu-area');
           for(item of menu) {
             var product = document.createElement("div");
@@ -518,6 +518,7 @@
             stars += " ⭐ ";
           }
           $("#rating").text("Rating: " + stars);
+          //console.log("GETTING CURRENT RATING");
           socket.emit("getCurrentRating", restaurantID, name);
           showBody();
         });
@@ -528,9 +529,9 @@
 
         var forms = document.getElementsByClassName("signForms");
         for (form of forms){
-            console.log("BEFORE: " + form.action);
+            //console.log("BEFORE: " + form.action);
             form.action = "/restaurants/" + restaurantName.toLowerCase() + form.action.slice(form.action.lastIndexOf('/'), form.action.length);
-            console.log("AFTER: " + form.action);
+            //console.log("AFTER: " + form.action);
         }
 
         try{
@@ -538,7 +539,7 @@
             pain.href = "/restaurants/" + restaurantName.toLowerCase() + pain.href.slice(pain.href.lastIndexOf('/'), pain.href.length);
         }
         catch(e){
-            console.log("ignored error");
+            //console.log("ignored error");
         }
 
         var app = new function () {
@@ -548,9 +549,9 @@
                 var date = document.getElementById('date');
                 var quantity = document.getElementById('realQuantity');
                 socket.emit("addTask", [task, time.value, name, date.value, parseInt(quantity.value)]);
-                console.log(quantity.value);
-                console.log(time.value);
-                console.log(date.value);
+                //console.log(quantity.value);
+                //console.log(time.value);
+                //console.log(date.value);
 
                 document.getElementById("submit-button").className = "btn btn-success right res-button";
                 document.getElementById("submit-button").innerHTML = "Reserved!";
@@ -566,22 +567,23 @@
             // send rating to server
             this.rate = () => {
               rating = document.getElementById("set-rating").value;
+              //console.log("submitting rating" + [restaurantID, name, rating]);
               socket.emit("submitRating", restaurantID, name, rating);
             } // rate()
         }
 
         document.getElementById("rate-res").onsubmit = () => {
           rating = document.getElementById("set-rating").value;
-          console.log(rating);
-          console.log("SUBMITTED");
+          //console.log(rating);
+          //console.log("SUBMITTED");
         }
-        console.log(document.getElementById("rate-res"));
-        console.log(document.getElementById("set-rating"));
+        //console.log(document.getElementById("rate-res"));
+        //console.log(document.getElementById("set-rating"));
         // send rating to server
         function rate() {
-          console.log("SUBMITTED");
+          //console.log("SUBMITTED");
           rating = document.getElementById("set-rating").value;
-          console.log(rating);
+          //console.log(rating);
         } // rate()
     </script>
     <footer>

@@ -27,8 +27,8 @@ var app =  new function() {
 
             this.combinedArray.push(taskTime);
         }
-        console.log("dates: ");
-        console.log(this.dates);
+        //console.log("dates: ");
+        //console.log(this.dates);
 
         /*document.getElementById('edit-box').style.display = 'none';*/  /*<tr>
         <form action = "javascript:void(0);" method = "POST" id = "save-edit">
@@ -44,28 +44,28 @@ var app =  new function() {
         }
 
         if (this.tasks.length > 0) {
-            console.log("ABOUT TO MAKE THE THING:");
-            console.log(this.tasks);
+            //console.log("ABOUT TO MAKE THE THING:");
+            //console.log(this.tasks);
             for (i = 0; i < this.tasks.length; i++) {
                 data += '<tr>'; //adds table row
                 data += '<td>' + (i+1) + '. ' + '</td>'; //adds table cell so it says the task number then the task info i.e 3. Eat lunch
                 data += '<td>' + this.combinedArray[i].theTask + '</td>';
                 data += '<td>' + convertToTwelveHr(trimTime(this.combinedArray[i].theTime)) + '</td>';
                 data += '<td>' + convertDate(this.combinedArray[i].theDate) +'</td>';
-                console.log("The Task: " + this.combinedArray[i].theTask);
-                console.log("TheOg: " + this.combinedArray[i].theOg);
+                //console.log("The Task: " + this.combinedArray[i].theTask);
+                //console.log("TheOg: " + this.combinedArray[i].theOg);
                 data += '<td> <button onclick = "app.Edit('+i+')" class = "btn btn-warning" > Edit </button>  <button onclick = "app.Delete('+this.combinedArray[i].theOg+')" class = "btn btn-danger"> Delete </button></td>'; // adds edit button
                 data += '</tr>';
             }
-            console.log("OUT:");
-            console.log(data);
+            //console.log("OUT:");
+            //console.log(data);
         }
 
         this.Count(this.tasks.length);
-        console.log(this.tasks);
+        //console.log(this.tasks);
 
-        console.log("Aarnav Here are the dates");
-        console.log(this.dates);
+        //console.log("Aarnav Here are the dates");
+        //console.log(this.dates);
         return this.el.innerHTML = data;
 
         
@@ -84,9 +84,9 @@ var app =  new function() {
             data += '</tr>';
             if (i === rowNum) {
                 var betterV = this.tasks[i].replace("RESERVATION FOR: ", "").trim();
-                console.log("INFO FOR EDIT: " + username + " " + this.rawDates[i] + " " + this.dates[i] + " " + betterV);
+                //console.log("INFO FOR EDIT: " + username + " " + this.rawDates[i] + " " + this.dates[i] + " " + betterV);
                 const currentOg = this.combinedArray[i].theOg;
-                console.log("PASSING THIS: " + currentOg);
+                //console.log("PASSING THIS: " + currentOg);
                 /* row data */
                 rowData = ''
                 rowData += '<tr class = "edit-row">';
@@ -120,7 +120,7 @@ var app =  new function() {
             data += rowData;
         }
 
-        console.log(this.tasks);
+        //console.log(this.tasks);
     
     return this.el.innerHTML = data;
         
@@ -142,25 +142,25 @@ var app =  new function() {
             this.rawDates.push(rawTime);
             var convertedDate = convertDate(date);
             this.dates.push(date);
-            console.log(this.times);
+            //console.log(this.times);
             
             socket.emit("CUSTOM STUFFFFF: " + task + " " + time + " " + username + " " + date);
             socket.emit("addTask", [task, time, username, date]);
        //     this.timesOfDays.push(timeOfDay);
             elTask.value = '';
             document.getElementById('add-time').value = '';
-            console.log(time);
+            //console.log(time);
             this.FetchAll();
         }
         //document.getElementById('output').innerHTML = convertedDate;
     };
 
     this.Edit = function(item) {  //edits task
-        /*console.log(item);
-        console.log(item);
-        console.log(this.tasks[item]);*/
-        console.log("this.tasks");
-        console.log("EDITING: " + item);
+        /*//console.log(item);
+        //console.log(item);
+        //console.log(this.tasks[item]);*/
+        //console.log("this.tasks");
+        //console.log("EDITING: " + item);
         
         var elTask = document.getElementById('edit-todo');
         var elTime = document.getElementById('edit-time');
@@ -173,11 +173,11 @@ var app =  new function() {
   /*      elTask.value = this.tasks[item];
         elTime.value = this.times[item]; */
 
-        console.log("Fetch Edit");
+        //console.log("Fetch Edit");
         //document.getElementById('edit-box').style.display = 'block'; //defaults to close, displays it
     
         /*document.getElementById('save-edit').onsubmit = function() {
-            console.log('saved edit, kinda garbo tho');
+            //console.log('saved edit, kinda garbo tho');
             var task = elTask.value;
             var time = elTime.value;
             var date = elDate.value;
@@ -194,7 +194,7 @@ var app =  new function() {
     };
     
     this.saveEdit = function(item){ 
-        console.log("Saving this: " + item);
+        //console.log("Saving this: " + item);
         self = this;
 
         var elTask = document.getElementById('edit-todo');
@@ -203,17 +203,17 @@ var app =  new function() {
        
        
 
-        console.log('saved edit, kinda garbo tho');
+        //console.log('saved edit, kinda garbo tho');
         var task = elTask.value;
         var time = elTime.value;
         var date = elDate.value;
-        console.log("Aarnav look here");
-        console.log(date);
+        //console.log("Aarnav look here");
+        //console.log(date);
         var betterV = this.tasks[item].replace("RESERVATION FOR: ", "").trim();
-        console.log("INFO FOR REMOVAL: " + username + " " + self.rawDates[item] + " " + self.dates[item] + " " + betterV);
+        //console.log("INFO FOR REMOVAL: " + username + " " + self.rawDates[item] + " " + self.dates[item] + " " + betterV);
         /*socket.emit("deleteTask", [username, self.rawDates[item], self.dates[item], betterV]);
         socket.emit("addTask", [task, time, username, date]);*/
-        console.log("USERNAME: " + username);
+        //console.log("USERNAME: " + username);
         socket.emit("updateTask", [username, betterV, self.rawDates[item], self.dates[item], task, time, date])
         if (task && time && checkTime(time)) {
             self.tasks[item] = task;
@@ -229,29 +229,29 @@ var app =  new function() {
             self.FetchAll();
             CloseInput();
         }
-        console.log("edit saved");
-        console.log(this.tasks);
+        //console.log("edit saved");
+        //console.log(this.tasks);
 
 
     }
 
     this.Delete = function (item) { //deletes element
-        console.log("THE BIG Q: " + item);
-        console.log("BEFORE DELETE:");
-        console.log(this.tasks);
-        console.log(this.times);
-        console.log(this.dates);
+        //console.log("THE BIG Q: " + item);
+        //console.log("BEFORE DELETE:");
+        //console.log(this.tasks);
+        //console.log(this.times);
+        //console.log(this.dates);
         var betterV = this.tasks[item].replace("RESERVATION FOR: ", "").replace("Chickens R Us", "Chickens-R-Us").trim();
         //1611907200000
-        console.log(username + " " + this.rawDates[item] + " " + this.dates[item] + " " + betterV);
+        //console.log(username + " " + this.rawDates[item] + " " + this.dates[item] + " " + betterV);
         socket.emit("deleteTask", [username, this.rawDates[item], this.dates[item], betterV]);
         this.tasks.splice(item, 1);
         this.times.splice(item, 1);
         this.dates.splice(item, 1);
-        console.log("AFTER DELETE: ");
-        console.log(this.tasks);
-        console.log(this.times);
-        console.log(this.dates);
+        //console.log("AFTER DELETE: ");
+        //console.log(this.tasks);
+        //console.log(this.times);
+        //console.log(this.dates);
         this.FetchAll();
         
     };
@@ -312,9 +312,9 @@ var app =  new function() {
             date1 = convertDate(el1.theDate);
             date2 = convertDate(el2.theDate);
 
-            console.log("sortDates");
-            console.log(date1);
-            console.log(date2);
+            //console.log("sortDates");
+            //console.log(date1);
+            //console.log(date2);
             
             
 
@@ -476,11 +476,11 @@ socket.on("getTaskData", function(msg){
 
     //app.times = [];
     //app.dates = [];
-    console.log(msg);
+    //console.log(msg);
   if (msg != null && msg != "fail"){
     for (task of msg){
         var attraction = task.attractionRideName;
-        console.log("RAW: " + task.numPeople);
+        //console.log("RAW: " + task.numPeople);
         /*if (task.numPeople != 0 && task.numPeople != undefined){
             attraction = "RESERVATION FOR: " + attraction.replace(/-/g, " ").trim();
         }
@@ -501,8 +501,8 @@ socket.on("getTaskData", function(msg){
         //app.times.push(trimTime(time));
         app.times.push(time);
 
-        console.log("datesdwre");
-        console.log(convertDate(task.date));
+        //console.log("datesdwre");
+        //console.log(convertDate(task.date));
         //app.dates.push(convertDate(task.date));
         app.dates.push(task.date);
         

@@ -189,7 +189,7 @@
     
         function removeG(){
     
-          console.log("REMOVEEEEE");
+          //console.log("REMOVEEEEE");
           var auth2 = gapi.auth2.getAuthInstance();
           auth2.disconnect();
     
@@ -201,7 +201,7 @@
     
           // The ID token you need to pass to your backend:
           var id_token = googleUser.getAuthResponse().id_token;
-          console.log("ID Token: " + id_token);
+          //console.log("ID Token: " + id_token);
     
           document.getElementById("gUsername").value = profile.getEmail();
           document.getElementById("gNick").value = profile.getGivenName();
@@ -213,13 +213,13 @@
         }
     
         function changeForms(){
-          console.log("CHANGE FORMS ACTIVATED");
+          //console.log("CHANGE FORMS ACTIVATED");
     
           /*ar forms = document.getElementsByTagName("form");
           for (form of forms){
-              console.log("BEFORE: " + form.action);
+              //console.log("BEFORE: " + form.action);
               form.action = "/restaurants/" + restaurantName.toLowerCase() + form.action.slice(form.action.lastIndexOf('/'), form.action.length);
-              console.log("AFTER: " + form.action);
+              //console.log("AFTER: " + form.action);
           }
     
           var pain = document.getElementById("pain")
@@ -446,7 +446,7 @@
                 </button>
                 </div>
                 <div class="modal-body">
-                  <form onsubmit="app.rate" id="rate-res"></form>
+                  <form id="rate-res"></form>
                     <select name="rate" id="set-rating">
                         <option value="rate">Give a Rating</option>
                         <option value="5">5 - Amazing</option>
@@ -472,12 +472,12 @@
           var rideName;
           socket.emit("getRides");
           socket.on("loadRides", function(data) {
-            console.log("loading rides..." + data.length);
+            //console.log("loading rides..." + data.length);
             var counter = 0;
             var row = document.createElement("div");
             row.className = "mb-0 row";
             for(var i = 0; counter + i < data.length; i = 0) {
-              console.log("counting: " + counter);
+              //console.log("counting: " + counter);
               
 
               while(i < 6) {
@@ -487,7 +487,7 @@
                 const currentID = data[counter + i].page_address;
                 li.onclick = () => {
                   socket.emit("getAdData", currentID, false);
-                  console.log("clicked");
+                  //console.log("clicked");
                 };
                 var a = document.createElement("a");
                 a.className = "nav-link";
@@ -512,7 +512,7 @@
             $("#res-header").text(data.name);
             $("#wait-time").text("Average Wait Time: " + data.average_wait_time);
             document.getElementById("article-pic").src = data.imagelocation;
-            console.log("received");
+            //console.log("received");
             rideID = data.id;
             rideName = data.name;
             socket.emit("getCurrentRating", rideID, name);
@@ -543,11 +543,11 @@
                 var time = document.getElementById('time');
                 var date = document.getElementById('date');
                 var quantity = document.getElementById('realQuantity');
-                console.log("")
+                //console.log("")
                 socket.emit("addTask", [task, time.value, name, date.value, parseInt(quantity.value)]);
-                console.log(quantity.value);
-                console.log(time.value);
-                console.log(date.value);
+                //console.log(quantity.value);
+                //console.log(time.value);
+                //console.log(date.value);
 
                 document.getElementById("submit-button").className = "btn btn-success right res-button";
                 document.getElementById("submit-button").innerHTML = "Reserved!";
@@ -562,6 +562,7 @@
             };
             // send rating to server
             this.rate = () => {
+              //console.log("SUBMITTING THE RatING NOW");
               rating = document.getElementById("set-rating").value;
               socket.emit("submitRating", rideID, name, rating);
             } // rate()
@@ -573,9 +574,9 @@
       /*$(function() {
         var forms = document.getElementsByTagName("form");
         for (form of forms){
-            console.log("BEFORE: " + form.action);
+            //console.log("BEFORE: " + form.action);
             form.action = "/restaurants/" + restaurantName.toLowerCase() + form.action.slice(form.action.lastIndexOf('/'), form.action.length);
-            console.log("AFTER: " + form.action);
+            //console.log("AFTER: " + form.action);
         }
       });*/   
     </script>
@@ -587,7 +588,7 @@
           $('#reservation-card').insertAfter('#title-border');
           $('#reservation-card').removeClass('float-right');
           $('#reservation-card').css("width", "100%");
-          console.log("HI");
+          //console.log("HI");
       }
       else {
           $('#reservation-card').parent('.container');
@@ -637,7 +638,7 @@
     $(".nav-item").removeClass("active");
     $("#ferriswheel").show();
     $("#ferriswheelbutton").addClass("active");
-   console.log("button pressed");
+   //console.log("button pressed");
    return false;
  })
 
@@ -647,7 +648,7 @@
     $("#swings").show();
     $("#swingsbutton").addClass("active");
     return false;
-   console.log("button pressed");
+   //console.log("button pressed");
  }) 
 
  $("#rocketshipbutton").on("click", () => {
@@ -656,7 +657,7 @@
     $("#rocketship").show();
     $("#rocketshipbutton").addClass("active");
     return false;
-   console.log("button pressed");
+   //console.log("button pressed");
  })
 
  $("#slingshotbutton").on("click", () => {
@@ -664,7 +665,7 @@
     $(".nav-item").removeClass("active");
     $("#slingshot").show();
     $("#slingshotbutton").addClass("active");
-   console.log("button pressed");
+   //console.log("button pressed");
  })
 
  $("#trainbutton").on("click", () => {
@@ -673,7 +674,7 @@
     $("#train").show();
     $("#trainbutton").addClass("active");
     return false;
-   console.log("button pressed");
+   //console.log("button pressed");
  })
 
  $("#parachutedropbutton").on("click", () => {
@@ -682,7 +683,7 @@
     $("#parachutedrop").show();
     $("#parachutedropbutton").addClass("active");
     return false;
-   console.log("button pressed");
+   //console.log("button pressed");
  })
 
  $("#merrygoroundbutton").on("click", () => {
@@ -691,7 +692,7 @@
     $("#merrygoround").show();
     $("#merrygoroundbutton").addClass("active");
     return false;
-   console.log("button pressed");
+   //console.log("button pressed");
  })
 
  $("#antiquecarsbutton").on("click", () => {
@@ -700,7 +701,7 @@
     $("#antiquecars").show();
     $("#antiquecarsbutton").addClass("active");
     return false;
-   console.log("button pressed");
+   //console.log("button pressed");
  })
 
  $("#cageridebutton").on("click", () => {
@@ -709,7 +710,7 @@
     $("#cageride").show();
     $("#cageridebutton").addClass("active");
     return false;
-   console.log("button pressed");
+   //console.log("button pressed");
  });
 
  $("#hauntedcastleridebutton").on("click", () => {
@@ -718,7 +719,7 @@
     $("#hauntedcastleride").show();
     $("#hauntedcastleridebutton").addClass("active");
     return false;
-   console.log("button pressed");
+   //console.log("button pressed");
  })
 
  $("#boatsbutton").on("click", () => {
@@ -727,7 +728,7 @@
     $("#boats").show();
     $("#boatsbutton").addClass("active");
     return false;
-   console.log("button pressed");
+   //console.log("button pressed");
  })
 
   </script>
