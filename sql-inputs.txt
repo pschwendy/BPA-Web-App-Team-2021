@@ -1,1 +1,12 @@
-SELECT * FROM reservations;
+UPDATE attractions SET imagelocation="/roller-coaster.jpg", isRestaurant=false WHERE name="Roller Coaster";
+UPDATE attractions SET imagelocation="/ferris-wheel.jpg", isRestaurant=false WHERE name="Ferris Wheel";
+UPDATE attractions SET imagelocation="/swings.jpg", isRestaurant=false WHERE name="Swings";
+UPDATE attractions SET imagelocation="/rocket-ship.jpg", isRestaurant=false WHERE name="Rocket Ship";
+UPDATE attractions SET imagelocation="/sling-shot.jpg", isRestaurant=false WHERE name="Sling Shot";
+UPDATE attractions SET imagelocation="/train.jpg", isRestaurant=false WHERE name="Train";
+UPDATE attractions SET imagelocation="/parachute-drop.jpg", isRestaurant=false WHERE name="Parachute Drop";
+UPDATE attractions SET imagelocation="/merry-go-round.jpg", isRestaurant=false WHERE name="Merry-Go-Round";
+UPDATE attractions SET imagelocation="/antique-cars.jpg", isRestaurant=false WHERE name="Antique Cars";
+UPDATE attractions SET imagelocation="/cage-ride.jpg", isRestaurant=false WHERE name="Cage Ride";
+UPDATE attractions SET imagelocation="/haunted-castle-ride.jpg", isRestaurant=false WHERE name="Haunted Castle Ride";
+UPDATE attractions SET imagelocation="/boats.jpg", isRestaurant=false WHERE name="Boats";

@@ -2,8 +2,9 @@
 <head>
     <script src="https://code.jquery.com/jquery-git.js"></script>
     <meta charset="utf-8">
+    <link rel="icon" href="https://agloa.org/Solutions/2019/SOLUTIONS2019IMAGES/TonyVarkey.jpg">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Dogs to Go</title>
+    <title>Restaurants</title>
     <link rel="stylesheet" type="text/css" media="screen" href="reservation.css">
     <link rel="stylesheet" href="pnavbar.css">
     <link rel="stylesheet" href="reservation.css">
@@ -351,7 +352,6 @@
                     </div>
                     <div class = "col">
                       <button id="rate-button" class="nav-item float-right btn btn-outline-primary mr-2" data-toggle="modal" data-target="#ratingModal">Rate</button>
-                      
                     </div>
                 </div>
                 <hr id="title-border">
@@ -367,27 +367,27 @@
         <!--Rating Modal-->
         <div class="modal fade" id="ratingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-              <div class="modal-header">
-              <h5 class="modal-title" id="rating-title"></h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-              </button>
-              </div>
-              <div class="modal-body">
-                <form onsubmit="app.rate" id="rate-res"></form>
-                  <select name="rate" id="set-rating">
-                      <option value="rate">Give a Rating</option>
-                      <option value="5">5 - Amazing</option>
-                      <option value="4">4 - Good</option>
-                      <option value="3">3 - Okay</option>
-                      <option value="2">2 - Bad</option>
-                      <option value="1">1 - Abhorrent</option>
-                  </select>
-                  <button onclick="app.rate()" type="submit" class="btn btn-primary" data-dismiss="modal">Submit</button>
-                </form>
-              </div>
-          </div>
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="rating-title"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                  <form onsubmit="app.rate" id="rate-res"></form>
+                    <select name="rate" id="set-rating">
+                        <option value="rate">Give a Rating</option>
+                        <option value="5">5 - Amazing</option>
+                        <option value="4">4 - Good</option>
+                        <option value="3">3 - Okay</option>
+                        <option value="2">2 - Bad</option>
+                        <option value="1">1 - Abhorrent</option>
+                    </select>
+                    <button onclick="app.rate()" type="submit" class="btn btn-primary" data-dismiss="modal">Submit</button>
+                  </form>
+                </div>
+            </div>
           </div>
         </div>
         <script src="/socket.io/socket.io.js"> </script>
@@ -469,6 +469,7 @@
             document.getElementById("description").innerHTML = msg.description;
             document.getElementById("rating-title").innerHTML = "Rate " + msg.name;
             restaurantName = msg.name;
+            document.title = restaurantName;
             restaurantName = restaurantName.replace("Diner", "").trim();
             restaurantID = data.id;
             socket.emit("getMenu", restaurantID, null);

@@ -274,9 +274,14 @@ io.on("connection", function(socket) {
   socket.on("getCurrentRating", function(restaurantID, name){
     console.log("NAME: " + name);
     name = name.replace(/%40/g, "@");
+    var ratingExists = false;
     querier.selectRating(restaurantID, name, function(rating) {
       socket.emit("userRating", rating);
+      ratingExists = true;
     });
+    if(!ratingExists) {
+      socket.emit("noRating");
+    }
   });
 })
 

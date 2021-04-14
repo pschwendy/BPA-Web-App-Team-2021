@@ -194,7 +194,6 @@
       
         <script src="/socket.io/socket.io.js"></script>
         <script>
-          startApp();
           var socket = io();
           if(name != "") {
             socket.emit("validate", name);
@@ -227,9 +226,9 @@
 
     <div class = "form">
         <form action = "javascript:void(0);" method = "POST" onsubmit="app.Add()" >
-            <input type = "text" id = "add-todo" value="thing to-do">
-            <input type = "time" id = "add-time" value= "10:10">
-            <input type = "date" id = "add-date" value="2020-11-11">
+            <input type = "text" id = "add-todo">
+            <input type = "time" id = "add-time" value= "08:00">
+            <input type = "date" id = "add-date" >
             <input type = "submit" value = "Add" class = "btn btn-primary"></input>
             
 

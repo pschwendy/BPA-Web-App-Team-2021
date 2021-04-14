@@ -50,8 +50,8 @@ var app =  new function() {
                 data += '<tr>'; //adds table row
                 data += '<td>' + (i+1) + '. ' + '</td>'; //adds table cell so it says the task number then the task info i.e 3. Eat lunch
                 data += '<td>' + this.combinedArray[i].theTask + '</td>';
-                data += '<td>' + this.combinedArray[i].theTime + '</td>';
-                data += '<td>' + this.combinedArray[i].theDate +'</td>';
+                data += '<td>' + convertToTwelveHr(trimTime(this.combinedArray[i].theTime)) + '</td>';
+                data += '<td>' + convertDate(this.combinedArray[i].theDate) +'</td>';
                 data += '<td> <button onclick = "app.Edit('+this.combinedArray[i].theOg+')" class = "btn btn-warning" > Edit </button>  <button onclick = "app.Delete('+this.combinedArray[i].theOg+')" class = "btn btn-danger"> Delete </button></td>'; // adds edit button
                 data += '</tr>';
             }
@@ -86,8 +86,8 @@ var app =  new function() {
                     data += '<tr>'; // adds table row
                     data += '<td>' + (i+1) + '. ' + '</td>'; // adds table cell so it says the task number then the task info i.e 3. Eat lunch
                     data += '<td>' + this.combinedArray[i].theTask + '</td>';
-                    data += '<td>' + this.combinedArray[i].theTime + '</td>';
-                    data += '<td>' + this.combinedArray[i].theDate +'</td>';
+                    data += '<td>' + convertToTwelveHr(trimTime(this.combinedArray[i].theTime)) + '</td>';
+                    data += '<td>' + convertDate(this.combinedArray[i].theDate) +'</td>';
                     data += '<td> <button onclick = "app.Edit('+i+')" class = "btn btn-warning edit-button" > Edit </button>  <button onclick = "app.Delete('+i+')" class = "btn btn-danger"> Delete </button></td>'; // adds edit button
                     data += '</tr>'
             }
@@ -117,16 +117,20 @@ var app =  new function() {
         var elDate = document.getElementById('add-date');
         var task = elTask.value;
         var time = elTime.value;
+        time += ":00";
         var date = elDate.value;
 
 
         if (task && time) {
             this.tasks.push(task.trim());
             this.times.push(time);
+            var rawTime = new Date(date + "T" + time).getTime();
+            this.rawDates.push(rawTime);
             var convertedDate = convertDate(date);
-            this.dates.push(convertedDate);
+            this.dates.push(date);
             console.log(this.times);
             
+            socket.emit("CUSTOM STUFFFFF: " + task + " " + time + " " + username + " " + date);
             socket.emit("addTask", [task, time, username, date]);
        //     this.timesOfDays.push(timeOfDay);
             elTask.value = '';
@@ -134,7 +138,7 @@ var app =  new function() {
             console.log(time);
             this.FetchAll();
         }
-        document.getElementById('output').innerHTML = convertedDate;
+        //document.getElementById('output').innerHTML = convertedDate;
     };
 
     this.Edit = function(item) {  //edits task
@@ -142,6 +146,8 @@ var app =  new function() {
         var elTask = document.getElementById('edit-todo');
         var elTime = document.getElementById('edit-time');
         var elDate = document.getElementById('edit-date');
+
+
 
         /*elTask.value = this.tasks[item];
         elTime.value = this.times[item];
@@ -173,12 +179,15 @@ var app =  new function() {
         var elTime = document.getElementById('edit-time');
         var elDate = document.getElementById('edit-date');
        
+        
+
         console.log('saved edit, kinda garbo tho');
         var task = elTask.value;
         var time = elTime.value;
         var date = elDate.value;
 
         var betterV = this.tasks[item].replace("RESERVATION FOR: ", "").trim();
+        console.log("INFO FOR REMOVAL: " + username + " " + self.rawDates[item] + " " + self.dates[item] + " " + betterV);
         socket.emit("deleteTask", [username, self.rawDates[item], self.dates[item], betterV]);
         socket.emit("addTask", [task, time, username, date]);
 
@@ -190,6 +199,8 @@ var app =  new function() {
             self.FetchAll();
             CloseInput();
         }
+
+
     }
 
     this.Delete = function (item) { //deletes element
@@ -200,6 +211,7 @@ var app =  new function() {
         console.log(this.dates);
         var betterV = this.tasks[item].replace("RESERVATION FOR: ", "").trim();
         //1611907200000
+        console.log(username + " " + this.rawDates[item] + " " + this.dates[item] + " " + betterV);
         socket.emit("deleteTask", [username, this.rawDates[item], this.dates[item], betterV]);
         this.tasks.splice(item, 1);
         this.times.splice(item, 1);
@@ -308,6 +320,22 @@ function convertBack(date) {
     return convertedBackDate;
 }
 
+function trimTime(time) {
+    var trimedTime = '';
+    colonCount = 0;
+    for (var i = 0; i < time.length; i++) {
+        if (time.charAt(i) === ':') {colonCount++;}
+        
+        if (colonCount === 2) {
+            break;
+        }
+        trimedTime += time[i];
+    }
+    return trimedTime;
+}
+
+
+
 app.FetchAll(); //fetches all by default
 
 function CloseInput() { //closes edit box
@@ -324,6 +352,33 @@ function checkTime(time) {
         return true;
     }
     return false;
+}
+
+function convertToTwelveHr(time) {
+    var isAM = false
+    var is2Dig
+    var convertedTime
+    var first2Dig
+    if (time[1] === ':') { //if one digit
+        isAM = true;
+    }
+    else if(time[1] === "0" || time[1] === "1") {
+      isAM = true;
+    }
+    else {isAm = false; is2Dig = true;}
+
+ 
+    if (isAM) {
+      convertedTime = time + " am";
+      return convertedTime;
+    }
+
+    else { // if pm
+      first2Dig = time.substr(0,2);
+      first2Dig -= 12;
+      convertedTime = first2Dig + time.substr(2) + " pm";
+    }
+    return convertedTime;
 }
 
 function isDigit(charr) {
@@ -380,7 +435,7 @@ socket.on("getTaskData", function(msg){
         else{
             attraction = attraction.replace(/-/g, " ").trim();
         }
-
+      
         app.rawDates.push(task.time);
         app.tasks.push(attraction);
         var date = new Date(task.time);
@@ -391,7 +446,12 @@ socket.on("getTaskData", function(msg){
         if (m < 10){m = "0" + m;}
         if (s < 10){s = "0" + s;}
         var time = h + ":" + m + ":" + s;
+        //app.times.push(trimTime(time));
         app.times.push(time);
+
+        console.log("datesdwre");
+        console.log(convertDate(task.date));
+        //app.dates.push(convertDate(task.date));
         app.dates.push(task.date);
         
     }

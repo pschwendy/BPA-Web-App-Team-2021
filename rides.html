@@ -2,6 +2,7 @@
 
 <html lang="en">
 <head>
+  <link rel="icon" href="https://www.flaticon.com/svg/vstatic/svg/2809/2809647.svg?token=exp=1618368927~hmac=05fb0f9b8d022327a8e9fc577b16474c">
   <script src="https://code.jquery.com/jquery-git.js"></script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,6 +14,22 @@
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+  <style>
+    .card-img-top, .card {
+        border-top-left-radius: 30px;
+        border-top-right-radius: 30px;
+    }
+
+    .card {
+        border-bottom-left-radius: 30px;
+        border-bottom-right-radius: 30px;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+
 </head>
 
 <body onresize="editLayout()">
@@ -247,8 +264,24 @@
   </div>
 </div>-->
   <div class="head-hero">
-    <img src="POV-theme-park_1.jpg" class="hero" alt="Hero">
-    <div class="title">Ready. Set. WHOA!</div>
+    <!--<img src="POV-theme-park_1.jpg" class="hero" alt="Hero">
+    <div class="title">Ready. Set. WHOA!</div>-->
+    <div class="carousello">
+      <div class = "img_carousel">
+        <div><img src = "rollercoaster.jpg"></div>
+        <div><img src = "rollercoaster.jpg"></div>
+        <div><img src = "rollercoaster.jpg"></div>
+        <div><img src = "rollercoaster.jpg"></div>
+        <div><img src = "rollercoaster.jpg"></div>
+        <div><img src = "rollercoaster.jpg"></div>
+        <div><img src = "rollercoaster.jpg"></div>
+        <div><img src = "rollercoaster.jpg"></div>
+        <div><img src = "rollercoaster.jpg"></div>
+        <div><img src = "rollercoaster.jpg"></div>
+        <div><img src = "rollercoaster.jpg"></div>
+        <div><img src = "rollercoaster.jpg"></div>
+      </div>
+    </div>
   </div>  
   <div class="nav anav">
     <div id="ride-nav" class="container">
@@ -380,162 +413,205 @@
             </div>
         </aside>
         <hr>
-        <main id="main" class="row">
+        <main id="main" class="row mb-4">
             <div class="col m-2">
               <div class="row">
                   <div id="article-title" class = "col">
                     <h4 id="res-header"></h4>
+                  </div>
+                  <div class = "col">
+                    <button id="rate-button" class="nav-item float-right btn btn-outline-primary mr-2" data-toggle="modal" data-target="#ratingModal">Rate</button>
                   </div>
               </div>
               <hr id="title-border">
               <div class = "">
                 <div class="container">
                   <div class="row">
-                    <div class="col">
-                      <img id="article-pic" class = "pic" src = "assets/roller-coaster.jpg">
+                    <div class="col-md">
+                      <p id="article-bio" class ="bio"></p>
+                      <p id="rating" style="font-weight: bold;"></p>
+                      <p id="wait-time" style="font-weight: bold;">Average Wait Time</p>
                     </div>
                     <div class="col">
-                      <p id="article-bio" class ="bio"></p>
+                      <img id="article-pic" class = "img-fluid pic" src = "assets/roller-coaster.jpg">
                     </div>
                   </div>
                 </div>
               </div>
             </div>
         </main>
-       
+        <!--Rating Modal-->
+        <div class="modal fade" id="ratingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="rating-title"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                  <form onsubmit="app.rate" id="rate-res"></form>
+                    <select name="rate" id="set-rating">
+                        <option value="rate">Give a Rating</option>
+                        <option value="5">5 - Amazing</option>
+                        <option value="4">4 - Good</option>
+                        <option value="3">3 - Okay</option>
+                        <option value="2">2 - Bad</option>
+                        <option value="1">1 - Abhorrent</option>
+                    </select>
+                    <button onclick="app.rate()" type="submit" class="btn btn-primary" data-dismiss="modal">Submit</button>
+                  </form>
+                </div>
+            </div>
+          </div>
+        </div>
+        <!--Sockets-->
         <script src="/socket.io/socket.io.js"> </script>
         <script>
-        window.onload = function(){
-          console.log(window.location.href);
-        }
-            var socket = io();
-            socket.emit("getRides");
-            socket.on("loadRides", function(data) {
-              console.log("loading rides..." + data.length);
-              var counter = 0;
-              for(var i = 0; counter + i < data.length; i = 0) {
-                console.log("counting: " + counter);
-                var row = document.createElement("ul");
-                row.className = "mb-0 row";
+          function showBody() {
+            $("#body").removeClass("hidden");
+          }
+          var socket = io();
+          var rideID;
+          socket.emit("getRides");
+          socket.on("loadRides", function(data) {
+            console.log("loading rides..." + data.length);
+            var counter = 0;
+            var row = document.createElement("div");
+            row.className = "mb-0 row";
+            for(var i = 0; counter + i < data.length; i = 0) {
+              console.log("counting: " + counter);
+              
 
-                while(i < 6) {
-                  var li = document.createElement("li");
-                  li.className = "ride col nav-item";
-                  li.id = data[counter + i].page_address;
-                  const currentID = data[counter + i].page_address;
-                  li.onclick = () => {
-                    socket.emit("getAdData", currentID, false);
-                    console.log("clicked");
-                  };
-                  var a = document.createElement("a");
-                  a.className = "nav-link";
-                  a.text = data[counter + i].name;
-
-                  li.appendChild(a);
-                  row.appendChild(li);
-                  ++i;
-                }
-
-                document.getElementById("ride-nav").appendChild(row);
-                
-                counter += 6;
-              }
-              /*for (var ridebutton of document.getElementsByClassName('ride')) {
-                const currentID = ridebutton.id;
-                ridebutton.onclick = () => {
+              while(i < 6) {
+                var li = document.createElement("li");
+                li.className = "ride col nav-item";
+                li.id = data[counter + i].page_address;
+                const currentID = data[counter + i].page_address;
+                li.onclick = () => {
                   socket.emit("getAdData", currentID, false);
                   console.log("clicked");
                 };
-              }*/
-            });
+                var a = document.createElement("a");
+                a.className = "nav-link";
+                a.text = data[counter + i].name;
 
-            var maxWidth = 912;
-            if($(document).width() < maxWidth) {
-                $('#reservation-card').parent('#main');
-                $('#reservation-card').insertAfter('#title-border');
-                $('#reservation-card').removeClass('float-right');
-                $('#reservation-card').css("width", "100%");
-                console.log("HI");
+                li.appendChild(a);
+                row.appendChild(li);
+                ++i;
+              }
+              var w100 = document.createElement("div")
+              w100.className = "w-100";
+              row.append(w100);
+              counter += 6;
             }
-            else {
-                $('#reservation-card').parent('.container');
-                $('#reservation-card').insertAfter('#lead');
-                $('#reservation-card').addClass('float-right');
-                $('#reservation-card').css("width", "auto");
+            document.getElementById("ride-nav").appendChild(row);
+            const firstID = data[0].page_address;
+            socket.emit("getAdData", firstID, false);
+          });
+          
+          socket.on("receiveAdData", function(data) {
+            $("#article-bio").text(data.description);
+            $("#res-header").text(data.name);
+            $("#wait-time").text("Average Wait Time: " + data.average_wait_time);
+            document.getElementById("article-pic").src = data.imagelocation;
+            console.log("received");
+            rideID = data.id;
+            socket.emit("getCurrentRating", rideID, name);
+          });
+
+          socket.on("loadRating", function(averageRating) {
+            averageRating = Math.round(averageRating);
+            var stars = "";
+            for (var i = 0; i < averageRating; i++) {
+              stars += " ⭐ ";
             }
-            function editLayout() {
-                if($(document).width() < maxWidth) {
-                    $('#reservation-card').insertAfter('#title-border');
-                    $('#reservation-card').remove('.container');
-                    $('#reservation-card').parent('#main');
-                    $('#reservation-card').removeClass('float-right');
-                    $('#reservation-card').css("width", "100%");
-                }
-                else {
-                    $('#reservation-card').insertAfter('#lead');
-                    $('#reservation-card').parent('.container');
-                    $('#reservation-card').addClass('float-right');
-                    $('#reservation-card').css("width", "auto");
-                }
-            }
-            
-            socket.on("receiveAdData", function(data) {
-              $("#article-bio").text(data.description);
-              $("#res-header").text(data.name);
-              console.log("received");
-            });
+            $("#rating").text("Rating: " + stars);
+            socket.emit("getCurrentRating", rideID, name);
+            showBody();
+          });
+
+          socket.on("userRating", function(rating) {
+            $("#rate-button").text("Rated (" + rating + ")");
+          });
+
+          socket.on("noRating", function() {
+            $("#rate-button").text("Rate");
+          });
+          
+          var app = new function () {
+            this.submit = function () {
+                var task = restaurantName;
+                var time = document.getElementById('time');
+                var date = document.getElementById('date');
+                var quantity = document.getElementById('realQuantity');
+                socket.emit("addTask", [task, time.value, name, date.value, parseInt(quantity.value)]);
+                console.log(quantity.value);
+                console.log(time.value);
+                console.log(date.value);
+
+                document.getElementById("submit-button").className = "btn btn-success right res-button";
+                document.getElementById("submit-button").innerHTML = "Reserved!";
+                window.setTimeout(function(){
+
+                  document.getElementById("submit-button").className = "btn btn-primary right res-button";
+                  document.getElementById("submit-button").innerHTML = "Reserve";
+
+                }, 3000);
+
+                return false;
+            };
+            // send rating to server
+            this.rate = () => {
+              rating = document.getElementById("set-rating").value;
+              socket.emit("submitRating", rideID, name, rating);
+            } // rate()
+          }
         </script>
     </div>
-
+    <!--Forms?-->
     <script>
-
-      $(function() {
-
+      /*$(function() {
         var forms = document.getElementsByTagName("form");
         for (form of forms){
             console.log("BEFORE: " + form.action);
             form.action = "/restaurants/" + restaurantName.toLowerCase() + form.action.slice(form.action.lastIndexOf('/'), form.action.length);
             console.log("AFTER: " + form.action);
         }
-
-
-      });
-        
+      });*/   
     </script>
-    <script src="/socket.io/socket.io.js"> </script>
+    <!--Resizing-->
     <script>
-    window.onload = function(){
-      console.log(window.location.href);
-    }
-        var maxWidth = 912;
-        if($(document).width() < maxWidth) {
-            $('#reservation-card').parent('#main');
-            $('#reservation-card').insertAfter('#title-border');
-            $('#reservation-card').removeClass('float-right');
-            $('#reservation-card').css("width", "100%");
-            console.log("HI");
-        }
-        else {
-            $('#reservation-card').parent('.container');
-            $('#reservation-card').insertAfter('#lead');
-            $('#reservation-card').addClass('float-right');
-            $('#reservation-card').css("width", "auto");
-        }
-        function editLayout() {
-            if($(document).width() < maxWidth) {
-                $('#reservation-card').insertAfter('#title-border');
-                $('#reservation-card').remove('.container');
-                $('#reservation-card').parent('#main');
-                $('#reservation-card').removeClass('float-right');
-                $('#reservation-card').css("width", "100%");
-            }
-            else {
-                $('#reservation-card').insertAfter('#lead');
-                $('#reservation-card').parent('.container');
-                $('#reservation-card').addClass('float-right');
-                $('#reservation-card').css("width", "auto");
-            }
-        }
+      var maxWidth = 912;
+      if($(document).width() < maxWidth) {
+          $('#reservation-card').parent('#main');
+          $('#reservation-card').insertAfter('#title-border');
+          $('#reservation-card').removeClass('float-right');
+          $('#reservation-card').css("width", "100%");
+          console.log("HI");
+      }
+      else {
+          $('#reservation-card').parent('.container');
+          $('#reservation-card').insertAfter('#lead');
+          $('#reservation-card').addClass('float-right');
+          $('#reservation-card').css("width", "auto");
+      }
+      function editLayout() {
+          if($(document).width() < maxWidth) {
+              $('#reservation-card').insertAfter('#title-border');
+              $('#reservation-card').remove('.container');
+              $('#reservation-card').parent('#main');
+              $('#reservation-card').removeClass('float-right');
+              $('#reservation-card').css("width", "100%");
+          }
+          else {
+              $('#reservation-card').insertAfter('#lead');
+              $('#reservation-card').parent('.container');
+              $('#reservation-card').addClass('float-right');
+              $('#reservation-card').css("width", "auto");
+          }
+      }
     </script>
 </div>
 
