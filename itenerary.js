@@ -241,7 +241,7 @@ var app =  new function() {
         console.log(this.tasks);
         console.log(this.times);
         console.log(this.dates);
-        var betterV = this.tasks[item].replace("RESERVATION FOR: ", "").trim();
+        var betterV = this.tasks[item].replace("RESERVATION FOR: ", "").replace("Chickens R Us", "Chickens-R-Us").trim();
         //1611907200000
         console.log(username + " " + this.rawDates[item] + " " + this.dates[item] + " " + betterV);
         socket.emit("deleteTask", [username, this.rawDates[item], this.dates[item], betterV]);
@@ -481,12 +481,12 @@ socket.on("getTaskData", function(msg){
     for (task of msg){
         var attraction = task.attractionRideName;
         console.log("RAW: " + task.numPeople);
-        if (task.numPeople != 0 && task.numPeople != undefined){
+        /*if (task.numPeople != 0 && task.numPeople != undefined){
             attraction = "RESERVATION FOR: " + attraction.replace(/-/g, " ").trim();
         }
         else{
             attraction = attraction.replace(/-/g, " ").trim();
-        }
+        }*/
       
         app.rawDates.push(task.time);
         app.tasks.push(attraction);

@@ -39,6 +39,10 @@ nav {
     object-fit: cover;
 }
 
+.r-carousel-inner > .r-carousel-item > img {
+    object-fit: cover;
+}
+
 .info {
     display: flex; 
     align-items: center; 
@@ -89,6 +93,15 @@ footer > .head-hero > img {
     object-fit: cover;
   }
   
+  .r-carousel-image{
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    filter: brightness(45%);
+    overflow: hidden;
+    height: auto;
+    object-fit: cover;
+  }
   #carousel-title{
     filter: brightness(100%);
     font-size: 4em;

@@ -112,17 +112,7 @@ a:hover:after {
     height: 300px !important;
 }
 
-@media only screen and (max-width: 1400px) {
-
-    .img_carousel {
-        /*height: 200px*/
-    }
-
-    .img_carousel  > div > img {
-        /*height: 200px;*/
-    }
-
-}
+@media only screen and (max-width: 1400px) {}
 
 @media only screen and (max-width: 1150px) {
     .text-pic > .container > .row  {
@@ -139,15 +129,9 @@ a:hover:after {
 }
 
 @media only screen and (max-width: 900px) {
-
-    .img_carousel {
-        /*display: none;*/
-    }
     .anav {
         font-size: 0.8em;
     }
-
- 
 }
 
  
