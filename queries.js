@@ -340,9 +340,7 @@ class Queries {
             throw (err);
         }
         else{
-            if(row.length != 0) {
-                return callback(rows);
-            }
+            return callback(rows);
         }
       });
     }
