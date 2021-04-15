@@ -192,7 +192,7 @@ position: relative;
         left: -70px;
     }
 
-    .btn-warning, .btn-danger {
+    .btn-warning, .btn-edit {
         width: 85%;
         font-size: 80% !important;
         

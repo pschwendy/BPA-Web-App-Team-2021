@@ -54,7 +54,7 @@ var app =  new function() {
                 data += '<td>' + convertDate(this.combinedArray[i].theDate) +'</td>';
                 //console.log("The Task: " + this.combinedArray[i].theTask);
                 //console.log("TheOg: " + this.combinedArray[i].theOg);
-                data += '<td> <button onclick = "app.Edit('+i+')" class = "btn btn-warning" > Edit </button>  <button onclick = "app.Delete('+this.combinedArray[i].theOg+')" class = "btn btn-danger"> Delete </button></td>'; // adds edit button
+                data += '<td> <button onclick = "app.Edit('+i+')" class = "btn btn-warning" > Edit </button>  <button onclick = "app.Delete('+this.combinedArray[i].theOg+')" class = "btn btn-danger btn-edit"> Delete </button></td>'; // adds edit button
                 data += '</tr>';
             }
             //console.log("OUT:");
@@ -80,7 +80,7 @@ var app =  new function() {
             data += '<td>' + this.combinedArray[i].theTask + '</td>';
             data += '<td>' + convertToTwelveHr(trimTime(this.combinedArray[i].theTime)) + '</td>';
             data += '<td>' + convertDate(this.combinedArray[i].theDate) +'</td>';
-            data += '<td> <button onclick = "app.Edit('+this.combinedArray[i].theOg+')" class = "btn btn-warning edit-button" > Edit </button>  <button onclick = "app.Delete('+i+')" class = "btn btn-danger"> Delete </button></td>'; // adds edit button
+            data += '<td> <button onclick = "app.Edit('+this.combinedArray[i].theOg+')" class = "btn btn-warning edit-button" > Edit </button>  <button onclick = "app.Delete('+i+')" class = "btn btn-danger btn-edit"> Delete </button></td>'; // adds edit button
             data += '</tr>';
             if (i === rowNum) {
                 var betterV = this.tasks[i].replace("RESERVATION FOR: ", "").trim();
