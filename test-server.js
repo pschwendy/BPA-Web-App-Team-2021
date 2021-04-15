@@ -30,13 +30,13 @@ io.on("connection", function(socket) {
       querier.getTasks(userId, function(results){
 
         allTasks = results;
-        for (task of allTasks){
+        /*for (task of allTasks){
           timestamp1 = new Date(task.time);
           timestamp2 = new Date(task.time + "UTC");
-          console.log("TIMESTAMP111111: " + timestamp1.toTimeString());
-          console.log("TIMESTAMP222222: " + timestamp2.toTimeString());
-          console.log("TASK TIME: " + task.time);
-        }
+          //console.log("TIMESTAMP111111: " + timestamp1.toTimeString());
+          //console.log("TIMESTAMP222222: " + timestamp2.toTimeString());
+          //console.log("TASK TIME: " + task.time);
+        }*/
         socket.emit("getTaskData", allTasks);
 
       });
@@ -50,18 +50,18 @@ io.on("connection", function(socket) {
 
   // pushes task to list
   socket.on("addTask", function(msg) {
-    console.log("RESERVINg TASSK");
+    //console.log("RESERVINg TASSK");
     //tasks.push({"user": msg[2], "time": msg[1], "task": msg[0], "date": msg[3]});
     let task = msg[0];
     //task = task.replace(/ /g, "-");
     
     var time = msg[1];
     let date = msg[3];
-    console.log("TIME: " + time);
+    //console.log("TIME: " + time);
     var actualTime = new Date(date + "T" + time);
     const timestamp = actualTime.getTime();
     //console.log("TIMESTAMP: " + timestamp);
-    console.log("ACTUAL TIME: " + actualTime.toTimeString());
+    //console.log("ACTUAL TIME: " + actualTime.toTimeString());
     let quantity = msg[4];
     var userId;
     var waitTime;
