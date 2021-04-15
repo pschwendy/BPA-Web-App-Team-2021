@@ -46,6 +46,7 @@ io.on("connection", function(socket) {
 
   // pushes task to list
   socket.on("addTask", function(msg) {
+    console.log("RESERVINg TASSK");
     //tasks.push({"user": msg[2], "time": msg[1], "task": msg[0], "date": msg[3]});
     let task = msg[0];
     //task = task.replace(/ /g, "-");
@@ -70,8 +71,10 @@ io.on("connection", function(socket) {
     //console.log("WORKING");
     //console.log(task);
     querier.getUserId(msg[2], function(result){
+      //console.log("In herreee w/ " + result);
       userId = result;
       querier.getWaitTime(task, function(result){
+        //console.log("In herreee w/ " + result);
         //console.log("!!!!!!!!!!!!RESULT!!!!!!!!!!!!!!");
         //console.log(result);
         //console.log("!!!!!!!!!!!!RESULT!!!!!!!!!!!!!!");
@@ -91,6 +94,7 @@ io.on("connection", function(socket) {
         
         //console.log("GETTING CONFLICTS");
         querier.getConflicts(task, date, time, actual, function(result){
+          //console.log("In herreee");
           for(row of result) {
             if (conflicts != "DONZO"){
               conflicts += row.numPeople;

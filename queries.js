@@ -78,7 +78,7 @@ class Queries {
     // input: res_time -> time of reservation
     // input: res_date -> date of reservation
     reserve(attraction, account_id, num_people, res_time, res_date) {
-        //console.log("NUMBER HERE: " + num_people);
+        //console.log("RESERVINg");
         let sql = "INSERT INTO reservations(attractionRideName, numPeople, time, date, user) VALUES ($attraction, $num_people, $time, $date, $user)";
         this.db.run(sql, {
             $attraction: attraction,
@@ -320,10 +320,7 @@ class Queries {
         if (err){
             throw(err);
         }
-        else if (rows.length != 0){
-            //console.log("ROWS" + rows);
-            return callback(rows);
-        }  
+        return callback(rows);
       });
     }
 
