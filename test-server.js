@@ -31,6 +31,10 @@ io.on("connection", function(socket) {
 
         allTasks = results;
         for (task of allTasks){
+          timestamp1 = new Date(task.time);
+          timestamp2 = new Date(task.time + "UTC");
+          console.log("TIMESTAMP111111: " + timestamp1.toTimeString());
+          console.log("TIMESTAMP222222: " + timestamp2.toTimeString());
           console.log("TASK TIME: " + task.time);
         }
         socket.emit("getTaskData", allTasks);
@@ -322,6 +326,7 @@ io.on("connection", function(socket) {
 
 // cookies!
 var cookieParser = require("cookie-parser");
+const { time } = require("console");
 app.use(cookieParser());
 
 // access static files
