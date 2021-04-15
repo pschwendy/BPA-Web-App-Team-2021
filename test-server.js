@@ -53,10 +53,11 @@ io.on("connection", function(socket) {
     
     var time = msg[1];
     let date = msg[3];
+    console.log("TIME: " + time);
     var actualTime = new Date(date + "T" + time);
     const timestamp = actualTime.getTime();
     //console.log("TIMESTAMP: " + timestamp);
-    //console.log("TIME: " + actualTime.toTimeString());
+    console.log("ACTUAL TIME: " + actualTime.toTimeString());
     let quantity = msg[4];
     var userId;
     var waitTime;

@@ -498,6 +498,8 @@ socket.on("getTaskData", function(msg){
         if (m < 10){m = "0" + m;}
         if (s < 10){s = "0" + s;}
         var time = h + ":" + m + ":" + s;
+        console.log("TIME: " + time);
+        console.log("ACTUAL TIME: " + date.toTimeString());
         //app.times.push(trimTime(time));
         app.times.push(time);
 
