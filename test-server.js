@@ -31,7 +31,7 @@ io.on("connection", function(socket) {
 
         allTasks = results;
         for (task of allTasks){
-          //console.log("TASK TIME: " + task.time);
+          console.log("TASK TIME: " + task.time);
         }
         socket.emit("getTaskData", allTasks);
 
