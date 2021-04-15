@@ -491,9 +491,9 @@ socket.on("getTaskData", function(msg){
         app.rawDates.push(task.time);
         app.tasks.push(attraction);
         var date = new Date(task.time);
-        let h = date.getHours();
-        let m = date.getMinutes();
-        let s = date.getSeconds();
+        let h = date.getUTCHours;
+        let m = date.getUTCMinutes();
+        let s = date.getUTCSeconds();
         if (h < 10){h = "0" + h;}
         if (m < 10){m = "0" + m;}
         if (s < 10){s = "0" + s;}
